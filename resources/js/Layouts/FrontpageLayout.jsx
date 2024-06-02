@@ -1,3 +1,5 @@
+// src/Layouts/FrontpageLayout.jsx
+
 import React from "react";
 import { Link, Head } from "@inertiajs/react";
 
@@ -10,13 +12,13 @@ const FrontpageLayout = ({ children }) => {
                     <div className="flex gap-2 ml-3 text-white">
                         <p className="text-white">Ikuti kami di</p>
                         <a href="#">
-                            <i class="fa-brands fa-instagram"></i>
+                            <i className="fa-brands fa-instagram"></i>
                         </a>
                         <a href="#">
-                            <i class="fa-brands fa-tiktok"></i>
+                            <i className="fa-brands fa-tiktok"></i>
                         </a>
                         <a href="#">
-                            <i class="fa-brands fa-x-twitter"></i>
+                            <i className="fa-brands fa-x-twitter"></i>
                         </a>
                     </div>
                 </div>
