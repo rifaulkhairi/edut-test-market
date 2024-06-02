@@ -3,6 +3,7 @@
 use App\Http\Controllers\DetailProduct;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Test;
+use App\Http\Controllers\ProdukController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,8 +17,11 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/produks', [ProdukController::class, 'index']);
+Route::get('/produks/{id}', [ProdukController::class, 'detail']);
 
-Route::get('/detailproduct',[DetailProduct::class, 'index'])->name('detailproduct');
+
+Route::get('/detailproduct', [DetailProduct::class, 'index'])->name('detailproduct');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -29,4 +33,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
