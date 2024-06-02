@@ -16,7 +16,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/test', [Test::class, 'index'])->name('test.index');
+
 Route::get('/detailproduct',[DetailProduct::class, 'index'])->name('detailproduct');
 
 Route::get('/dashboard', function () {

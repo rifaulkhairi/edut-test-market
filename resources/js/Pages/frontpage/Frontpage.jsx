@@ -6,6 +6,9 @@ export default function Frontpage() {
         <>
             <FrontpageLayout>
                 <div>FrontPage</div>
+                <div>Hero</div>
+                <div>Product</div>
+                <Link href={route("detailproduct")}>detail</Link>
             </FrontpageLayout>
         </>
     );
