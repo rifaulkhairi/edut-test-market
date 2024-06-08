@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Test;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SoalController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,11 +20,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('frontpage');
-
-Route::get('/produks', [ProdukController::class, 'index']);
-Route::get('/produks/{id}', [ProdukController::class, 'detail']);
-
-Route::get('/paketsoal/{id}', [SoalController::class, 'index']);
 
 Route::get('/produks', [ProdukController::class, 'index']);
 Route::get('/produks/{id}', [ProdukController::class, 'detail']);
@@ -51,3 +47,4 @@ Route::get('/admin/dashboard', [Admin::class,'index'])->middleware('auth', 'admi
 Route::get('/editor/dashboard', [Editor::class,'index'])->middleware('auth', 'editor');
 
 require __DIR__.'/auth.php';
+
