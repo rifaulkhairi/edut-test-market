@@ -6,7 +6,7 @@ import { Button, Select, Option, Card } from "@material-tailwind/react";
 const ProductCard = ({product}) => {
     return (
         <Link
-            href={route("detailproduct")}
+            href={route("detailproduct", { id: product.id })}
             className="hover:-translate-y-1 transition-all"
         >
             <Card className="w-40 h-72 rounded-md">

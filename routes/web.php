@@ -22,12 +22,12 @@ use Inertia\Inertia;
 // })->name('frontpage');
 
 Route::get('/', [ProdukController::class, 'index']);
-Route::get('/produks/{id}', [ProdukController::class, 'detail']);
+Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
 
 Route::get('/paketsoal/{id}', [SoalController::class, 'index']);
 
 
-Route::get('/detailproduct', [DetailProduct::class, 'index'])->name('detailproduct');
+// Route::get('/detailproduct', [DetailProduct::class, 'index'])->name('detailproduct');
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
