@@ -13,54 +13,54 @@ import { GrTransaction } from "react-icons/gr";
 import Dropdown from "@/Components/Dropdown";
 import ProductCard from "@/Components/ProductCard";
 
-const products = [
-    {
-        id: 1,
-        title: "Soal Tryout CPNS 2024",
-        harga: 500000,
-        diskon: 0.4,
-        image: cpnsIMG,
-        description:
-            "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-        rating: 4,
-        terjual: 0,
-    },
-    {
-        id: 1,
-        title: "Soal Tryout CPNS 2025",
-        harga: 500000,
-        diskon: 0.4,
-        image: cpnsIMG,
-        description:
-            "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-        rating: 4,
-        terjual: 0,
-    },
-    {
-        id: 3,
-        title: "Soal Tryout CPNS 2025",
-        harga: 500000,
-        diskon: 0.4,
-        image: cpnsIMG,
-        description:
-            "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-        rating: 4,
-        terjual: 0,
-    },
-    {
-        id: 3,
-        title: "Paket soal Tryout ppg matematika 2024",
-        harga: 500000,
-        diskon: 0.4,
-        image: ppgIMG,
-        description:
-            "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-        rating: 4,
-        terjual: 0,
-    },
-];
+// const products = [
+//     {
+//         id: 1,
+//         title: "Soal Tryout CPNS 2024",
+//         harga: 500000,
+//         diskon: 0.4,
+//         image: cpnsIMG,
+//         description:
+//             "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
+//         rating: 4,
+//         terjual: 0,
+//     },
+//     {
+//         id: 1,
+//         title: "Soal Tryout CPNS 2025",
+//         harga: 500000,
+//         diskon: 0.4,
+//         image: cpnsIMG,
+//         description:
+//             "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
+//         rating: 4,
+//         terjual: 0,
+//     },
+//     {
+//         id: 3,
+//         title: "Soal Tryout CPNS 2025",
+//         harga: 500000,
+//         diskon: 0.4,
+//         image: cpnsIMG,
+//         description:
+//             "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
+//         rating: 4,
+//         terjual: 0,
+//     },
+//     {
+//         id: 3,
+//         title: "Paket soal Tryout ppg matematika 2024",
+//         harga: 500000,
+//         diskon: 0.4,
+//         image: ppgIMG,
+//         description:
+//             "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
+//         rating: 4,
+//         terjual: 0,
+//     },
+// ];
 
-export default function Frontpage({ auth }) {
+export default function Frontpage({ auth, produks }) {
     return (
         <>
             <FrontpageLayout user={auth}>
@@ -136,7 +136,7 @@ export default function Frontpage({ auth }) {
                         </div>
                     </div>
                     <div className="w-full max-w-5xl grid grid-cols-6 min-w-5xl gap-2">
-                        {products.map((product) => (
+                        {produks.map((product) => (
                             <ProductCard product={product} key={product.id} />
                         ))}
                     </div>
