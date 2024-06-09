@@ -12,16 +12,16 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('frontpage/Frontpage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('frontpage');
+// Route::get('/', function () {
+//     return Inertia::render('frontpage/Frontpage', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// })->name('frontpage');
 
-Route::get('/produks', [ProdukController::class, 'index']);
+Route::get('/', [ProdukController::class, 'index']);
 Route::get('/produks/{id}', [ProdukController::class, 'detail']);
 
 Route::get('/paketsoal/{id}', [SoalController::class, 'index']);
@@ -43,8 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin/dashboard', [Admin::class,'index'])->middleware('auth', 'admin');
-Route::get('/editor/dashboard', [Editor::class,'index'])->middleware('auth', 'editor');
+Route::get('/admin/dashboard', [Admin::class, 'index'])->middleware('auth', 'admin');
+Route::get('/editor/dashboard', [Editor::class, 'index'])->middleware('auth', 'editor');
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
