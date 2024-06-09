@@ -31,7 +31,7 @@ class ProdukController extends Controller
             return redirect('/produks')->with('error', 'Produk tidak ditemukan');
         }
 
-        // dd($produk);
-        return Inertia::render('frontpage/DetailProduct', ['detail' => $produk]);
+        dd($produk);
+        // return Inertia::render('frontpage/DetailProduct', ['detail' => $produk]);
     }
 }
