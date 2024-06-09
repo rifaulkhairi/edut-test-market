@@ -64,16 +64,15 @@ import "slick-carousel/slick/slick-theme.css";
 //     },
 // ];
 
-const DetailProduct = () => {
-    // const [selectedProduct, setSelectedProduct] = useState({
-    //     id: 1,
-    //     title: "Initial Product",
-    //     price: 99.99,
-    //     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-    //     description:
-    //         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-    //     rating: 4.5,
-    // });
+const DetailProduct = ({auth,detail}) => {
+    const [selectedProduct, setSelectedProduct] = useState({
+        id: detail.id,
+        title: detail.title,
+        harga: detail.harga,
+        image: detail.image,
+        description: detail.description,
+        rating: detail.rating,
+    });
     const sliderRef = useRef(null);
 
     const handleProductClick = (product) => {
@@ -116,7 +115,7 @@ const DetailProduct = () => {
     };
 
     return (
-        <FrontpageLayout>
+        <FrontpageLayout user={auth}>
             <div className="container px-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Bagian Gambar Produk */}
@@ -135,7 +134,7 @@ const DetailProduct = () => {
                             {selectedProduct.title}
                         </h1>
                         <h2 className="text-xl text-indigo-600 mb-4">
-                            ${selectedProduct.price}
+                            ${selectedProduct.harga}
                         </h2>
                         <Rating
                             value={selectedProduct.rating}
@@ -178,25 +177,25 @@ const DetailProduct = () => {
                             &#10094;
                         </button>
                         <Slider ref={sliderRef} {...settings}>
-                            {relatedProducts.map((product) => (
+                            
                                 <div
-                                    key={product.id}
+                                    key={detail.id}
                                     className="text-center px-2"
                                 >
                                     <img
-                                        src={product.image}
-                                        alt={product.title}
+                                        src={detail.image}
+                                        alt={detail.title}
                                         className="max-w-full cursor-pointer"
                                         onClick={() =>
-                                            handleProductClick(product)
+                                            handleProductClick(detail)
                                         }
                                     />
-                                    <p className="mt-2">{product.title}</p>
+                                    <p className="mt-2">{detail.title}</p>
                                     <p className="text-indigo-600">
-                                        ${product.price}
+                                        ${detail.harga}
                                     </p>
                                 </div>
-                            ))}
+                            
                         </Slider>
                         <button
                             onClick={() => sliderRef.current.slickNext()}
