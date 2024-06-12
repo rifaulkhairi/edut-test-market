@@ -1,37 +1,84 @@
 import React, { useState } from 'react';
+import EndExamModal from '@/Components/EndExamModal';
 
 const DetailSoal = () => {
   const dataSoal = [
-    {
-      question: 'Siapakah Penemu Bola Lampu?',
-      choices: ['A Newton', 'B Archimedes', 'C Galileo', 'D Kepler', 'E Thomas Alfa Edison'],
-    },
-    {
-      question: 'Apa ibu kota Indonesia?',
-      choices: ['A Jakarta', 'B Bandung', 'C Surabaya', 'D Medan', 'E Bali'],
-    },
+                {
+                        question:  "Siapakah nabi terakhir dalam agama Islam?",
+                        choices: ["Nabi Musa", "Nabi Isa", "Nabi Muhammad", "Nabi Ibrahim"]
+                    },
+                    {   question : "Apa nama kitab suci umat Islam?",
+                        choices : ["Injil", "Taurat", "Zabur", "Al-Qur'an"]
+                    },
+                    {
+                        question : "Berapa kali umat Islam diwajibkan sholat dalam sehari?",
+                        choices : ["3 kali", "4 kali", "5 kali", "6 kali"]
+                    },
+                    {
+                        question : "Puasa di bulan Ramadhan merupakan salah satu dari...",
+                        choices : ["Rukun Islam", "Rukun Iman", "Rukun Negara", "Rukun Warga"]
+                    },
+                    {
+                        question : "Kota manakah yang dianggap paling suci dalam Islam?",
+                        choices : ["Yerusalem", "Madinah", "Kairo", "Mekkah"]
+                    },
+                    {
+                        question : "Siapakah malaikat yang bertugas menyampaikan wahyu kepada para nabi?",
+                        choices : ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Munkar"]
+                    },
+                    {
+                        question : "Berapa jumlah juz dalam Al-Qur'an?",
+                        choices : ["30 juz", "40 juz", "50 juz", "60 juz"]
+                    },
+                    {
+                        question : "Apa arti dari kata 'Islam'?",
+                        choices : ["Keimanan", "Kesucian", "Kedamaian", "Ketakwaan"]
+                    },
+                    {
+                        question : "Haji merupakan rukun Islam yang ke...",
+                        choices : ["Satu", "Dua", "Tiga", "Lima"]
+                    },
+                    {
+                        question : "Siapakah yang disebut sebagai 'Khalifah pertama' dalam sejarah Islam?",
+                        choices : ["Umar bin Khattab", "Abu Bakar Ash-Shiddiq", "Usman bin Affan", "Ali bin Abi Thalib"]
+                }
     // Tambahkan lebih banyak soal sesuai kebutuhan
   ];
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedChoice, setSelectedChoice] = useState(null);
+  const [answers, setAnswers] = useState(Array(dataSoal.length).fill(null));
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const nextQuestion = () => {
     if (currentQuestion < dataSoal.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedChoice(null); // Reset pilihan saat beralih ke pertanyaan berikutnya
     }
   };
 
   const prevQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setSelectedChoice(null); // Reset pilihan saat beralih ke pertanyaan sebelumnya
     }
   };
 
   const handleChoiceClick = (choice) => {
-    setSelectedChoice(choice);
+    const newAnswers = [...answers];
+    newAnswers[currentQuestion] = choice;
+    setAnswers(newAnswers);
+  };
+
+  const handleEndExamClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirmEndExam = () => {
+    // Logika untuk mengakhiri ujian bisa ditambahkan di sini
+    console.log("Ujian diakhiri");
+    setIsModalOpen(false);
   };
 
   return (
@@ -44,7 +91,7 @@ const DetailSoal = () => {
             {dataSoal[currentQuestion].choices.map((choice, index) => (
               <li
                 key={index}
-                className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${selectedChoice === choice ? 'bg-blue-500 text-white' : 'bg-blue-gray-100'}`}
+                className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${answers[currentQuestion] === choice ? 'bg-blue-500 text-white' : 'bg-blue-gray-100'}`}
                 onClick={() => handleChoiceClick(choice)}
               >
                 {choice}
@@ -71,7 +118,7 @@ const DetailSoal = () => {
           </div>
         </div>
         <div className="akhiri py-2 bg-secondary text-white m-2 rounded-full cursor-pointer hover:shadow-md flex items-center justify-center font-bold">
-          <h1>AKHIRI UJIAN</h1>
+          <button onClick={handleEndExamClick}>AKHIRI UJIAN</button>
         </div>
         <div className="tipe shadow-xl rounded-2xl">
           <div className="tes m-4 grid gap-1 py-4">
@@ -99,6 +146,7 @@ const DetailSoal = () => {
           </div>
         </div>
       </div>
+      <EndExamModal open={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirmEndExam} />
     </div>
   );
 };
