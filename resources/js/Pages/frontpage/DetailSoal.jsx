@@ -3,45 +3,46 @@ import EndExamModal from '@/Components/EndExamModal';
 
 const DetailSoal = () => {
   const dataSoal = [
-                {
-                        question:  "Siapakah nabi terakhir dalam agama Islam?",
-                        choices: ["Nabi Musa", "Nabi Isa", "Nabi Muhammad", "Nabi Ibrahim"]
-                    },
-                    {   question : "Apa nama kitab suci umat Islam?",
-                        choices : ["Injil", "Taurat", "Zabur", "Al-Qur'an"]
-                    },
-                    {
-                        question : "Berapa kali umat Islam diwajibkan sholat dalam sehari?",
-                        choices : ["3 kali", "4 kali", "5 kali", "6 kali"]
-                    },
-                    {
-                        question : "Puasa di bulan Ramadhan merupakan salah satu dari...",
-                        choices : ["Rukun Islam", "Rukun Iman", "Rukun Negara", "Rukun Warga"]
-                    },
-                    {
-                        question : "Kota manakah yang dianggap paling suci dalam Islam?",
-                        choices : ["Yerusalem", "Madinah", "Kairo", "Mekkah"]
-                    },
-                    {
-                        question : "Siapakah malaikat yang bertugas menyampaikan wahyu kepada para nabi?",
-                        choices : ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Munkar"]
-                    },
-                    {
-                        question : "Berapa jumlah juz dalam Al-Qur'an?",
-                        choices : ["30 juz", "40 juz", "50 juz", "60 juz"]
-                    },
-                    {
-                        question : "Apa arti dari kata 'Islam'?",
-                        choices : ["Keimanan", "Kesucian", "Kedamaian", "Ketakwaan"]
-                    },
-                    {
-                        question : "Haji merupakan rukun Islam yang ke...",
-                        choices : ["Satu", "Dua", "Tiga", "Lima"]
-                    },
-                    {
-                        question : "Siapakah yang disebut sebagai 'Khalifah pertama' dalam sejarah Islam?",
-                        choices : ["Umar bin Khattab", "Abu Bakar Ash-Shiddiq", "Usman bin Affan", "Ali bin Abi Thalib"]
-                }
+    {
+      question: "Siapakah nabi terakhir dalam agama Islam?",
+      choices: ["Nabi Musa", "Nabi Isa", "Nabi Muhammad", "Nabi Ibrahim"]
+    },
+    {
+      question: "Apa nama kitab suci umat Islam?",
+      choices: ["Injil", "Taurat", "Zabur", "Al-Qur'an"]
+    },
+    {
+      question: "Berapa kali umat Islam diwajibkan sholat dalam sehari?",
+      choices: ["3 kali", "4 kali", "5 kali", "6 kali"]
+    },
+    {
+      question: "Puasa di bulan Ramadhan merupakan salah satu dari...",
+      choices: ["Rukun Islam", "Rukun Iman", "Rukun Negara", "Rukun Warga"]
+    },
+    {
+      question: "Kota manakah yang dianggap paling suci dalam Islam?",
+      choices: ["Yerusalem", "Madinah", "Kairo", "Mekkah"]
+    },
+    {
+      question: "Siapakah malaikat yang bertugas menyampaikan wahyu kepada para nabi?",
+      choices: ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Munkar"]
+    },
+    {
+      question: "Berapa jumlah juz dalam Al-Qur'an?",
+      choices: ["30 juz", "40 juz", "50 juz", "60 juz"]
+    },
+    {
+      question: "Apa arti dari kata 'Islam'?",
+      choices: ["Keimanan", "Kesucian", "Kedamaian", "Ketakwaan"]
+    },
+    {
+      question: "Haji merupakan rukun Islam yang ke...",
+      choices: ["Satu", "Dua", "Tiga", "Lima"]
+    },
+    {
+      question: "Siapakah yang disebut sebagai 'Khalifah pertama' dalam sejarah Islam?",
+      choices: ["Umar bin Khattab", "Abu Bakar Ash-Shiddiq", "Usman bin Affan", "Ali bin Abi Thalib"]
+    }
     // Tambahkan lebih banyak soal sesuai kebutuhan
   ];
 
@@ -79,6 +80,10 @@ const DetailSoal = () => {
     // Logika untuk mengakhiri ujian bisa ditambahkan di sini
     console.log("Ujian diakhiri");
     setIsModalOpen(false);
+  };
+
+  const goToQuestion = (index) => {
+    setCurrentQuestion(index);
   };
 
   return (
@@ -141,7 +146,13 @@ const DetailSoal = () => {
           <h1 className='font-bold py-2'>Daftar Soal</h1>
           <div className="bks grid grid-cols-5 gap-1">
             {Array.from({ length: dataSoal.length }, (_, i) => (
-              <button key={i + 1} className="number-div p-2 hover:scale-110 bg-red-500 text-center rounded-md">{i + 1}</button>
+              <button
+                key={i + 1}
+                className="number-div p-2 hover:scale-110 bg-red-500 text-center rounded-md"
+                onClick={() => goToQuestion(i)}
+              >
+                {i + 1}
+              </button>
             ))}
           </div>
         </div>
