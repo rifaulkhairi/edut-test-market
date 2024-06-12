@@ -14,6 +14,7 @@ const EndExamModal = ({ open, onClose, onConfirm }) => {
           width: 400,
           bgcolor: 'background.paper',
           border: '2px solid #000',
+          borderRadius: 5, // Adding border radius
           boxShadow: 24,
           p: 4,
           display: 'flex',
