@@ -1,83 +1,31 @@
-// src/pages/DetailProduct.jsx
 import React, { useState, useRef } from "react";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
 import { Rating } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Inertia } from "@inertiajs/inertia";
 
-// Data Produk Terkait (ini bisa berasal dari API atau state)
-// const relatedProducts = [
-//     {
-//         id: 1,
-//         title: "Related Product 1",
-//         price: 49.99,
-//         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-//         description:
-//             "Description for Related Product 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-//         rating: 4,
-//     },
-//     {
-//         id: 2,
-//         title: "Related Product 2",
-//         price: 39.99,
-//         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-//         description:
-//             "Description for Related Product 2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-//         rating: 3.5,
-//     },
-//     {
-//         id: 3,
-//         title: "Related Product 3",
-//         price: 29.99,
-//         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-//         description:
-//             "Description for Related Product 3 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-//         rating: 4.5,
-//     },
-//     {
-//         id: 4,
-//         title: "Related Product 4",
-//         price: 59.99,
-//         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-//         description:
-//             "Description for Related Product 4 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-//         rating: 4,
-//     },
-//     {
-//         id: 5,
-//         title: "Related Product 5",
-//         price: 19.99,
-//         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-//         description:
-//             "Description for Related Product 5 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-//         rating: 5,
-//     },
-//     {
-//         id: 6,
-//         title: "Related Product 6",
-//         price: 24.99,
-//         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvhp1X-3KjrcZDZ1Uz7H5FVLmE2LL8qP3Jw&s",
-//         description:
-//             "Description for Related Product 6 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea libero, natus totam facere possimus at molestiae, suscipit sunt voluptas unde laudantium fuga ad sint omnis, ipsa voluptatum quis officiis. Expedita vero impedit at molestias officia! Atque dicta earum dolor perspiciatis debitis pariatur possimus dolorem tempore aspernatur, maiores obcaecati. Dicta perspiciatis ipsa eius distinctio et nam rerum fugiat. Cum voluptate ducimus, quisquam numquam deserunt tempore autem similique ab illo aliquid iure excepturi recusandae quos officiis! Aliquid natus laboriosam, vitae itaque, voluptatem ex aspernatur, hic delectus dolorem tenetur minima provident debitis! Totam, explicabo. Vel officiis tenetur nulla tempora porro, distinctio et id.",
-//         rating: 3,
-//     },
-// ];
-
-const DetailProduct = ({auth,detail}) => {
+const DetailProduct = ({ auth, detail }) => {
     const [selectedProduct, setSelectedProduct] = useState({
         id: detail.id,
         title: detail.title,
         harga: detail.harga,
+        diskon: detail.diskon,
         image: detail.image,
         description: detail.description,
         rating: detail.rating,
     });
+
     const sliderRef = useRef(null);
 
     const handleProductClick = (product) => {
         setSelectedProduct(product);
         window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const navigateToDetailSoal = () => {
+        Inertia.get(`/paketsoal/${selectedProduct.id}`);
     };
 
     const settings = {
@@ -123,7 +71,7 @@ const DetailProduct = ({auth,detail}) => {
                         <img
                             src={selectedProduct.image}
                             alt="Product"
-                            className=" w-2/4 h-auto"
+                            className="w-2/4 h-auto"
                             style={{ maxHeight: "500px" }}
                         />
                     </div>
@@ -145,11 +93,17 @@ const DetailProduct = ({auth,detail}) => {
                         <button className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600">
                             Add to Cart
                         </button>
+                        <button 
+                            className="mt-4 mx-8 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600" 
+                            onClick={navigateToDetailSoal}
+                        >
+                            Kerjakan Soal
+                        </button>
                     </div>
                 </div>
 
                 {/* Bagian Ulasan */}
-                <div className=" mt-96">
+                <div className="mt-96">
                     <h3 className="text-xl font-semibold mb-4">Reviews</h3>
                     <div>
                         {/* Ulasan Individual */}
@@ -177,25 +131,23 @@ const DetailProduct = ({auth,detail}) => {
                             &#10094;
                         </button>
                         <Slider ref={sliderRef} {...settings}>
-                            
-                                <div
-                                    key={detail.id}
-                                    className="text-center px-2"
-                                >
-                                    <img
-                                        src={detail.image}
-                                        alt={detail.title}
-                                        className="max-w-full cursor-pointer"
-                                        onClick={() =>
-                                            handleProductClick(detail)
-                                        }
-                                    />
-                                    <p className="mt-2">{detail.title}</p>
-                                    <p className="text-indigo-600">
-                                        ${detail.harga}
-                                    </p>
-                                </div>
-                            
+                            <div
+                                key={detail.id}
+                                className="text-center px-2"
+                            >
+                                <img
+                                    src={detail.image}
+                                    alt={detail.title}
+                                    className="max-w-full cursor-pointer"
+                                    onClick={() =>
+                                        handleProductClick(detail)
+                                    }
+                                />
+                                <p className="mt-2">{detail.title}</p>
+                                <p className="text-indigo-600">
+                                    ${detail.harga}
+                                </p>
+                            </div>
                         </Slider>
                         <button
                             onClick={() => sliderRef.current.slickNext()}

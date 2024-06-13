@@ -24,7 +24,8 @@ use Inertia\Inertia;
 Route::get('/', [ProdukController::class, 'index']);
 Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
 
-Route::get('/paketsoal/{id}', [SoalController::class, 'index']);
+Route::get('/paketsoal/{id}', [SoalController::class, 'index'])->name('paketsoal');
+
 
 
 // Route::get('/detailproduct', [DetailProduct::class, 'index'])->name('detailproduct');
