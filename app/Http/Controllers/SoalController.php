@@ -29,7 +29,7 @@ class SoalController extends Controller
         }
 
         $randomOrderQuestions = generateRandomOrderQuestions($paketSoal['soal']);
-        
+
         return Inertia::render('frontpage/DetailSoal', ['soal' => $randomOrderQuestions]);
     }
 }
