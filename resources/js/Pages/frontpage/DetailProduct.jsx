@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/react";
 
 const DetailProduct = ({ auth, detail }) => {
     const [selectedProduct, setSelectedProduct] = useState({
@@ -24,9 +25,9 @@ const DetailProduct = ({ auth, detail }) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const navigateToDetailSoal = () => {
-        Inertia.get(`/paketsoal/${selectedProduct.id}`);
-    };
+    // const navigateToDetailSoal = (id) => {
+    //     Inertia.get(`/paketsoal/${id}`);
+    // };
 
     const settings = {
         dots: false,
@@ -93,12 +94,11 @@ const DetailProduct = ({ auth, detail }) => {
                         <button className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600">
                             Add to Cart
                         </button>
-                        <button 
-                            className="mt-4 mx-8 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600" 
-                            onClick={navigateToDetailSoal}
-                        >
+                        <Link href={route("paketsoal", { id: selectedProduct.id })}>
+                        <button className="mt-4 mx-8 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600">
                             Kerjakan Soal
                         </button>
+                        </Link>
                     </div>
                 </div>
 
