@@ -1,23 +1,29 @@
 // src/Layouts/FrontpageLayout.jsx
 
-import React from "react";
+import React, { useState } from "react";
 import { Link, Head } from "@inertiajs/react";
 import logo from "../../../public/images/logo-edu-test-market.svg";
 import { BsSearch } from "react-icons/bs";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, UserIcon, ClipboardDocumentIcon} from "@heroicons/react/24/outline";
+import { Badge, Paper, IconButton } from "@mui/material";
+import { Menu } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
 
-import {
-    Badge,
-    Button,
-    Menu,
-    MenuHandler,
-    MenuList,
-    MenuItem,
-} from "@material-tailwind/react";
 import Footer from "@/Components/Footer";
+
 // import { ShoppingChart } from "@heroicons/react/outline/";
 
 const FrontpageLayout = ({ children, user }) => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <>
             <Head title="Edu Test Market"></Head>
@@ -50,46 +56,27 @@ const FrontpageLayout = ({ children, user }) => {
                             </div>
                         </div>
                         <div className="flex-1 flex justify-end gap-2 mr-3">
-                            <div className="">
-                                <Button
-                                    variant="text"
-                                    color="white"
-                                    size="sm"
-                                    className="text-white text-xs"
-                                >
+                            <div className="flex h-full justify-center">
+                                <Button className="text-white text-xs">
                                     <div className="gap-2 w-full flex">
-                                        <Badge>
+                                        <Badge color="warning" variant="dot">
                                             <i className="fa-regular fa-bell text-xs text-white"></i>
                                         </Badge>
-                                        <span className="text-xs capitalize font-normal">
+                                        <span className="text-sm capitalize font-normal text-white">
                                             Notifikasi
                                         </span>
                                     </div>
                                 </Button>
                             </div>
-                            <div className="">
+                            <Button className="flex h-full items-center text-sm text-white p-2 gap-x-1">
+                                <UserIcon className="size-4 text-white" />
+                                <span className="text-sm capitalize font-normal text-white">
+                                    Account
+                                </span>
+                            </Button>
+                            <React.Fragment>
                                 <Menu>
-                                    <MenuHandler>
-                                        <Button
-                                            variant="text"
-                                            color="white"
-                                            size="sm"
-                                            className="text-white text-xs"
-                                        >
-                                            <div className="gap-2 w-full flex">
-                                                <i className="fa-regular fa-user text-xs text-white"></i>
-                                                <span className="text-xs capitalize font-normal">
-                                                    account
-                                                </span>
-                                            </div>
-                                        </Button>
-                                    </MenuHandler>
-                                    <MenuList>
-                                        <MenuItem>Profil</MenuItem>
-                                        <MenuItem>Edit Profil</MenuItem>
-                                        <MenuItem>Pesananku</MenuItem>
-                                        <hr className="my-3" />
-
+                                    <MenuItem>
                                         {user.user ? (
                                             <Link
                                                 method="post"
@@ -109,9 +96,9 @@ const FrontpageLayout = ({ children, user }) => {
                                                 </MenuItem>
                                             </Link>
                                         )}
-                                    </MenuList>
+                                    </MenuItem>
                                 </Menu>
-                            </div>
+                            </React.Fragment>
                         </div>
                     </div>
                 </div>
@@ -119,7 +106,7 @@ const FrontpageLayout = ({ children, user }) => {
                     <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full">
                         {/* logo */}
                         <a
-                            href="#"
+                            href="/"
                             className="block h-full content-center w-10"
                         >
                             <img src={logo} className="w-12 h-12 flex-none" />
@@ -138,15 +125,101 @@ const FrontpageLayout = ({ children, user }) => {
                                 />
                             </div>
                             {/* icons */}
-                            <Button variant="text" size="sm">
-                                <Badge
-                                    content={5}
-                                    overlap="circular"
-                                    className="text-xs"
+                            <React.Fragment>
+                                <IconButton
+                                    id="chart_list"
+                                    onClick={handleClick}
                                 >
-                                    <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
-                                </Badge>
-                            </Button>
+                                    <Badge
+                                        badgeContent={5}
+                                        color="warning"
+                                        overlap="circular"
+                                    >
+                                        <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
+                                    </Badge>
+                                </IconButton>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    id="account-menu"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onClick={handleClose}
+                                    PaperProps={{
+                                        elevation: 0,
+                                        sx: {
+                                            overflow: "visible",
+                                            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                                            mt: 1.5,
+                                            "& .MuiAvatar-root": {
+                                                width: 32,
+                                                height: 32,
+                                                ml: -0.5,
+                                                mr: 1,
+                                            },
+                                            "&::before": {
+                                                content: '""',
+                                                display: "block",
+                                                position: "absolute",
+                                                top: 0,
+                                                right: 14,
+                                                width: 10,
+                                                height: 10,
+                                                bgcolor: "background.paper",
+                                                transform:
+                                                    "translateY(-50%) rotate(45deg)",
+                                                zIndex: 0,
+                                            },
+                                        },
+                                    }}
+                                    transformOrigin={{
+                                        horizontal: "right",
+                                        vertical: "top",
+                                    }}
+                                    anchorOrigin={{
+                                        horizontal: "right",
+                                        vertical: "bottom",
+                                    }}
+                                >
+                                    <div className="w-80 h-56 p-3">
+                                        <p className="text-xs text-gray-500 mb-2">
+                                            Baru ditambahkan
+                                        </p>
+                                        <div className="flex flex-row w-ful gap-2">
+                                            <img
+                                                src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/3/24/48b1c61b-fe0b-4c72-89b5-1b529ef4b2b0.jpg.webp?ect=4g"
+                                                className="w-20 h-20 bg-cover rounded-sm"
+                                            ></img>
+                                            <div>
+                                                <p className="text-sm font-semibold text-secondary">
+                                                    Soal PPG 2024
+                                                </p>
+                                                <p className="text-sm">
+                                                    Rp50.000
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-row w-ful gap-2">
+                                            <img
+                                                src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/3/24/48b1c61b-fe0b-4c72-89b5-1b529ef4b2b0.jpg.webp?ect=4g"
+                                                className="w-20 h-20 bg-cover rounded-sm"
+                                            ></img>
+                                            <div>
+                                                <p className="text-sm font-semibold text-secondary">
+                                                    Soal PPG 2024
+                                                </p>
+                                                <p className="text-sm">
+                                                    Rp50.000
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex w-full justify-center p-3">
+                                        <button className="p-2 bg-secondary hover:bg-secondary/65 text-white text-sm rounded-md shadow-sm transition-all">
+                                            Tampilkan Keranjang Belanja
+                                        </button>
+                                    </div>
+                                </Menu>
+                            </React.Fragment>
                         </div>
                     </div>
                 </div>

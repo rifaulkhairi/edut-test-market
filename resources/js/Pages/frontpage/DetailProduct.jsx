@@ -1,13 +1,20 @@
 import React, { useState, useRef } from "react";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Rating } from "@mui/material";
+import { Avatar, Divider, Rating, Stack } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/react";
+import Harga from "@/Components/Harga";
+import BasicTabs from "@/Components/detailProduct/DetailProductTabs";
+import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
+import { deepOrange, deepPurple } from "@mui/material/colors";
+import ProductCard from "@/Components/ProductCard";
 
-const DetailProduct = ({ auth, detail }) => {
+const DetailProduct = ({ auth, detail, products }) => {
+    const [sortBy, setSortBy] = useState("semua");
+
     const [selectedProduct, setSelectedProduct] = useState({
         id: detail.id,
         title: detail.title,
@@ -18,6 +25,25 @@ const DetailProduct = ({ auth, detail }) => {
         rating: detail.rating,
     });
 
+    const comments = [
+        {
+            id: 1,
+            postID: 1,
+            like: 20,
+            tgl: "15-06-2024",
+            content:
+                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed beatae omnis at voluptates quisquam quia facilis, dolorum deserunt fuga tempora?",
+        },
+        {
+            id: 2,
+            postID: 1,
+            like: 20,
+            tgl: "15-06-2024",
+            content:
+                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed beatae omnis at voluptates quisquam quia facilis, dolorum deserunt fuga tempora?",
+        },
+    ];
+
     const sliderRef = useRef(null);
 
     const handleProductClick = (product) => {
@@ -25,16 +51,13 @@ const DetailProduct = ({ auth, detail }) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    // const navigateToDetailSoal = (id) => {
-    //     Inertia.get(`/paketsoal/${id}`);
-    // };
-
     const settings = {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 4,
+        slidesToShow: 6,
         slidesToScroll: 1,
+
         responsive: [
             {
                 breakpoint: 1024,
@@ -65,96 +88,130 @@ const DetailProduct = ({ auth, detail }) => {
 
     return (
         <FrontpageLayout user={auth}>
-            <div className="container px-20">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="container px-20 pt-2">
+                <div className="grid-cols-1 flex gap-4 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}
-                    <div className="text-center">
+                    <div className="flex-[0.3] text-center">
                         <img
                             src={selectedProduct.image}
                             alt="Product"
-                            className="w-2/4 h-auto"
+                            className="h-auto"
                             style={{ maxHeight: "500px" }}
                         />
                     </div>
 
                     {/* Bagian Detail Produk */}
-                    <div>
+                    <div className="flex-1">
                         <h1 className="text-2xl font-bold mb-2">
                             {selectedProduct.title}
                         </h1>
-                        <h2 className="text-xl text-indigo-600 mb-4">
-                            ${selectedProduct.harga}
-                        </h2>
-                        <Rating
-                            value={selectedProduct.rating}
-                            readOnly
-                            precision={0.5}
-                        />
-                        <p className="mt-4">{selectedProduct.description}</p>
-                        <button className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600">
-                            Add to Cart
-                        </button>
-                        <Link href={route("paketsoal", { id: selectedProduct.id })}>
-                        <button className="mt-4 mx-8 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-blue-600">
-                            Kerjakan Soal
-                        </button>
-                        </Link>
+                        <div>
+                            <BasicTabs auth={auth} detail={detail} />
+                        </div>
                     </div>
                 </div>
 
                 {/* Bagian Ulasan */}
-                <div className="mt-96">
-                    <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+                <div className="bg-white mt-5 rounded-md p-5 shadow-md">
+                    <h3 className="text-xl font-semibold mb-4">
+                        Penilaian Produk
+                    </h3>
+                    <div className="flex w-full h-32 bg-secondary/5 px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
+                        <div>
+                            <div className="flex w-full text-secondary font-semibold text-4xl items-center justify-center gap-3">
+                                {selectedProduct.rating}
+                                <span className="font-normal text-xl">
+                                    dari 5
+                                </span>
+                            </div>
+                            <Rating
+                                value={selectedProduct.rating}
+                                readOnly
+                                size="large"
+                                precision={0.5}
+                            />
+                        </div>
+                        <div className="flex gap-4 flex-row">
+                            <RadioGroup
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
+                            >
+                                <RadioCategory value="semua">
+                                    Semua
+                                </RadioCategory>
+                                <RadioCategory value="5 bintang">
+                                    5 Bintang
+                                </RadioCategory>
+                                <RadioCategory value="4 bintang">
+                                    4 Bintang
+                                </RadioCategory>
+                                <RadioCategory value="3 bintang">
+                                    3 Bintang
+                                </RadioCategory>
+                                <RadioCategory value="2 bintang">
+                                    2 Bintang
+                                </RadioCategory>
+                                <RadioCategory value="1 bintang">
+                                    1 Bintang
+                                </RadioCategory>
+                            </RadioGroup>
+                        </div>
+                    </div>
                     <div>
                         {/* Ulasan Individual */}
-                        <div className="mb-4">
-                            <Rating value={4} readOnly />
-                            <p className="text-gray-700">
-                                User review goes here. It provides feedback
-                                about the product.
-                            </p>
+                        <div className="mb-4 mt-4">
+                            <div className="flex w-full p-4 flex-col gap-y-4">
+                                {comments.map((comment) => (
+                                    <div className="flex w-full gap-4">
+                                        <Avatar
+                                            sx={{ bgcolor: deepOrange[500] }}
+                                        >
+                                            RU
+                                        </Avatar>
+
+                                        <div className=" min-h-24">
+                                            <p className="text-md text-secondary font-semibold">
+                                                Rifa Ulkhairi
+                                            </p>
+                                            <div>
+                                                <p className="text-xs text-gray-500">
+                                                    {comment.tgl}
+                                                </p>
+                                                <Rating
+                                                    value={5}
+                                                    readOnly
+                                                    size="small"
+                                                    precision={0.5}
+                                                ></Rating>
+                                            </div>
+
+                                            <p className="text-gray-700">
+                                                {comment.content}
+                                            </p>
+                                        </div>
+                                        <Divider orientation="horizontal" />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {/* Tambahkan ulasan lainnya di sini */}
                     </div>
                 </div>
 
                 {/* Bagian Produk Terkait */}
-                <div className="mt-8">
+                <div className="mt-5">
                     <h3 className="text-xl font-semibold mb-4">
-                        Related Products
+                        Produk Serupa
                     </h3>
                     <div className="relative">
-                        <button
-                            onClick={() => sliderRef.current.slickPrev()}
-                            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full z-10"
-                        >
-                            &#10094;
-                        </button>
                         <Slider ref={sliderRef} {...settings}>
-                            <div
-                                key={detail.id}
-                                className="text-center px-2"
-                            >
-                                <img
-                                    src={detail.image}
-                                    alt={detail.title}
-                                    className="max-w-full cursor-pointer"
-                                    onClick={() =>
-                                        handleProductClick(detail)
-                                    }
-                                />
-                                <p className="mt-2">{detail.title}</p>
-                                <p className="text-indigo-600">
-                                    ${detail.harga}
-                                </p>
-                            </div>
+                            {products.map((product) => (
+                                <ProductCard
+                                    product={product}
+                                    key={product.id}
+                                ></ProductCard>
+                            ))}
                         </Slider>
-                        <button
-                            onClick={() => sliderRef.current.slickNext()}
-                            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full z-10"
-                        >
-                            &#10095;
-                        </button>
                     </div>
                 </div>
             </div>

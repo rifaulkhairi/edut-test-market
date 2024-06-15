@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, Head } from "@inertiajs/react";
 import { Button, Select, Option, Card } from "@material-tailwind/react";
+import Harga from "./Harga";
 
-
-const ProductCard = ({product}) => {
+const ProductCard = ({ product }) => {
     return (
         <Link
             href={route("detailproduct", { id: product.id })}
@@ -24,13 +24,20 @@ const ProductCard = ({product}) => {
                         -{product.diskon * 100}%
                     </p>
                     <p className="text-sm text-gray-500 line-clamp-2 line-through">
-                        Rp{product.harga}
+                        <Harga nilai={product.harga}></Harga>
                     </p>
                     <div className="flex w-full justify-between">
                         <p className="text-sm text-secondary font-semibold">
-                            Rp{product.harga - product.harga * product.diskon}
+                            <Harga
+                                nilai={
+                                    product.harga -
+                                    product.harga * product.diskon
+                                }
+                            ></Harga>
                         </p>
-                        <p className="text-sm text-gray-500 ">{product.terjual}rb terjual</p>
+                        <p className="text-sm text-gray-500 ">
+                            {product.terjual}rb terjual
+                        </p>
                     </div>
                 </div>
             </Card>

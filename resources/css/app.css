@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 html,
 body,
 #root,
@@ -25,28 +24,26 @@ body {
     border-color: coral;
 }
 
-::-webkit-scrollbar{
-    width: 10px;
-
+::-webkit-scrollbar {
+    width: 5px;
 }
 /* Track */
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
     background: #e0e0e0;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb{
-    background: #888;
+::-webkit-scrollbar-thumb {
+    background: #184c80;
 }
 /* Handle on Hover */
-::-webkit-scrollbar-track:hover{
-    background: #555;
-
+::-webkit-scrollbar-track:hover {
+    background: #e0e0e0;
 }
-
-
-
-
-
-
-
+.slick-arrow:before {
+    color: rgb(24, 76, 128) !important;
+    font-size: 30px !important;
+}
+.slick-prev {
+    transform: translate(-20px, 0px) !important;
+}

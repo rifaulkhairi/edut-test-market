@@ -8,6 +8,7 @@
         <title>Edu Test Market</title>
 
         <!-- Fonts -->
+        <link rel="icon" type="image/svg" href="{{asset('/images/logo-edu-test-market.svg')}}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link

@@ -26,12 +26,13 @@ class ProdukController extends Controller
     public function detail($id)
     {
         $produk = DataProduk::find($id);
+        $produks = DataProduk::all();
 
         if (!$produk) {
             return redirect('/produks')->with('error', 'Produk tidak ditemukan');
         }
 
         // dd($produk);
-        return Inertia::render('frontpage/DetailProduct', ['detail' => $produk]);
+        return Inertia::render('frontpage/DetailProduct', ['detail' => $produk, 'products' => $produks]);
     }
 }
