@@ -32,7 +32,12 @@ const Sidebar = ({ tab }) => {
                                 className={`w-full ${
                                     activeTab === 0 ? "active" : ""
                                 }`}
-                                onClick={() => isOpenSubmenu(0)}
+                                onClick={(e) => {
+                                    isOpenSubmenu(0);
+                                    e.preventDefault();
+
+                                    router.visit("/admin/dashboard");
+                                }}
                             >
                                 <span className="icon w-[30px] h-[30px] flex items-center justify-center rounded-md">
                                     <MdOutlineDashboard />

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PaketSoal;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,5 +33,7 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             User::factory()->create($user);
         }
+
+        PaketSoal::factory(1)->create();
     }
 }
