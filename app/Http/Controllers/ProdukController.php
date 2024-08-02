@@ -35,4 +35,8 @@ class ProdukController extends Controller
         // dd($produk);
         return Inertia::render('frontpage/DetailProduct', ['detail' => $produk, 'products' => $produks]);
     }
+
+    public function addPaketSoal(){
+        
+    }
 }

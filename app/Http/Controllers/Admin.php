@@ -13,4 +13,12 @@ class Admin extends Controller
         return Inertia::render('admin/Dashboard', []);
 
     }
+    public function addSoal(){
+        return Inertia::render('admin/Pages/AddSoal', []);
+
+    }
+    public function addPaketSoal(){
+        return Inertia::render('admin/Pages/AddPaketSoal', []);
+        
+    }
 }

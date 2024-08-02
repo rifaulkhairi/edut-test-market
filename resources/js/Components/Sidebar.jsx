@@ -15,6 +15,7 @@ import {
 import {
     PresentationChartBarIcon,
     ShoppingBagIcon,
+    UserGroupIcon,
     UserCircleIcon,
     Cog6ToothIcon,
     InboxIcon,
@@ -30,7 +31,7 @@ export default function Sidebar() {
     };
 
     return (
-        <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+        <Card className="h-[100vh] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 rounded-r-none z-10 sticky">
             <div className="mb-2 p-4">
                 <Typography variant="h5" color="blue-gray">
                     Dashboard
@@ -73,25 +74,7 @@ export default function Sidebar() {
                                         className="h-3 w-5"
                                     />
                                 </ListItemPrefix>
-                                Analytics
-                            </ListItem>
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon
-                                        strokeWidth={3}
-                                        className="h-3 w-5"
-                                    />
-                                </ListItemPrefix>
-                                Reporting
-                            </ListItem>
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon
-                                        strokeWidth={3}
-                                        className="h-3 w-5"
-                                    />
-                                </ListItemPrefix>
-                                Projects
+                                Analisis
                             </ListItem>
                         </List>
                     </AccordionBody>
@@ -132,7 +115,7 @@ export default function Sidebar() {
                                         className="h-3 w-5"
                                     />
                                 </ListItemPrefix>
-                                Orders
+                                Kelola Tampilan Antar Muka Transkasi
                             </ListItem>
                             <ListItem>
                                 <ListItemPrefix>
@@ -141,7 +124,7 @@ export default function Sidebar() {
                                         className="h-3 w-5"
                                     />
                                 </ListItemPrefix>
-                                Products
+                                Transaksi
                             </ListItem>
                             <ListItem>
                                 <ListItemPrefix>
@@ -151,6 +134,15 @@ export default function Sidebar() {
                                     />
                                 </ListItemPrefix>
                                 Paket Soal
+                            </ListItem>
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon
+                                        strokeWidth={3}
+                                        className="h-3 w-5"
+                                    />
+                                </ListItemPrefix>
+                                Pertanyaan
                             </ListItem>
                         </List>
                     </AccordionBody>
@@ -172,7 +164,7 @@ export default function Sidebar() {
                             className="border-b-0 p-3"
                         >
                             <ListItemPrefix>
-                                <ShoppingBagIcon className="h-5 w-5" />
+                                <UserGroupIcon className="h-5 w-5" />
                             </ListItemPrefix>
                             <Typography
                                 color="blue-gray"
@@ -191,7 +183,7 @@ export default function Sidebar() {
                                         className="h-3 w-5"
                                     />
                                 </ListItemPrefix>
-                                Users
+                                Kelola Pengguna
                             </ListItem>
                             <ListItem>
                                 <ListItemPrefix>
@@ -200,16 +192,7 @@ export default function Sidebar() {
                                         className="h-3 w-5"
                                     />
                                 </ListItemPrefix>
-                                Products
-                            </ListItem>
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon
-                                        strokeWidth={3}
-                                        className="h-3 w-5"
-                                    />
-                                </ListItemPrefix>
-                                Paket Soal
+                                Kelola Editor
                             </ListItem>
                         </List>
                     </AccordionBody>
@@ -243,7 +226,11 @@ export default function Sidebar() {
                     Settings
                 </ListItem>
                 <ListItem>
-                    <Link method="post" href={route("logout")} className="flex flex-row h-full w-full">
+                    <Link
+                        method="post"
+                        href={route("logout")}
+                        className="flex flex-row h-full w-full"
+                    >
                         <ListItemPrefix>
                             <PowerIcon className="h-5 w-5" />
                         </ListItemPrefix>

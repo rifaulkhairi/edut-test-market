@@ -4,23 +4,33 @@ import React, { useState } from "react";
 import { Button, InputLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
 import { textTransform } from "@mui/system";
+import { router } from "@inertiajs/react";
 
-const AddPaketSoal = () => {
+const EditPaketSoal = ({ paketsoal }) => {
     const { data, setData, post, progress, errors } = useForm({
         name: null,
         description: null,
         price: null,
         discount: null,
-        cover: null,
     });
-    const [name, setName] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [price, setPrice] = useState(null);
-    const [discount, setDiscount] = useState(null);
+    const [name, setName] = useState(paketsoal.name ? paketsoal.name : "");
+    const [description, setDescription] = useState(
+        paketsoal.description ? paketsoal.description : ""
+    );
+    const [price, setPrice] = useState(paketsoal.price ? paketsoal.price : "");
+    const [discount, setDiscount] = useState(
+        paketsoal.discount ? paketsoal.discount : ""
+    );
 
     const onsubmit = (e) => {
         e.preventDefault();
-        post("/admin/storepaketsoal");
+        router.post(`/admin/paketsoal/update/${paketsoal.id}`, {
+            _method: "patch",
+            name: name,
+            description: description,
+            price: price,
+            discount: discount,
+        });
 
         console.log("submit");
     };
@@ -114,4 +124,4 @@ const AddPaketSoal = () => {
     );
 };
 
-export default AddPaketSoal;
+export default EditPaketSoal;

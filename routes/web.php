@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\DetailProduct;
 use App\Http\Controllers\Editor;
+use App\Http\Controllers\PeketSoalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Test;
 use App\Http\Controllers\ProdukController;
@@ -44,7 +45,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin/dashboard', [Admin::class, 'index'])->middleware('auth', 'admin');
+Route::middleware('auth', 'admin')->group(function () {
+    Route::get('/admin/dashboard', [Admin::class, 'index']);
+    Route::get('/admin/addsoal', [Admin::class, 'addSoal']);
+    Route::get('/admin/addpaketsoal', [PeketSoalController::class, 'addPaketSoal']);
+
+
+    Route::get('/admin/viewpaketsoal/{id}', [PeketSoalController::class, 'viewPaketSoal']);
+    Route::get('/admin/editpaketsoal', [PeketSoalController::class, 'editPaketSoal']);
+    Route::get('/admin/daftarpaketsoal', [PeketSoalController::class, 'showAll'])->name('daftarpaketsoal');
+    Route::get('/admin/editpaketsoal/{id}', [PeketSoalController::class, 'edit'])->name('editpaketsoal');
+
+    Route::patch('/admin/paketsoal/update/{id}', [PeketSoalController::class, 'update']);
+    Route::delete('/admin/paketsoal/{id}/delete', [PeketSoalController::class, 'delete']);
+
+
+
+    Route::post('/admin/storepaketsoal', [PeketSoalController::class, 'storePaketSoal']);
+});
+
+// Route::get('/admin/dashboard', [Admin::class, 'index'])->middleware('auth', 'admin');
 Route::get('/editor/dashboard', [Editor::class, 'index'])->middleware('auth', 'editor');
 
 require __DIR__ . '/auth.php';

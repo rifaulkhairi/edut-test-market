@@ -23,15 +23,14 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->delete();
 
         $users = [
-            ['name'=>'admin', 'email'=>'admin@gmail.com', 'userType'=>'admin'],
-            ['name'=>'editor', 'email'=>'editor@gmail.com', 'userType'=>'editor'],
-            ['name'=>'user', 'email'=>'user@gmail.com'],
+            ['name' => 'admin', 'email' => 'admin@gmail.com', 'userType' => 'admin'],
+            ['name' => 'editor', 'email' => 'editor@gmail.com', 'userType' => 'editor'],
+            ['name' => 'user1', 'email' => 'user1@gmail.com'],
+            ['name' => 'user2', 'email' => 'user2@gmail.com'],
 
         ];
-        foreach($users as $user){
+        foreach ($users as $user) {
             User::factory()->create($user);
-
         }
-
     }
 }
