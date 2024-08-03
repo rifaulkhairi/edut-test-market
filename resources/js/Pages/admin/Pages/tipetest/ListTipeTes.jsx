@@ -22,7 +22,6 @@ const columns = [
         },
     },
     { name: "name" },
-    { name: "price", label: "Price" },
 
     {
         name: "id",
@@ -33,15 +32,7 @@ const columns = [
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            router.get(`/admin/viewpaketsoal/${value}`);
-                        }}
-                    >
-                        <MdOutlineOpenInNew className="text-[#1972d6]" />
-                    </IconButton>
-                    <IconButton
-                        onClick={(e) => {
-                            e.preventDefault();
-                            router.get(`/admin/editpaketsoal/${value}`);
+                            router.get(`/admin/edittipetest/${value}`);
                         }}
                     >
                         <TbEdit className="text-md text-[#1972d6]" />
@@ -49,7 +40,7 @@ const columns = [
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            router.post(`/admin/paketsoal/${value}/delete`, {
+                            router.post(`/admin/tipetest/delete/${value}`, {
                                 _method: "delete",
                             });
                         }}
@@ -69,7 +60,7 @@ const options = {
     selectableRows: false,
 };
 
-const AddPaketSoal = ({ daftarpaketsoal }) => {
+const ListTipeTes = ({ tipe_test }) => {
     return (
         <section className="main flex">
             <div className="sidebarWrapper w-[15%]">
@@ -85,15 +76,15 @@ const AddPaketSoal = ({ daftarpaketsoal }) => {
                             sx={{ textTransform: "capitalize" }}
                             onClick={(e) => {
                                 e.preventDefault();
-                                router.visit("/admin/addpaketsoal");
+                                router.visit("/admin/addtipetest");
                             }}
                         >
                             Tambah
                         </Button>
                     </div>
                     <MUIDataTable
-                        title={"Daftar Paket Soal"}
-                        data={daftarpaketsoal}
+                        title={"Daftar Tipe Test"}
+                        data={tipe_test}
                         columns={columns}
                         options={options}
                     ></MUIDataTable>
@@ -103,4 +94,4 @@ const AddPaketSoal = ({ daftarpaketsoal }) => {
     );
 };
 
-export default AddPaketSoal;
+export default ListTipeTes;

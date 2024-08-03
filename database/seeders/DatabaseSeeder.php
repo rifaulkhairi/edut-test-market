@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\PaketSoal;
+use App\Models\TipeTest;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -34,6 +35,15 @@ class DatabaseSeeder extends Seeder
             User::factory()->create($user);
         }
 
+        $typeTests = [
+            ['name' => 'Test Inteligensi Umum'],
+            ['name' => 'Test Wawasan Kebangsaan'],
+            ['name' => 'Test Karakteristik Pribadi '],
+        ];
+
         PaketSoal::factory(1)->create();
+        foreach ($typeTests as $typeTest) {
+            TipeTest::factory()->create($typeTest);
+        }
     }
 }

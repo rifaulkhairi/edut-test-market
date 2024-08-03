@@ -107,7 +107,7 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                             <div>
                                 <h2 className="text-xl text-indigo-600 mb-4">
                                     <Harga
-                                        nilai={38094}
+                                        nilai={paketsoal.price}
                                         className="text-md font-semibold text-secondary"
                                     ></Harga>
                                 </h2>

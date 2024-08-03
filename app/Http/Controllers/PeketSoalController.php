@@ -66,6 +66,7 @@ class PeketSoalController extends Controller
             'price' => $request['price'],
             'discount' => $request['discount']
         ]);
+        return to_route('daftarpaketsoal');
     }
 
     public function update(Request $request, $id)

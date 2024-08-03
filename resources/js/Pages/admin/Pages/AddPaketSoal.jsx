@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button, InputLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
 import { textTransform } from "@mui/system";
+import { router } from "@inertiajs/react";
 
 const AddPaketSoal = () => {
     const { data, setData, post, progress, errors } = useForm({
@@ -17,12 +18,18 @@ const AddPaketSoal = () => {
     const [description, setDescription] = useState(null);
     const [price, setPrice] = useState(null);
     const [discount, setDiscount] = useState(null);
+    const [cover, setCover] = useState(null);
 
     const onsubmit = (e) => {
         e.preventDefault();
-        post("/admin/storepaketsoal");
-
-        console.log("submit");
+        router.post("/admin/storepaketsoal", {
+            _method: "post",
+            name: name,
+            description: description,
+            price: price,
+            discount: discount,
+            cover: cover,
+        });
     };
 
     return (
@@ -42,7 +49,10 @@ const AddPaketSoal = () => {
                         className="flex w-full"
                         labelId="cover"
                         type="file"
-                        onChange={(e) => setData("cover", e.target.files[0])}
+                        onChange={(e) => {
+                            setCover(e.target.files[0]);
+                            setData("cover", e.target.files[0]);
+                        }}
                     />
                     {progress && (
                         <progress value={progress.percentage} max="100">
@@ -57,7 +67,7 @@ const AddPaketSoal = () => {
                         value={name}
                         onChange={(event, value) => {
                             setName(event.target.value);
-                            setData("name", name);
+                            setData("name", event.target.value);
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
@@ -69,7 +79,7 @@ const AddPaketSoal = () => {
                         value={description}
                         onChange={(event, value) => {
                             setDescription(event.target.value);
-                            setData("description", description);
+                            setData("description", event.target.value);
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
@@ -81,7 +91,7 @@ const AddPaketSoal = () => {
                         value={price}
                         onChange={(event, value) => {
                             setPrice(event.target.value);
-                            setData("price", price);
+                            setData("price", event.target.value);
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
@@ -93,7 +103,7 @@ const AddPaketSoal = () => {
                         onChange={(event, value) => {
                             setDiscount(event.target.value);
                             console.log(discount);
-                            setData("discount", discount);
+                            setData("discount", event.target.value);
                         }}
                         value={discount}
                         inputMode="decimal"

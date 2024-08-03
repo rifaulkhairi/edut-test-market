@@ -10,7 +10,7 @@ import { router } from "@inertiajs/react";
 
 const Sidebar = ({ tab }) => {
     const [activeTab, setActiveTab] = useState(tab);
-    const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
+    const [isToggleSubmenu, setIsToggleSubmenu] = useState(true);
 
     const isOpenSubmenu = (index) => {
         setActiveTab(index);
@@ -86,7 +86,15 @@ const Sidebar = ({ tab }) => {
                                     >
                                         Paket Soal
                                     </Button>
-                                    <Button className="w-full">
+                                    <Button
+                                        className="w-full"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.visit(
+                                                "/admin/daftartipetest"
+                                            );
+                                        }}
+                                    >
                                         Tipe Test
                                     </Button>
                                     <Button className="w-full">Soal</Button>
