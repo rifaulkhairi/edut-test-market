@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\DetailProduct;
 use App\Http\Controllers\Editor;
 use App\Http\Controllers\PeketSoalController;
@@ -66,6 +67,17 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::post('/admin/tipetest/store', [TipeTestController::class, 'store']);
     Route::patch('/admin/tipetest/update/{id}', [TipeTestController::class, 'update']);
     Route::delete('/admin/tipetest/delete/{id}', [TipeTestController::class, 'delete']);
+
+
+    // soal
+    Route::get('/admin/addsoalpg', [AdminSoalController::class, 'addsoalpg'])->name('addsoalpg');
+    Route::get('/admin/daftarsoal', [AdminSoalController::class, 'show'])->name('daftarsoal');
+    Route::post('/admin/storsoal', [AdminSoalController::class, 'store'])->name('store');
+
+    // Route::get('/admin/edittipetest/{id}', [TipeTestController::class, 'edit'])->name('edittipetest');
+    // Route::post('/admin/tipetest/store', [TipeTestController::class, 'store']);
+    // Route::patch('/admin/tipetest/update/{id}', [TipeTestController::class, 'update']);
+    // Route::delete('/admin/tipetest/delete/{id}', [TipeTestController::class, 'delete']);
 });
 
 // Route::get('/admin/dashboard', [Admin::class, 'index'])->middleware('auth', 'admin');

@@ -97,7 +97,15 @@ const Sidebar = ({ tab }) => {
                                     >
                                         Tipe Test
                                     </Button>
-                                    <Button className="w-full">Soal</Button>
+                                    <Button
+                                        className="w-full"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.visit("/admin/daftarsoal");
+                                        }}
+                                    >
+                                        Soal
+                                    </Button>
                                 </div>
                             </div>
                         </li>
