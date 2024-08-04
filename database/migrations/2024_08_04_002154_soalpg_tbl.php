@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('soalpg_tbl', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('paketsoal_id')->nullable();
+            $table->double('nilai')->nullable();
+
             $table->text('soal');
             $table->text('opsiA');
             $table->text('opsiB');

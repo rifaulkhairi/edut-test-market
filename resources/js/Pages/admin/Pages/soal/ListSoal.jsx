@@ -21,8 +21,18 @@ const columns = [
             },
         },
     },
-    { name: "name" },
-
+    {
+        name: "soal",
+        options: {
+            customBodyRender: (value) => (
+                <div className="flex">
+                    <div dangerouslySetInnerHTML={{ __html: value }}></div>
+                </div>
+            ),
+        },
+    },
+    { name: "nama_paket_soal", label: "Paket Soal " },
+    { name: "nama_tipe_test", label: "Tipe Test " },
     {
         name: "id",
         label: "Action",
@@ -32,7 +42,15 @@ const columns = [
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            router.get(`/admin/edittipetest/${value}`);
+                            // router.get(`/admin/viewpaketsoal/${value}`);
+                        }}
+                    >
+                        <MdOutlineOpenInNew className="text-[#1972d6]" />
+                    </IconButton>
+                    <IconButton
+                        onClick={(e) => {
+                            e.preventDefault();
+                            // router.get(`/admin/edittipetest/${value}`);
                         }}
                     >
                         <TbEdit className="text-md text-[#1972d6]" />
@@ -40,9 +58,9 @@ const columns = [
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            router.post(`/admin/tipetest/delete/${value}`, {
-                                _method: "delete",
-                            });
+                            // router.post(`/admin/tipetest/delete/${value}`, {
+                            //     _method: "delete",
+                            // });
                         }}
                     >
                         <MdDeleteForever className="text-md text-red-500" />
