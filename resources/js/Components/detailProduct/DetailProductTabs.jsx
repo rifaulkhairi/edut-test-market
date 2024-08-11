@@ -89,10 +89,10 @@ export default function BasicTabs({ auth, detail }) {
 
     const [selectedProduct, setSelectedProduct] = React.useState({
         id: detail.id,
-        title: detail.title,
-        harga: detail.harga,
-        diskon: detail.diskon,
-        image: detail.image,
+        title: detail.name,
+        harga: detail.price,
+        diskon: detail.discount,
+        image: detail.link_cover,
         description: detail.description,
         rating: detail.rating,
     });
@@ -122,18 +122,16 @@ export default function BasicTabs({ auth, detail }) {
                 </h2>
                 <p className="text-md text-gray-600"> 1rb terjual</p>
                 <div className="flex gap-x-2">
-                    <p className="text-xl font-semibold text-secondary">{selectedProduct.rating}</p>
-                    <Rating
-                        value={selectedProduct.rating}
-                        readOnly
-                        precision={0.5}
-                    />
+                    <p className="text-xl font-semibold text-secondary">
+                        {selectedProduct.rating}
+                    </p>
+                    <Rating value={selectedProduct.rating} readOnly />
                 </div>
                 <button className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10">
                     Add to Cart
                 </button>
                 <Link
-                    href={route("paketsoal", {
+                    href={route("kerjakansoal", {
                         id: selectedProduct.id,
                     })}
                 >

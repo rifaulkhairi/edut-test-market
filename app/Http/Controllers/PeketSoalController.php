@@ -77,7 +77,7 @@ class PeketSoalController extends Controller
         ];
 
 
-        // dd($data);
+        // dd($request);
 
         if ($request->hasFile('cover')) {
             $file = $request->file('cover');
@@ -89,6 +89,9 @@ class PeketSoalController extends Controller
             'description' => $request['description'],
             'link_cover' => $path,
             'price' => $request['price'],
+            'jam' => $request['jam'],
+            'menit' => $request['menit'],
+            'detik' => $request['detik'],
             'discount' => $request['discount']
         ]);
         return to_route('daftarpaketsoal');
@@ -97,12 +100,16 @@ class PeketSoalController extends Controller
     public function update(Request $request, $id)
     {
 
+
         $paketsoal = PaketSoal::find($id);
         $data = [
             "name" => $request->name,
             "description" => $request->description,
             "price" => $request->price,
             "discount" => $request->discount,
+            "jam" => $request->jam,
+            "menit" => $request->menit,
+            "detik" => $request->detik,
         ];
 
         $paketsoal->update($data);

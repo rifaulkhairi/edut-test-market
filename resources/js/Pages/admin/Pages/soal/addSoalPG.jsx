@@ -23,6 +23,9 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
         opsiD: "",
         opsiE: "",
         pembahsan: "",
+        jam: 0,
+        menit: 0,
+        detik: 0,
         idpaketsoal: null,
         idtipetest: null,
         nilai: null,
@@ -39,6 +42,7 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
     const [opsiC, setOpsiC] = useState("");
     const [opsiD, setOpsiD] = useState("");
     const [opsiE, setOpsiE] = useState("");
+
     const [pembahasan, setPembahasan] = useState("");
     const [nilai, setNilai] = useState(0);
     const [jawabanbetul, setJawabanBetul] = useState("");

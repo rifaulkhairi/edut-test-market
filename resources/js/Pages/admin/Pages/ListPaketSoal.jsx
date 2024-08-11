@@ -23,11 +23,25 @@ const columns = [
         },
     },
     { name: "name" },
+
     {
         name: "price",
         label: "Price",
         options: {
             customBodyRender: (value) => <Harga nilai={value}></Harga>,
+        },
+    },
+    {
+        name: "discount",
+        label: "Discount",
+        options: {
+            customBodyRender: (value) => (
+                <div className="">
+                    <span className="bg-secondary px-2 py-1 rounded-md text-white">{`${
+                        value * 100
+                    } %`}</span>
+                </div>
+            ),
         },
     },
 

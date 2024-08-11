@@ -4,32 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DataSoal;
-
+use App\Models\PaketSoal;
+use App\Models\SoalPG;
 use Inertia\Inertia;
 
 class SoalController extends Controller
 {
     public function index($id)
     {
-        $paketSoal = DataSoal::find($id);
+        $soal = SoalPG::where('soalpg_tbl.paketsoal_id', '=', $id)
+            ->get();
+        $paketsoal = PaketSoal::find($id);
 
-        function generateRandomOrderQuestions($questions)
-        {
-            shuffle($questions);
+        // dd($paketSoal);
 
-            foreach ($questions as &$question) {
-                shuffle($question['choices']);
-            }
+        // $soalsoal = DataSoal::find($id);
 
-            return $questions;
-        }
+        // function generateRandomOrderQuestions($questions)
+        // {
+        //     shuffle($questions);
 
-        if (!$paketSoal) {
-            return redirect('/produk')->with('error', 'Produk tidak ditemukan');
-        }
+        //     foreach ($questions as &$question) {
+        //         shuffle($question['choices']);
+        //     }
 
-        $randomOrderQuestions = generateRandomOrderQuestions($paketSoal['soal']);
+        //     return $questions;
+        // }
 
-        return Inertia::render('frontpage/DetailSoal', ['soal' => $randomOrderQuestions]);
+        // if (!$soal) {
+        //     return redirect('/produk')->with('error', 'Produk tidak ditemukan');
+        // }
+
+        // $randomOrderQuestions = generateRandomOrderQuestions($soalsoal['soal']);
+
+        return Inertia::render('frontpage/DetailSoal', ['soal' => $soal, 'paketsoal' => $paketsoal]);
     }
 }

@@ -21,6 +21,9 @@ const EditPaketSoal = ({ paketsoal }) => {
     const [discount, setDiscount] = useState(
         paketsoal.discount ? paketsoal.discount : ""
     );
+    const [jam, setJam] = useState(paketsoal.jam ? paketsoal.jam : 0);
+    const [menit, setMenit] = useState(paketsoal.menit ? paketsoal.menit : 0);
+    const [detik, setDetik] = useState(paketsoal.detik ? paketsoal.detik : 0);
 
     const onsubmit = (e) => {
         e.preventDefault();
@@ -30,6 +33,9 @@ const EditPaketSoal = ({ paketsoal }) => {
             description: description,
             price: price,
             discount: discount,
+            jam: jam,
+            menit: menit,
+            detik: detik,
         });
 
         console.log("submit");
@@ -83,6 +89,35 @@ const EditPaketSoal = ({ paketsoal }) => {
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
+                    <div className="flex gap-x-2 max-w-[300px]">
+                        <TextField
+                            type="number"
+                            placeholder="Jam"
+                            label="Jam"
+                            value={jam}
+                            onChange={(e, value) => {
+                                setJam(e.target.value);
+                            }}
+                        ></TextField>
+                        <TextField
+                            type="number"
+                            placeholder="Menit"
+                            label="Menit"
+                            value={menit}
+                            onChange={(e, value) => {
+                                setMenit(e.target.value);
+                            }}
+                        ></TextField>
+                        <TextField
+                            type="number"
+                            placeholder="Detik"
+                            value={detik}
+                            onChange={(e, value) => {
+                                setDetik(e.target.value);
+                            }}
+                            label="Detik"
+                        ></TextField>
+                    </div>
                     <TextField
                         id="price"
                         type="number"

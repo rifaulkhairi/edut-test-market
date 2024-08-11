@@ -32,6 +32,9 @@ const AddPaketSoal = () => {
             price: price,
             discount: discount,
             cover: cover,
+            jam: jam,
+            menit: menit,
+            detik: detik,
         });
     };
 

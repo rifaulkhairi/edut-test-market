@@ -1,29 +1,32 @@
 import React, { useState, useRef } from "react";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
 import { Avatar, Divider, Rating, Stack } from "@mui/material";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/react";
-import Harga from "@/Components/Harga";
 import BasicTabs from "@/Components/detailProduct/DetailProductTabs";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { deepOrange, deepPurple } from "@mui/material/colors";
-import ProductCard from "@/Components/ProductCard";
 
-const DetailProduct = ({ auth, detail, products }) => {
+const DetailProduct = ({ auth, detail, products, base_url }) => {
     const [sortBy, setSortBy] = useState("semua");
 
     const [selectedProduct, setSelectedProduct] = useState({
         id: detail.id,
-        title: detail.title,
-        harga: detail.harga,
-        diskon: detail.diskon,
-        image: detail.image,
+        title: detail.name,
+        harga: detail.price,
+        diskon: detail.discount,
+        image: detail.link_cover,
         description: detail.description,
         rating: detail.rating,
     });
+
+    console.log(selectedProduct.image);
+
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    const handleImageLoad = () => {
+        setImageLoaded(true);
+    };
 
     const comments = [
         {
@@ -55,7 +58,7 @@ const DetailProduct = ({ auth, detail, products }) => {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 6,
+        slidesToShow: 1,
         slidesToScroll: 1,
 
         responsive: [
@@ -92,11 +95,15 @@ const DetailProduct = ({ auth, detail, products }) => {
                 <div className="grid-cols-1 flex gap-4 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}
                     <div className="flex-[0.3] text-center">
+                        {!imageLoaded && (
+                            <div className="w-60 h-60 bg-gray-100 rounded-md animate-pulse"></div>
+                        )}
                         <img
-                            src={selectedProduct.image}
-                            alt="Product"
-                            className="h-auto"
-                            style={{ maxHeight: "500px" }}
+                            className={`w-60 h-60  rounded-md ${
+                                imageLoaded ? "" : "hidden"
+                            }`}
+                            src={`${base_url}/storage/${selectedProduct.image}`}
+                            onLoad={handleImageLoad}
                         />
                     </div>
 
@@ -128,7 +135,6 @@ const DetailProduct = ({ auth, detail, products }) => {
                                 value={selectedProduct.rating}
                                 readOnly
                                 size="large"
-                                precision={0.5}
                             />
                         </div>
                         <div className="flex gap-4 flex-row">
@@ -199,7 +205,7 @@ const DetailProduct = ({ auth, detail, products }) => {
                 </div>
 
                 {/* Bagian Produk Terkait */}
-                <div className="mt-5">
+                {/* <div className="mt-5">
                     <h3 className="text-xl font-semibold mb-4">
                         Produk Serupa
                     </h3>
@@ -213,7 +219,7 @@ const DetailProduct = ({ auth, detail, products }) => {
                             ))}
                         </Slider>
                     </div>
-                </div>
+                </div> */}
             </div>
         </FrontpageLayout>
     );

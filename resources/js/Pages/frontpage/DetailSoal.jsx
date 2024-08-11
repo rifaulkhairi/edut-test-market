@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EndExamModal from "@/Components/EndExamModal";
 import Timer from "@/Components/Timer";
 
-const DetailSoal = ({ soal }) => {
+const DetailSoal = ({ soal, paketsoal }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState(Array(soal.length).fill(null));
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +19,7 @@ const DetailSoal = ({ soal }) => {
         }
     };
 
-    const handleChoiceClick = (choice, index) => {
+    const handleChoiceClick = (choice) => {
         const newAnswers = [...answers];
         newAnswers[currentQuestion] = choice;
         setAnswers(newAnswers);
@@ -50,22 +50,79 @@ const DetailSoal = ({ soal }) => {
                 <h2 className="font-semibold">
                     Soal Nomor {currentQuestion + 1}
                 </h2>
-                <h5 className="soal my-5">{soal[currentQuestion].question}</h5>
+                <h5
+                    className="soal my-5"
+                    dangerouslySetInnerHTML={{
+                        __html: soal[currentQuestion].soal,
+                    }}
+                ></h5>
                 <div className="pilihan h-auto">
                     <ul className="space-y-2">
-                        {soal[currentQuestion].choices.map((choice, index) => (
-                            <li
-                                key={index}
-                                className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
-                                    answers[currentQuestion] === choice
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-blue-gray-100"
-                                }`}
-                                onClick={() => handleChoiceClick(choice, index)}
-                            >
-                                {choice}
-                            </li>
-                        ))}
+                        <li
+                            key={"A"}
+                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
+                                answers[currentQuestion] ===
+                                soal[currentQuestion].opsiA
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-blue-gray-100"
+                            }`}
+                            onClick={() => handleChoiceClick("A")}
+                            dangerouslySetInnerHTML={{
+                                __html: soal[currentQuestion].opsiA,
+                            }}
+                        ></li>
+                        <li
+                            key={"B"}
+                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
+                                answers[currentQuestion] ===
+                                soal[currentQuestion].opsiB
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-blue-gray-100"
+                            }`}
+                            onClick={() => handleChoiceClick("B")}
+                            dangerouslySetInnerHTML={{
+                                __html: soal[currentQuestion].opsiB,
+                            }}
+                        ></li>
+                        <li
+                            key={"C"}
+                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
+                                answers[currentQuestion] ===
+                                soal[currentQuestion].opsiC
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-blue-gray-100"
+                            }`}
+                            onClick={() => handleChoiceClick("C")}
+                            dangerouslySetInnerHTML={{
+                                __html: soal[currentQuestion].opsiC,
+                            }}
+                        ></li>
+                        <li
+                            key={"D"}
+                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
+                                answers[currentQuestion] ===
+                                soal[currentQuestion].opsiD
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-blue-gray-100"
+                            }`}
+                            onClick={() => handleChoiceClick("D")}
+                            dangerouslySetInnerHTML={{
+                                __html: soal[currentQuestion].opsiD,
+                            }}
+                        ></li>
+                        <li
+                            key={"E"}
+                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
+                                answers[currentQuestion] ===
+                                soal[currentQuestion].opsiE
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-blue-gray-100"
+                            }`}
+                            onClick={() => handleChoiceClick("E")}
+                            dangerouslySetInnerHTML={{
+                                __html: soal[currentQuestion].opsiE,
+                            }}
+                        ></li>
                     </ul>
                     <div className="navigasi flex gap-2 mt-4">
                         <div className="back bg-secondary text-white w-auto h-auto p-2 rounded-3xl">
@@ -89,9 +146,9 @@ const DetailSoal = ({ soal }) => {
             </div>
             <div className="sisikanan w-autoflex flex-col p-4">
                 <Timer
-                    initialHours={0}
-                    initialMinutes={0}
-                    initialSeconds={30}
+                    initialHours={paketsoal.jam}
+                    initialMinutes={paketsoal.menit}
+                    initialSeconds={paketsoal.detik}
                     onTimeUp={handleConfirmEndExam}
                 />
 

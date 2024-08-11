@@ -11,7 +11,7 @@ import ProductCard from "@/Components/ProductCard";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { useState } from "react";
 
-export default function Frontpage({ auth, produks }) {
+export default function Frontpage({ auth, produks, base_url }) {
     const [sortBy, setSortBy] = useState("terpopuler");
 
     return (
@@ -74,7 +74,11 @@ export default function Frontpage({ auth, produks }) {
                     </div>
                     <div className="w-full max-w-5xl grid grid-cols-6 min-w-5xl gap-2">
                         {produks.map((product) => (
-                            <ProductCard product={product} key={product.id} />
+                            <ProductCard
+                                base_url={base_url}
+                                product={product}
+                                key={product.id}
+                            />
                         ))}
                     </div>
                 </section>

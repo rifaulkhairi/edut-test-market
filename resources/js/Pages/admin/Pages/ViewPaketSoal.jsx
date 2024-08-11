@@ -17,7 +17,7 @@ import { deepOrange } from "@mui/material/colors";
 import Sidebar from "@/Components/admin/Sidebar";
 import { IoMdSend } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
-
+import { RxLapTimer } from "react-icons/rx";
 import Header from "@/Components/admin/Header";
 
 const DetailProduct = ({ auth, detail, products, paketsoal }) => {
@@ -104,25 +104,44 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                                 {paketsoal.name}
                             </h1>
                             <div>
-                                <h2 className="text-xl text-indigo-600 mb-4">
-                                    <Harga
-                                        nilai={paketsoal.price}
-                                        className="text-md font-semibold text-secondary"
-                                    ></Harga>
-                                </h2>
-                                <p className="text-md text-gray-600">{`${paketsoal.terjual} terjual`}</p>
-                                <div className="flex gap-x-2">
-                                    <p className="text-xl font-semibold text-secondary">
-                                        {paketsoal.rating}
-                                    </p>
-                                    <Rating value={paketsoal.rating} readOnly />
+                                <div className="flex flex-row justify-between">
+                                    <div>
+                                        <h2 className="text-xl text-indigo-600 mb-4">
+                                            <Harga
+                                                nilai={paketsoal.price}
+                                                className="text-md font-semibold text-secondary"
+                                            ></Harga>
+                                        </h2>
+                                        <p className="text-md text-gray-600">{`${paketsoal.terjual} terjual`}</p>
+                                        <div className="flex gap-x-2">
+                                            <p className="text-xl font-semibold text-secondary">
+                                                {paketsoal.rating}
+                                            </p>
+                                            <Rating
+                                                value={paketsoal.rating}
+                                                readOnly
+                                            />
+                                        </div>
+                                        <button
+                                            disabled
+                                            className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10"
+                                        >
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <div className="flex flex-col items-center justify-center gap-y-2">
+                                            <RxLapTimer className="text-3xl text-[#184C80]" />
+                                            <div className="flex flex-row gap-x-2 text-[#184C80] font-bold">
+                                                <p>{paketsoal.jam}</p>
+                                                <p>:</p>
+                                                <p>{paketsoal.menit}</p>
+                                                <p>:</p>
+                                                <p>{paketsoal.detik}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button
-                                    disabled
-                                    className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10"
-                                >
-                                    Add to Cart
-                                </button>
                                 {/* <Link
                                 href={route("paketsoal", {
                                     id: selectedProduct.id,

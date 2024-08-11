@@ -15,19 +15,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return Inertia::render('frontpage/Frontpage', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// })->name('frontpage');
+
 
 Route::get('/', [ProdukController::class, 'index']);
 Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
-
-Route::get('/paketsoal/{id}', [SoalController::class, 'index'])->name('paketsoal');
+Route::get('/kerjakansoal/{id}', [SoalController::class, 'index'])->name('kerjakansoal');
 
 
 
