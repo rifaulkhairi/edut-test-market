@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('link_cover')->nullable();
             $table->double('price');
             $table->float('discount');
-            $table->integer('terjual')->nullable();
+            $table->integer('terjual')->default(0);
             $table->float('rating')->nullable();
+            $table->integer('jam')->default(0);
+            $table->integer('menit')->default(0);
+            $table->integer('detik')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

@@ -8,6 +8,7 @@ import { Link, router } from "@inertiajs/react";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
+import Harga from "@/Components/Harga";
 
 const columns = [
     {
@@ -22,7 +23,13 @@ const columns = [
         },
     },
     { name: "name" },
-    { name: "price", label: "Price" },
+    {
+        name: "price",
+        label: "Price",
+        options: {
+            customBodyRender: (value) => <Harga nilai={value}></Harga>,
+        },
+    },
 
     {
         name: "id",

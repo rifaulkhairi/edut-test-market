@@ -18,12 +18,23 @@ const Sidebar = ({ tab }) => {
     };
     return (
         <>
-            <div className="sidebar fixed top-0 left-0 z-[100] w-[15%]">
-                <div className="logoWrapper py-3 px-3 flex items-center gap-2">
-                    <img src={logo} className="w-7"></img>
-                    <span className="font-semibold text-secondary">
-                        EduTestMarket
-                    </span>
+            <div className="sidebar fixed top-0 left-0 z-[100] w-[15%] shadow-lg shadow-blue-500/10">
+                <div
+                    className="logoWrapper py-3 px-5 flex items-center gap-2 cursor-pointer"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        router.visit("/admin/dashboard");
+                    }}
+                >
+                    <img src={logo} className="w-16"></img>
+                    <div className="flex flex-col">
+                        <span className="font-semibold text-secondary text-xl">
+                            EduTest
+                        </span>
+                        <span className="font-semibold text-secondary text-xl">
+                            Market
+                        </span>
+                    </div>
                 </div>
                 <div className="sidebarTabs px-3 mt-4 ">
                     <ul className="flex gap-4 flex-col">

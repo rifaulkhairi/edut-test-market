@@ -19,6 +19,9 @@ const AddPaketSoal = () => {
     const [price, setPrice] = useState(null);
     const [discount, setDiscount] = useState(null);
     const [cover, setCover] = useState(null);
+    const [jam, setJam] = useState(null);
+    const [menit, setMenit] = useState(null);
+    const [detik, setDetik] = useState(null);
 
     const onsubmit = (e) => {
         e.preventDefault();
@@ -83,6 +86,32 @@ const AddPaketSoal = () => {
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
+                    <div className="flex gap-x-2 max-w-[300px]">
+                        <TextField
+                            type="number"
+                            placeholder="Jam"
+                            label="Jam"
+                            onChange={(e, value) => {
+                                setJam(e.target.value);
+                            }}
+                        ></TextField>
+                        <TextField
+                            type="number"
+                            placeholder="Menit"
+                            label="Menit"
+                            onChange={(e, value) => {
+                                setMenit(e.target.value);
+                            }}
+                        ></TextField>
+                        <TextField
+                            type="number"
+                            placeholder="Detik"
+                            onChange={(e, value) => {
+                                setDetik(e.target.value);
+                            }}
+                            label="Detik"
+                        ></TextField>
+                    </div>
                     <TextField
                         id="price"
                         type="number"

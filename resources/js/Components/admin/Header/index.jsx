@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
 
 const Header = () => {
-  return (
-    <header className='header fixed top-0 right-0 bg-white py-2 z-[100]'>
+    return (
+        <header className="header fixed top-0 right-0 bg-white py-2 z-[100] shadow-md shadow-blue-500/10"></header>
+    );
+};
 
-    </header>
-  )
-}
-
-export default Header
+export default Header;

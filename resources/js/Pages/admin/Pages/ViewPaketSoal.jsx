@@ -1,43 +1,42 @@
 import React, { useState, useRef } from "react";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Avatar, Divider, Rating, Stack } from "@mui/material";
-import Slider from "react-slick";
+import {
+    Avatar,
+    Divider,
+    IconButton,
+    Rating,
+    Stack,
+    TextField,
+} from "@mui/material";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import Harga from "@/Components/Harga";
-import BasicTabs from "@/Components/detailProduct/DetailProductTabs";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
-import { deepOrange, deepPurple } from "@mui/material/colors";
-import ProductCard from "@/Components/ProductCard";
+import { deepOrange } from "@mui/material/colors";
 import Sidebar from "@/Components/admin/Sidebar";
+import { IoMdSend } from "react-icons/io";
+import { MdDeleteForever } from "react-icons/md";
 
 import Header from "@/Components/admin/Header";
 
 const DetailProduct = ({ auth, detail, products, paketsoal }) => {
     const [sortBy, setSortBy] = useState("semua");
+    const [replies, setReplies] = useState({});
 
-    const comments = [
-        {
-            id: 1,
-            postID: 1,
-            like: 20,
-            tgl: "15-06-2024",
-            content:
-                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed beatae omnis at voluptates quisquam quia facilis, dolorum deserunt fuga tempora?",
-        },
-        {
-            id: 2,
-            postID: 1,
-            like: 20,
-            tgl: "15-06-2024",
-            content:
-                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed beatae omnis at voluptates quisquam quia facilis, dolorum deserunt fuga tempora?",
-        },
-    ];
+    const handleReplyChange = (commentId, value) => {
+        setReplies({ ...replies, [commentId]: value });
+    };
 
-    const sliderRef = useRef(null);
+    const handleReplySubmit = (commentId) => {
+        const reply = replies[commentId];
+        if (reply) {
+            router.post(`/admin/storereply/${commentId}`, {
+                reply: reply,
+            });
+            setReplies({ ...replies, [commentId]: "" });
+        }
+    };
 
     const handleProductClick = (product) => {
         setSelectedProduct(product);
@@ -94,7 +93,7 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                             <img
                                 src={`${paketsoal.base_url}/storage/${paketsoal.link_cover}`}
                                 alt="Product"
-                                className="h-auto"
+                                className="h-auto rounded-md"
                                 style={{ maxHeight: "500px" }}
                             />
                         </div>
@@ -114,13 +113,9 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                                 <p className="text-md text-gray-600">{`${paketsoal.terjual} terjual`}</p>
                                 <div className="flex gap-x-2">
                                     <p className="text-xl font-semibold text-secondary">
-                                        {5}
+                                        {paketsoal.rating}
                                     </p>
-                                    <Rating
-                                        value={5}
-                                        readOnly
-                                        precision={0.5}
-                                    />
+                                    <Rating value={paketsoal.rating} readOnly />
                                 </div>
                                 <button
                                     disabled
@@ -147,22 +142,21 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                         <h3 className="text-xl font-semibold mb-4">
                             Penilaian Produk
                         </h3>
-                        <div className="flex w-full h-32 bg-secondary/5 px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
+                        <div className="flex w-full bg-secondary/5 px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
                             <div>
                                 <div className="flex w-full text-secondary font-semibold text-4xl items-center justify-center gap-3">
-                                    {4}
+                                    {paketsoal.rating}
                                     <span className="font-normal text-xl">
                                         dari 5
                                     </span>
                                 </div>
                                 <Rating
-                                    value={4}
+                                    value={paketsoal.rating}
                                     readOnly
                                     size="large"
-                                    precision={0.5}
                                 />
                             </div>
-                            <div className="flex gap-4 flex-row">
+                            <div className="flex gap-4 flex-wrap">
                                 <RadioGroup
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
@@ -192,8 +186,11 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                             {/* Ulasan Individual */}
                             <div className="mb-4 mt-4">
                                 <div className="flex w-full p-4 flex-col gap-y-4">
-                                    {comments.map((comment) => (
-                                        <div className="flex w-full gap-4">
+                                    {paketsoal.penilaian.map((comment) => (
+                                        <div
+                                            className="flex w-full gap-4"
+                                            key={comment.id}
+                                        >
                                             <Avatar
                                                 sx={{
                                                     bgcolor: deepOrange[500],
@@ -202,16 +199,32 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                                                 RU
                                             </Avatar>
 
-                                            <div className=" min-h-24">
-                                                <p className="text-md text-secondary font-semibold">
-                                                    Rifa Ulkhairi
-                                                </p>
+                                            <div className=" min-h-24 flex-col w-full">
+                                                <div className="flex justify-between">
+                                                    <p className="text-md text-secondary font-semibold">
+                                                        {comment.created_by}
+                                                    </p>
+                                                    <IconButton
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            router.post(
+                                                                `/admin/deletepenilaian/${comment.id}`,
+                                                                {
+                                                                    _method:
+                                                                        "delete",
+                                                                }
+                                                            );
+                                                        }}
+                                                    >
+                                                        <MdDeleteForever />
+                                                    </IconButton>
+                                                </div>
                                                 <div>
                                                     <p className="text-xs text-gray-500">
-                                                        {comment.tgl}
+                                                        {comment.created_at}
                                                     </p>
                                                     <Rating
-                                                        value={5}
+                                                        value={comment.rating}
                                                         readOnly
                                                         size="small"
                                                         precision={0.5}
@@ -219,8 +232,51 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                                                 </div>
 
                                                 <p className="text-gray-700">
-                                                    {comment.content}
+                                                    {comment.comment}
                                                 </p>
+                                                {comment.replies.map(
+                                                    (reply) => (
+                                                        <div className="bg-[#F5F5F5] p-5 my-3 rounded-sm">
+                                                            <p className="text-black font-bold mb-2">
+                                                                Edu Test Market
+                                                            </p>
+                                                            <p>
+                                                                {reply.comment}
+                                                            </p>
+                                                        </div>
+                                                    )
+                                                )}
+
+                                                <div className="flex w-full">
+                                                    <TextField
+                                                        className="flex p-3 w-full"
+                                                        InputProps={{
+                                                            disableUnderline: true, // Remove the underline (outline)
+                                                        }}
+                                                        value={
+                                                            replies[
+                                                                comment.id
+                                                            ] || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleReplyChange(
+                                                                comment.id,
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    ></TextField>
+                                                    <div className="flex items-center justify-center">
+                                                        <IconButton
+                                                            onClick={() =>
+                                                                handleReplySubmit(
+                                                                    comment.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <IoMdSend />
+                                                        </IconButton>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <Divider orientation="horizontal" />
                                         </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaketSoal;
+use App\Models\Penilaian;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -32,6 +34,29 @@ class PeketSoalController extends Controller
     {
         $paketsoal = PaketSoal::find($id);
         $paketsoal['base_url'] = url("/");
+        $penilaian = Penilaian::where('penilaian_tbl.id_paket_soal', '=', $id)
+            ->with('replies')
+            ->get();
+
+        // dd($penilaian[0]->replies);
+
+        $datapenilaian = $penilaian->map(function ($item) {
+            return [
+                "id" => $item->id,
+                "comment" => $item->comment,
+                "id_paket_soal" => $item->id_paket_soal,
+                "created_by" => $item->created_by,
+                "rating" => $item->rating,
+                "created_at" => Carbon::parse($item->created_at)->format('Y-m-d H:i:s'),
+                "updated_at" => Carbon::parse($item->updated_at)->format('Y-m-d H:i:s'),
+                "replies" => $item->replies,
+
+            ];
+        });
+        $paketsoal['penilaian'] = $datapenilaian;
+
+        $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
+        $paketsoal['rating'] = $averageRating;
 
         return Inertia::render('admin/Pages/ViewPaketSoal', ['paketsoal' => $paketsoal]);
     }

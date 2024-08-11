@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\DetailProduct;
 use App\Http\Controllers\Editor;
 use App\Http\Controllers\PeketSoalController;
+use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Test;
 use App\Http\Controllers\ProdukController;
@@ -73,6 +74,17 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/addsoalpg', [AdminSoalController::class, 'addsoalpg'])->name('addsoalpg');
     Route::get('/admin/daftarsoal', [AdminSoalController::class, 'show'])->name('daftarsoal');
     Route::post('/admin/storsoal', [AdminSoalController::class, 'store'])->name('store');
+    Route::get('/admin/detailsoal/{id}', [AdminSoalController::class, 'detail'])->name('admin.detailsoal');
+    Route::get('/admin/editsoal/{id}', [AdminSoalController::class, 'edit'])->name('admin.editsoal');
+    Route::patch('/admin/updatesoal/{id}', [AdminSoalController::class, 'update'])->name('admin.update.soal');
+    Route::delete('/admin/deletesoal/{id}', [AdminSoalController::class, 'delete'])->name('admin.delete.soal');
+
+    Route::delete('/admin/deletepenilaian/{id}', [PenilaianController::class, 'delete'])->name('admin.delete.penilaian');
+    Route::post('/admin/storereply/{id}', [PenilaianController::class, 'reply'])->name('admin.reply.penilaian');
+
+
+
+
 
     // Route::get('/admin/edittipetest/{id}', [TipeTestController::class, 'edit'])->name('edittipetest');
     // Route::post('/admin/tipetest/store', [TipeTestController::class, 'store']);

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\PaketSoal;
+use App\Models\Penilaian;
 use App\Models\TipeTest;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -41,9 +42,17 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test Karakteristik Pribadi '],
         ];
 
-        PaketSoal::factory(1)->create();
+        PaketSoal::factory()->create();
         foreach ($typeTests as $typeTest) {
             TipeTest::factory()->create($typeTest);
+        }
+
+        $penilaian = [
+            ['created_by' => "user1@gmail.com"],
+            ['created_by' => "user2@gmail.com"]
+        ];
+        foreach ($penilaian as $item) {
+            Penilaian::factory()->create($item);
         }
     }
 }

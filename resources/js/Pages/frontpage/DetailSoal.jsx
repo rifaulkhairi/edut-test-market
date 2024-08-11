@@ -22,8 +22,8 @@ const DetailSoal = ({ soal }) => {
     const handleChoiceClick = (choice, index) => {
         const newAnswers = [...answers];
         newAnswers[currentQuestion] = choice;
-        console.log(newAnswers[index]);
         setAnswers(newAnswers);
+        console.log(choice);
     };
 
     const handleEndExamClick = () => {
@@ -90,8 +90,8 @@ const DetailSoal = ({ soal }) => {
             <div className="sisikanan w-autoflex flex-col p-4">
                 <Timer
                     initialHours={0}
-                    initialMinutes={1}
-                    initialSeconds={1}
+                    initialMinutes={0}
+                    initialSeconds={30}
                     onTimeUp={handleConfirmEndExam}
                 />
 

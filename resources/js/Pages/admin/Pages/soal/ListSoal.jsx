@@ -42,25 +42,25 @@ const columns = [
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            // router.get(`/admin/viewpaketsoal/${value}`);
+                            router.get(`/admin/detailsoal/${value}`);
                         }}
                     >
-                        <MdOutlineOpenInNew className="text-[#1972d6]" />
+                        <MdOutlineOpenInNew className="" />
                     </IconButton>
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            // router.get(`/admin/edittipetest/${value}`);
+                            router.get(`/admin/editsoal/${value}`);
                         }}
                     >
-                        <TbEdit className="text-md text-[#1972d6]" />
+                        <TbEdit className="text-md " />
                     </IconButton>
                     <IconButton
                         onClick={(e) => {
                             e.preventDefault();
-                            // router.post(`/admin/tipetest/delete/${value}`, {
-                            //     _method: "delete",
-                            // });
+                            router.post(`/admin/deletesoal/${value}`, {
+                                _method: "delete",
+                            });
                         }}
                     >
                         <MdDeleteForever className="text-md text-red-500" />

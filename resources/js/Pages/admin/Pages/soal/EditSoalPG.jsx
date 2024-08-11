@@ -11,10 +11,10 @@ import {
 import { useForm } from "@inertiajs/inertia-react";
 import { Link, router } from "@inertiajs/react";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Editor from "@/Components/Editor/Editor";
 
-const AddSoalPG = ({ tipetest, paketsoal }) => {
+const EditSoalPG = ({ datasoal, tipetest, paketsoal }) => {
     const { data, setData, post, errors } = useForm({
         soal: "",
         opsiA: "",
@@ -29,24 +29,37 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
         jawabanBetul: "",
     });
 
-    const [idPaketSoal, setIdPaketSoal] = useState(null);
-    const [idTipeTest, setIdTipeTest] = useState(null);
-    const [selectedIdPaketSoal, setSelectedIdPaketSoal] = useState(null);
-    const [selectedIdTipeTest, setSelectedIdTipeTest] = useState(null);
-    const [soal, setSoal] = useState("");
-    const [opsiA, setOpsiA] = useState("");
-    const [opsiB, setOpsiB] = useState("");
-    const [opsiC, setOpsiC] = useState("");
-    const [opsiD, setOpsiD] = useState("");
-    const [opsiE, setOpsiE] = useState("");
-    const [pembahasan, setPembahasan] = useState("");
-    const [nilai, setNilai] = useState(0);
-    const [jawabanbetul, setJawabanBetul] = useState("");
+    const [idPaketSoal, setIdPaketSoal] = useState(
+        datasoal[0].id_paket_soal
+            ? paketsoal.find((p) => p.id === datasoal[0].id_paket_soal)
+            : null
+    );
+
+    const [idTipeTest, setIdTipeTest] = useState(
+        datasoal[0].id_tipe_test
+            ? tipetest.find((p) => p.id === datasoal[0].id_tipe_test)
+            : null
+    );
+    const [selectedIdPaketSoal, setSelectedIdPaketSoal] = useState(
+        idPaketSoal.id ? idPaketSoal.id : null
+    );
+    const [selectedIdTipeTest, setSelectedIdTipeTest] = useState(
+        idTipeTest.id ? idTipeTest.id : null
+    );
+    const [soal, setSoal] = useState(datasoal[0].soal);
+    const [opsiA, setOpsiA] = useState(datasoal[0].opsiA);
+    const [opsiB, setOpsiB] = useState(datasoal[0].opsiB);
+    const [opsiC, setOpsiC] = useState(datasoal[0].opsiC);
+    const [opsiD, setOpsiD] = useState(datasoal[0].opsiD);
+    const [opsiE, setOpsiE] = useState(datasoal[0].opsiE);
+    const [pembahasan, setPembahasan] = useState(datasoal[0].pembahasan);
+    const [nilai, setNilai] = useState(datasoal[0].nilai);
+    const [jawabanbetul, setJawabanBetul] = useState(datasoal[0].jawaban_betul);
 
     const onsubmit = (e) => {
         e.preventDefault();
-        router.post("/admin/storsoal", {
-            _method: "post",
+        router.post(`/admin/updatesoal/${datasoal[0].id}`, {
+            _method: "patch",
             soal: soal,
             opsiA: opsiA,
             opsiB: opsiB,
@@ -60,6 +73,8 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
             jawabanBetul: jawabanbetul,
         });
     };
+
+    console.log(datasoal[0].id_paket_soal);
 
     return (
         <section className="main flex">
@@ -76,7 +91,7 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
                     <Link href="/admin/daftarsoal" className="text-blue-600">
                         Daftar Soal
                     </Link>
-                    <Link>Add Soal PG</Link>
+                    <Link>Edit Soal</Link>
                 </Breadcrumbs>
                 <form
                     onSubmit={onsubmit}
@@ -116,6 +131,7 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
                     <TextField
                         id="jawabanbetul"
                         select
+                        value={jawabanbetul}
                         sx={{ width: 300 }}
                         label="Jawaban Betul"
                         helperText="Pilih Opsi Jawaban Betul"
@@ -133,6 +149,7 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
                         id="nilai"
                         type="text"
                         label="Nilai"
+                        value={nilai}
                         required
                         onChange={(event, value) => {
                             setNilai(event.target.value);
@@ -171,4 +188,4 @@ const AddSoalPG = ({ tipetest, paketsoal }) => {
     );
 };
 
-export default AddSoalPG;
+export default EditSoalPG;

@@ -17,9 +17,10 @@ class PaketSoalFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->sentence(3),
             'description' => fake()->text(),
             'price' => rand(100000, 200000),
+            'terjual' => rand(0, 1000),
             'discount' => rand(0, 100) / 100,
             'link_cover' => 'cover/hlmHxbNEoYQ7m9Ey20YyFKGzBEBlGK9050CmSgMS.png',
 
