@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import Harga from "../Harga";
 import { Avatar, Rating } from "@mui/material";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { green } from "@mui/material/colors";
 import { People } from "@mui/icons-material";
 import PeopleCard from "../leaderboard/PeopleCard";
@@ -127,7 +127,12 @@ export default function BasicTabs({ auth, detail }) {
                     </p>
                     <Rating value={selectedProduct.rating} readOnly />
                 </div>
-                <button className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10">
+                <button
+                    className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10"
+                    onClick={() => {
+                        router.post(`/addtocart/${detail.id}`);
+                    }}
+                >
                     Add to Cart
                 </button>
                 <Link

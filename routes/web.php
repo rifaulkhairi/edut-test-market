@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\SoalController as AdminSoalController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\DetailProduct;
 use App\Http\Controllers\Editor;
 use App\Http\Controllers\PeketSoalController;
@@ -17,21 +18,15 @@ use Inertia\Inertia;
 
 
 
-Route::get('/', [ProdukController::class, 'index']);
+Route::get('/', [ProdukController::class, 'index'])->name('frontpage');
 Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
 Route::get('/kerjakansoal/{id}', [SoalController::class, 'index'])->name('kerjakansoal');
+Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
+Route::delete('/cartitem/delete/{id}', [CartController::class, 'delete'])->middleware('auth')->name('delete.cartitem');
+Route::post('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart')->middleware('auth');
 
 
 
-// Route::get('/detailproduct', [DetailProduct::class, 'index'])->name('detailproduct');
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('admin/Dashboard');
-// })->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -73,15 +68,6 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::delete('/admin/deletepenilaian/{id}', [PenilaianController::class, 'delete'])->name('admin.delete.penilaian');
     Route::post('/admin/storereply/{id}', [PenilaianController::class, 'reply'])->name('admin.reply.penilaian');
-
-
-
-
-
-    // Route::get('/admin/edittipetest/{id}', [TipeTestController::class, 'edit'])->name('edittipetest');
-    // Route::post('/admin/tipetest/store', [TipeTestController::class, 'store']);
-    // Route::patch('/admin/tipetest/update/{id}', [TipeTestController::class, 'update']);
-    // Route::delete('/admin/tipetest/delete/{id}', [TipeTestController::class, 'delete']);
 });
 
 // Route::get('/admin/dashboard', [Admin::class, 'index'])->middleware('auth', 'admin');

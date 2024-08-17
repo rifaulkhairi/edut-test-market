@@ -1,21 +1,37 @@
 // src/Layouts/FrontpageLayout.jsx
 
 import React, { useState } from "react";
-import { Link, Head } from "@inertiajs/react";
+import { Link, Head, router } from "@inertiajs/react";
 import logo from "../../../public/images/logo-edu-test-market.svg";
 import { BsSearch } from "react-icons/bs";
-import { ShoppingCartIcon, UserIcon, ClipboardDocumentIcon} from "@heroicons/react/24/outline";
+import {
+    ShoppingCartIcon,
+    UserIcon,
+    ClipboardDocumentIcon,
+} from "@heroicons/react/24/outline";
 import { Badge, Paper, IconButton } from "@mui/material";
 import { Menu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 
 import Footer from "@/Components/Footer";
+import Image from "@/Components/Image";
+import Harga from "@/Components/Harga";
 
 // import { ShoppingChart } from "@heroicons/react/outline/";
 
-const FrontpageLayout = ({ children, user }) => {
+const FrontpageLayout = ({ children, user, cart, base_url }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorAccountMenu, setAnchorAccountMenu] = React.useState(null);
+    const openAccountMenu = Boolean(anchorAccountMenu);
+
+    const handleClickAccountMenu = (event) => {
+        setAnchorAccountMenu(event.currentTarget);
+    };
+    const handleCloseAccountMenu = (event) => {
+        setAnchorAccountMenu(null);
+    };
+
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -27,9 +43,9 @@ const FrontpageLayout = ({ children, user }) => {
     return (
         <>
             <Head title="Edu Test Market"></Head>
-            <header className="fixed z-50">
-                <div className="w-screen px-2 bg-secondary items-center flex">
-                    <div className="flex w-full">
+            <header className="fixed z-50 bg-secondary">
+                <div className="w-screen px-2 bg-secondary items-center flex justify-center">
+                    <div className="flex w-full max-w-6xl">
                         <div className="flex-1 gap-8 ml-3 text-white flex">
                             <div className="flex gap-2 items-center">
                                 <p className="text-white text-xs">
@@ -68,33 +84,44 @@ const FrontpageLayout = ({ children, user }) => {
                                     </div>
                                 </Button>
                             </div>
-                            <Button className="flex h-full items-center text-sm text-white p-2 gap-x-1">
+                            <Button
+                                className="flex h-full items-center text-sm text-white p-2 gap-x-1"
+                                onClick={handleClickAccountMenu}
+                            >
                                 <UserIcon className="size-4 text-white" />
                                 <span className="text-sm capitalize font-normal text-white">
                                     Account
                                 </span>
                             </Button>
                             <React.Fragment>
-                                <Menu>
+                                <Menu
+                                    id="account_menu"
+                                    anchorEl={anchorAccountMenu}
+                                    open={openAccountMenu}
+                                    onClose={handleCloseAccountMenu}
+                                    onClick={handleCloseAccountMenu}
+                                >
                                     <MenuItem>
                                         {user.user ? (
-                                            <Link
-                                                method="post"
-                                                href={route("logout")}
+                                            <MenuItem
+                                                className="text-secon font-semibold"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    router.post("/logout");
+                                                }}
                                             >
-                                                <MenuItem className="text-secon font-semibold">
-                                                    logout
-                                                </MenuItem>
-                                            </Link>
+                                                logout
+                                            </MenuItem>
                                         ) : (
-                                            <Link
-                                                method="get"
-                                                href={route("login")}
+                                            <MenuItem
+                                                className="text-secon font-semibold"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    router.get("/login");
+                                                }}
                                             >
-                                                <MenuItem className="text-secon font-semibold">
-                                                    Login
-                                                </MenuItem>
-                                            </Link>
+                                                Login
+                                            </MenuItem>
                                         )}
                                     </MenuItem>
                                 </Menu>
@@ -102,8 +129,8 @@ const FrontpageLayout = ({ children, user }) => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white h-16 shadow-md opacity-95 flex">
-                    <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full">
+                <div className="bg-white h-16 shadow-md opacity-95 flex justify-center">
+                    <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full max-w-6xl">
                         {/* logo */}
                         <a
                             href="/"
@@ -130,13 +157,22 @@ const FrontpageLayout = ({ children, user }) => {
                                     id="chart_list"
                                     onClick={handleClick}
                                 >
-                                    <Badge
-                                        badgeContent={5}
-                                        color="warning"
-                                        overlap="circular"
-                                    >
-                                        <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
-                                    </Badge>
+                                    {cart !== null ? (
+                                        <Badge
+                                            badgeContent={cart.length}
+                                            color="warning"
+                                            overlap="circular"
+                                        >
+                                            <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
+                                        </Badge>
+                                    ) : (
+                                        <Badge
+                                            color="warning"
+                                            overlap="circular"
+                                        >
+                                            <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
+                                        </Badge>
+                                    )}
                                 </IconButton>
                                 <Menu
                                     anchorEl={anchorEl}
@@ -180,41 +216,49 @@ const FrontpageLayout = ({ children, user }) => {
                                         vertical: "bottom",
                                     }}
                                 >
-                                    <div className="w-80 h-56 p-3">
+                                    <div className="w-80 h-full p-3">
                                         <p className="text-xs text-gray-500 mb-2">
                                             Baru ditambahkan
                                         </p>
-                                        <div className="flex flex-row w-ful gap-2">
-                                            <img
-                                                src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/3/24/48b1c61b-fe0b-4c72-89b5-1b529ef4b2b0.jpg.webp?ect=4g"
-                                                className="w-20 h-20 bg-cover rounded-sm"
-                                            ></img>
-                                            <div>
-                                                <p className="text-sm font-semibold text-secondary">
-                                                    Soal PPG 2024
-                                                </p>
-                                                <p className="text-sm">
-                                                    Rp50.000
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-row w-ful gap-2">
-                                            <img
-                                                src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/3/24/48b1c61b-fe0b-4c72-89b5-1b529ef4b2b0.jpg.webp?ect=4g"
-                                                className="w-20 h-20 bg-cover rounded-sm"
-                                            ></img>
-                                            <div>
-                                                <p className="text-sm font-semibold text-secondary">
-                                                    Soal PPG 2024
-                                                </p>
-                                                <p className="text-sm">
-                                                    Rp50.000
-                                                </p>
-                                            </div>
-                                        </div>
+                                        {cart &&
+                                            cart.map((cartitem) => (
+                                                <div
+                                                    className="flex flex-row w-ful gap-2"
+                                                    key={cartitem.id}
+                                                >
+                                                    <Image
+                                                        src={`${base_url}/storage/${cartitem.paketsoal.link_cover}`}
+                                                        className="w-20 h-20 bg-cover rounded-sm"
+                                                    />
+
+                                                    <div>
+                                                        <p className="text-sm font-semibold text-secondary">
+                                                            {
+                                                                cartitem
+                                                                    .paketsoal
+                                                                    .name
+                                                            }
+                                                        </p>
+                                                        <p className="text-sm">
+                                                            <Harga
+                                                                nilai={
+                                                                    cartitem
+                                                                        .paketsoal
+                                                                        .price
+                                                                }
+                                                            />
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))}
                                     </div>
                                     <div className="flex w-full justify-center p-3">
-                                        <button className="p-2 bg-secondary hover:bg-secondary/65 text-white text-sm rounded-md shadow-sm transition-all">
+                                        <button
+                                            className="p-2 bg-secondary hover:bg-secondary/65 text-white text-sm rounded-md shadow-sm transition-all"
+                                            onClick={(e) => {
+                                                router.visit("/cart");
+                                            }}
+                                        >
                                             Tampilkan Keranjang Belanja
                                         </button>
                                     </div>

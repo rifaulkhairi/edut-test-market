@@ -11,12 +11,12 @@ import ProductCard from "@/Components/ProductCard";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { useState } from "react";
 
-export default function Frontpage({ auth, produks, base_url }) {
+export default function Frontpage({ auth, produks, base_url, cart }) {
     const [sortBy, setSortBy] = useState("terpopuler");
 
     return (
         <>
-            <FrontpageLayout user={auth}>
+            <FrontpageLayout user={auth} cart={cart} base_url={base_url}>
                 <div className="container flex h-[346px] max-w-5xl">
                     <Hero></Hero>
                 </div>

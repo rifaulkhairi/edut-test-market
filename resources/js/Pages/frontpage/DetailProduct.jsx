@@ -7,7 +7,7 @@ import BasicTabs from "@/Components/detailProduct/DetailProductTabs";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 
-const DetailProduct = ({ auth, detail, products, base_url }) => {
+const DetailProduct = ({ auth, detail, base_url, cart }) => {
     const [sortBy, setSortBy] = useState("semua");
 
     const [selectedProduct, setSelectedProduct] = useState({
@@ -90,7 +90,7 @@ const DetailProduct = ({ auth, detail, products, base_url }) => {
     };
 
     return (
-        <FrontpageLayout user={auth}>
+        <FrontpageLayout user={auth} base_url={base_url} cart={cart}>
             <div className="container px-20 pt-2">
                 <div className="grid-cols-1 flex gap-4 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}

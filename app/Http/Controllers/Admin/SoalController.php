@@ -105,10 +105,6 @@ class SoalController extends Controller
             ],
 
         ];
-
-
-
-
         // dd($data);
         return Inertia::render('admin/Pages/soal/DetailSoal', ['soal' => $data]);
     }

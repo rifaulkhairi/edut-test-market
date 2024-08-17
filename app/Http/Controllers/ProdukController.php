@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\PaketSoal;
 use Inertia\Inertia;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 class ProdukController extends Controller
@@ -13,6 +15,14 @@ class ProdukController extends Controller
     {
         $produks = PaketSoal::all();
         $baseurl = url("/");
+
+        $cart = null;
+
+        if (Auth::user()) {
+            // dd("test");
+            $cart = Cart::where('email_user', Auth::user()->email)
+                ->with(['paketsoal'])->get();
+        }
         return Inertia::render('frontpage/Frontpage', [
             'produks' => $produks,
             'canLogin' => Route::has('login'),
@@ -20,6 +30,8 @@ class ProdukController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'base_url' => $baseurl,
+            'cart' => $cart,
+
         ]);
     }
 
@@ -28,10 +40,20 @@ class ProdukController extends Controller
         $produks = PaketSoal::all();
         $produk = PaketSoal::find($id);
         $baseurl = url("/");
+        $cart = null;
+
+
+        if (Auth::user()) {
+            // dd("test");
+            $cart = Cart::where('email_user', Auth::user()->email)
+                ->with(['paketsoal'])->get();
+        }
+
+
         if (!$produk) {
             return redirect('/produks')->with('error', 'Produk tidak ditemukan');
         }
-        return Inertia::render('frontpage/DetailProduct', ['base_url' => $baseurl, 'detail' => $produk, 'products' => $produks]);
+        return Inertia::render('frontpage/DetailProduct', ['base_url' => $baseurl, 'detail' => $produk, 'products' => $produks, 'cart' => $cart]);
     }
     public function addPaketSoal() {}
 }
