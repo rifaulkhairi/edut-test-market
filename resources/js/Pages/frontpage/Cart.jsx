@@ -156,6 +156,10 @@ const Cart = ({ auth, cartitem, base_url }) => {
                                 <Button
                                     variant="contained"
                                     sx={{ textTransform: "capitalize" }}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit("/checkout");
+                                    }}
                                 >
                                     Checkout
                                 </Button>

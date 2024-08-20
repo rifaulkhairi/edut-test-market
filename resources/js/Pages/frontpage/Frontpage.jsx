@@ -10,6 +10,7 @@ import { Button, Card } from "@material-tailwind/react";
 import ProductCard from "@/Components/ProductCard";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { useState } from "react";
+import { router } from "@inertiajs/react";
 
 export default function Frontpage({ auth, produks, base_url, cart }) {
     const [sortBy, setSortBy] = useState("terpopuler");
@@ -44,6 +45,10 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                         <Button
                             className="flex  h-20 border-secon border-2 flex-col gap-y-2 items-center"
                             variant="text"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.visit("/riwayattransaksi");
+                            }}
                         >
                             <WalletIcon className="h-8 w-8 text-secondary"></WalletIcon>
                             <p className="capitalize font-normal text-xs text-center text-primary">

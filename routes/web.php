@@ -3,18 +3,16 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\DetailProduct;
 use App\Http\Controllers\Editor;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PeketSoalController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Test;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\RiwayatTransaksiController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\TipeTestController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 
 
@@ -24,6 +22,9 @@ Route::get('/kerjakansoal/{id}', [SoalController::class, 'index'])->name('kerjak
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
 Route::delete('/cartitem/delete/{id}', [CartController::class, 'delete'])->middleware('auth')->name('delete.cartitem');
 Route::post('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart')->middleware('auth');
+Route::get('/riwayattransaksi', [RiwayatTransaksiController::class, 'index'])->name('riwayattransaksi')->middleware('auth');
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
+
 
 
 
@@ -56,7 +57,6 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::patch('/admin/tipetest/update/{id}', [TipeTestController::class, 'update']);
     Route::delete('/admin/tipetest/delete/{id}', [TipeTestController::class, 'delete']);
 
-
     // soal
     Route::get('/admin/addsoalpg', [AdminSoalController::class, 'addsoalpg'])->name('addsoalpg');
     Route::get('/admin/daftarsoal', [AdminSoalController::class, 'show'])->name('daftarsoal');
@@ -65,7 +65,6 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/editsoal/{id}', [AdminSoalController::class, 'edit'])->name('admin.editsoal');
     Route::patch('/admin/updatesoal/{id}', [AdminSoalController::class, 'update'])->name('admin.update.soal');
     Route::delete('/admin/deletesoal/{id}', [AdminSoalController::class, 'delete'])->name('admin.delete.soal');
-
     Route::delete('/admin/deletepenilaian/{id}', [PenilaianController::class, 'delete'])->name('admin.delete.penilaian');
     Route::post('/admin/storereply/{id}', [PenilaianController::class, 'reply'])->name('admin.reply.penilaian');
 });

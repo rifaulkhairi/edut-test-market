@@ -40,6 +40,8 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
         setAnchorEl(null);
     };
 
+    // console.log(cart);
+
     return (
         <>
             <Head title="Edu Test Market"></Head>
