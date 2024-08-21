@@ -20,8 +20,6 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
         rating: detail.rating,
     });
 
-    console.log(selectedProduct.image);
-
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleImageLoad = () => {
@@ -91,7 +89,7 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
 
     return (
         <FrontpageLayout user={auth} base_url={base_url} cart={cart}>
-            <div className="container px-20 pt-2">
+            <div className="container px-20 pt-2 max-w-6xl">
                 <div className="grid-cols-1 flex gap-4 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}
                     <div className="flex-[0.3] text-center">

@@ -10,6 +10,11 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import { TfiTime } from "react-icons/tfi";
 import { LiaTimesCircle } from "react-icons/lia";
 import { IoIosCheckmark } from "react-icons/io";
+import Harga from "@/Components/Harga";
+import ChipMenggunguPembayaran from "@/Components/ChipMenggunguPembayaran";
+import ChipBerhasil from "@/Components/ChipBerhasil";
+import ChipGagal from "@/Components/ChipGagal";
+import Button from "@/Components/Button";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -74,11 +79,38 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
     })
 );
 
-const RiwayatTransaksi = ({ auth, base_url, cartitem }) => {
+const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
     const [value, setValue] = React.useState(0);
+    const [filter, setFilter] = useState("all");
+    const [filteredOrders, setFilteredOrders] = useState([]);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        if (newValue === 0) {
+            setFilter("all");
+        } else if (newValue === 1) {
+            setFilter("pending");
+        } else if (newValue === 2) {
+            setFilter("expired");
+        } else if (newValue === 3) {
+            setFilter("paid");
+        }
     };
+
+    useEffect(() => {
+        const filterOrders = () => {
+            if (filter === "all") {
+                setFilteredOrders(orders);
+            } else {
+                setFilteredOrders(
+                    orders.filter((order) => order.status === filter)
+                );
+            }
+        };
+        filterOrders();
+
+        console.log(filteredOrders);
+    }, [filter, orders]);
     return (
         <FrontpageLayout user={auth} cart={cartitem} base_url={base_url}>
             <div className="container max-w-5xl mt-9">
@@ -111,258 +143,419 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem }) => {
                         </Box>
                         <CustomTabPanel value={value} index={0}>
                             <div className="flex flex-col gap-y-4">
-                                <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                        <div className="h-full w-fit">
-                                            <p className="text-center">
-                                                17-18-2024
-                                            </p>
-                                            <Image
-                                                src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                                className="h-28 w-28 rounded-lg"
-                                            />
-                                        </div>
-                                        <div className="flex h-full flex-col justify-center">
-                                            <p className="text-secondary font-semibold">
-                                                Soal TryOut TKD BUMN
-                                            </p>
-                                            <p className="text-[#767676]">
-                                                Soal + Pembahasan
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                        <div className="flex h-fit w-full flex-col justify-center items-center">
-                                            <p className="text-secondary font-semibold text-center">
-                                                Status
-                                            </p>
+                                {filteredOrders != null ? (
+                                    filteredOrders.map((order, index) => (
+                                        <div
+                                            className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-col items-center"
+                                            key={index}
+                                        >
+                                            <ul className="flex w-full justify-between">
+                                                <li>{order.invoice}</li>
 
-                                            <p className="text-[#767676] bg-[#FFDE93]  rounded-full px-3 py-1 text-center flex w-fit gap-x-1 justify-center items-center">
-                                                <span>
-                                                    <TfiTime />
-                                                </span>
-                                                Menunggu Pembayaran
-                                            </p>
+                                                <li>
+                                                    {order.status ===
+                                                        "pending" && (
+                                                        <ChipMenggunguPembayaran />
+                                                    )}
+                                                    {order.status ===
+                                                        "paid" && (
+                                                        <ChipBerhasil />
+                                                    )}
+                                                    {order.status ===
+                                                        "expired" && (
+                                                        <ChipGagal />
+                                                    )}
+                                                </li>
+                                            </ul>
+                                            <ul className="flex w-full my-3 gap-y-3 flex-col">
+                                                {order.order_items.map(
+                                                    (order_item, itemIndex) => (
+                                                        <li
+                                                            className="flex w-full justify-between"
+                                                            key={itemIndex}
+                                                        >
+                                                            <div className="flex gap-x-3">
+                                                                <div>
+                                                                    <Image
+                                                                        src={`${base_url}/storage/${order_item.paketsoal.link_cover}`}
+                                                                        className="w-16 h-16 rounded-md"
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    {/* Here you can display more information about the order item if needed */}
+                                                                    <p>
+                                                                        {
+                                                                            order_item
+                                                                                .paketsoal
+                                                                                .name
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <Harga
+                                                                    nilai={
+                                                                        order_item
+                                                                            .paketsoal
+                                                                            .price
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ul>
+                                            <ul className="flex w-full justify-end">
+                                                <li>
+                                                    <div className="flex h-fit w-full flex-row  justify-center items-center gap-x-3">
+                                                        <p className=" text-center text-[#767676]">
+                                                            Total Pesanan:
+                                                        </p>
+                                                        <p className=" text-center">
+                                                            <Harga
+                                                                nilai={
+                                                                    order.gross_amount
+                                                                }
+                                                            ></Harga>
+                                                        </p>
+                                                    </div>
+                                                    <div className="mt-4">
+                                                        {order.status ===
+                                                            "pending" && (
+                                                            <Button
+                                                                title="Bayar"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    router.get(
+                                                                        `/pembayaran/${order.id}`
+                                                                    );
+                                                                    console.log(
+                                                                        "test"
+                                                                    );
+                                                                }}
+                                                            />
+                                                        )}
+                                                        {order.status ===
+                                                            "paid" && (
+                                                            <Button title="Lihat" />
+                                                        )}
+                                                        {order.status ===
+                                                            "expired" && (
+                                                            <Button title="Bayar Ulang" />
+                                                        )}
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] w-full h-full justify-end">
-                                        <button className="bg-secondary text-white px-3 py-2 rounded-md">
-                                            Bayar
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                        <div className="h-full w-fit">
-                                            <p className="text-center">
-                                                17-18-2024
-                                            </p>
-                                            <Image
-                                                src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                                className="h-28 w-28 rounded-lg"
-                                            />
-                                        </div>
-                                        <div className="flex h-full flex-col justify-center">
-                                            <p className="text-secondary font-semibold">
-                                                Soal TryOut TKD BUMN
-                                            </p>
-                                            <p className="text-[#767676]">
-                                                Soal + Pembahasan
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                        <div className="flex h-fit w-full flex-col justify-center items-center">
-                                            <p className="text-secondary font-semibold text-center">
-                                                Status
-                                            </p>
-
-                                            <div className="text-[#767676] bg-[#FFC5C5]  rounded-full px-3 py-1 text-center flex gap-x-1 justify-center items-center">
-                                                <span>
-                                                    <TfiTime />
-                                                </span>
-                                                Gagal
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] w-full h-full justify-end">
-                                        <button className="bg-secondary text-white px-3 py-2 rounded-md">
-                                            Bayar Ulang
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                        <div className="h-full w-fit">
-                                            <p className="text-center">
-                                                17-18-2024
-                                            </p>
-                                            <Image
-                                                src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                                className="h-28 w-28 rounded-lg"
-                                            />
-                                        </div>
-                                        <div className="flex h-full flex-col justify-center">
-                                            <p className="text-secondary font-semibold">
-                                                Soal TryOut TKD BUMN
-                                            </p>
-                                            <p className="text-[#767676]">
-                                                Soal + Pembahasan
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                        <div className="flex h-fit w-full flex-col justify-center items-center">
-                                            <p className="text-secondary font-semibold text-center">
-                                                Status
-                                            </p>
-
-                                            <div className="text-[#767676] bg-[#C5FFD5]  rounded-full px-3 py-1 text-center flex gap-x-1 justify-center items-center">
-                                                <span>
-                                                    <TfiTime />
-                                                </span>
-                                                Berhasil
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] w-full h-full justify-end">
-                                        <button className="bg-secondary text-white px-3 py-2 rounded-md">
-                                            Lihat
-                                        </button>
-                                    </div>
-                                </div>
+                                    ))
+                                ) : (
+                                    <p>Kamu Belum membuat pesanan</p>
+                                )}
                             </div>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
                             <div className="flex flex-col gap-y-4">
-                                <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                        <div className="h-full w-fit">
-                                            <p className="text-center">
-                                                17-18-2024
-                                            </p>
-                                            <Image
-                                                src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                                className="h-28 w-28 rounded-lg"
-                                            />
-                                        </div>
-                                        <div className="flex h-full flex-col justify-center">
-                                            <p className="text-secondary font-semibold">
-                                                Soal TryOut TKD BUMN
-                                            </p>
-                                            <p className="text-[#767676]">
-                                                Soal + Pembahasan
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                        <div className="flex h-fit w-full flex-col justify-center items-center">
-                                            <p className="text-secondary font-semibold text-center">
-                                                Status
-                                            </p>
+                                {filteredOrders != null ? (
+                                    filteredOrders.map((order, index) => (
+                                        <div
+                                            className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-col items-center"
+                                            key={index}
+                                        >
+                                            <ul className="flex w-full justify-between">
+                                                <li>{order.invoice}</li>
 
-                                            <p className="text-[#767676] bg-[#FFDE93]  rounded-full px-3 py-1 text-center flex w-fit gap-x-1 justify-center items-center">
-                                                <span>
-                                                    <TfiTime />
-                                                </span>
-                                                Menunggu Pembayaran
-                                            </p>
+                                                <li>
+                                                    {order.status ===
+                                                        "pending" && (
+                                                        <ChipMenggunguPembayaran />
+                                                    )}
+                                                    {order.status ===
+                                                        "paid" && (
+                                                        <ChipBerhasil />
+                                                    )}
+                                                    {order.status ===
+                                                        "expired" && (
+                                                        <ChipGagal />
+                                                    )}
+                                                </li>
+                                            </ul>
+                                            <ul className="flex w-full my-3 gap-y-3 flex-col">
+                                                {order.order_items.map(
+                                                    (order_item, itemIndex) => (
+                                                        <li
+                                                            className="flex w-full justify-between"
+                                                            key={itemIndex}
+                                                        >
+                                                            <div className="flex gap-x-3">
+                                                                <div>
+                                                                    <Image
+                                                                        src={`${base_url}/storage/${order_item.paketsoal.link_cover}`}
+                                                                        className="w-16 h-16 rounded-md"
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    {/* Here you can display more information about the order item if needed */}
+                                                                    <p>
+                                                                        {
+                                                                            order_item
+                                                                                .paketsoal
+                                                                                .name
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <Harga
+                                                                    nilai={
+                                                                        order_item
+                                                                            .paketsoal
+                                                                            .price
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ul>
+                                            <ul className="flex w-full justify-end">
+                                                <li>
+                                                    <div className="flex h-fit w-full flex-row  justify-center items-center gap-x-3">
+                                                        <p className=" text-center text-[#767676]">
+                                                            Total Pesanan:
+                                                        </p>
+                                                        <p className=" text-center">
+                                                            <Harga
+                                                                nilai={
+                                                                    order.gross_amount
+                                                                }
+                                                            ></Harga>
+                                                        </p>
+                                                    </div>
+                                                    <div className="mt-4">
+                                                        {order.status ===
+                                                            "pending" && (
+                                                            <Button title="Bayar" />
+                                                        )}
+                                                        {order.status ===
+                                                            "paid" && (
+                                                            <Button title="Lihat" />
+                                                        )}
+                                                        {order.status ===
+                                                            "expired" && (
+                                                            <Button title="Bayar Ulang" />
+                                                        )}
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] w-full h-full justify-end">
-                                        <button className="bg-secondary text-white px-3 py-2 rounded-md">
-                                            Bayar
-                                        </button>
-                                    </div>
-                                </div>
+                                    ))
+                                ) : (
+                                    <p>Kamu Belum membuat pesanan</p>
+                                )}
                             </div>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
                             <div className="flex flex-col gap-y-4">
-                                <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                        <div className="h-full w-fit">
-                                            <p className="text-center">
-                                                17-18-2024
-                                            </p>
-                                            <Image
-                                                src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                                className="h-28 w-28 rounded-lg"
-                                            />
-                                        </div>
-                                        <div className="flex h-full flex-col justify-center">
-                                            <p className="text-secondary font-semibold">
-                                                Soal TryOut TKD BUMN
-                                            </p>
-                                            <p className="text-[#767676]">
-                                                Soal + Pembahasan
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                        <div className="flex h-fit w-full flex-col justify-center items-center">
-                                            <p className="text-secondary font-semibold text-center">
-                                                Status
-                                            </p>
+                                {filteredOrders != null ? (
+                                    filteredOrders.map((order, index) => (
+                                        <div
+                                            className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-col items-center"
+                                            key={index}
+                                        >
+                                            <ul className="flex w-full justify-between">
+                                                <li>{order.invoice}</li>
 
-                                            <div className="text-[#767676] bg-[#FFC5C5]  rounded-full px-3 py-1 text-center flex gap-x-1 justify-center items-center">
-                                                <span>
-                                                    <TfiTime />
-                                                </span>
-                                                Gagal
-                                            </div>
+                                                <li>
+                                                    {order.status ===
+                                                        "pending" && (
+                                                        <ChipMenggunguPembayaran />
+                                                    )}
+                                                    {order.status ===
+                                                        "paid" && (
+                                                        <ChipBerhasil />
+                                                    )}
+                                                    {order.status ===
+                                                        "expired" && (
+                                                        <ChipGagal />
+                                                    )}
+                                                </li>
+                                            </ul>
+                                            <ul className="flex w-full my-3 gap-y-3 flex-col">
+                                                {order.order_items.map(
+                                                    (order_item, itemIndex) => (
+                                                        <li
+                                                            className="flex w-full justify-between"
+                                                            key={itemIndex}
+                                                        >
+                                                            <div className="flex gap-x-3">
+                                                                <div>
+                                                                    <Image
+                                                                        src={`${base_url}/storage/${order_item.paketsoal.link_cover}`}
+                                                                        className="w-16 h-16 rounded-md"
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    {/* Here you can display more information about the order item if needed */}
+                                                                    <p>
+                                                                        {
+                                                                            order_item
+                                                                                .paketsoal
+                                                                                .name
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <Harga
+                                                                    nilai={
+                                                                        order_item
+                                                                            .paketsoal
+                                                                            .price
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ul>
+                                            <ul className="flex w-full justify-end">
+                                                <li>
+                                                    <div className="flex h-fit w-full flex-row  justify-center items-center gap-x-3">
+                                                        <p className=" text-center text-[#767676]">
+                                                            Total Pesanan:
+                                                        </p>
+                                                        <p className=" text-center">
+                                                            <Harga
+                                                                nilai={
+                                                                    order.gross_amount
+                                                                }
+                                                            ></Harga>
+                                                        </p>
+                                                    </div>
+                                                    <div className="mt-4">
+                                                        {order.status ===
+                                                            "pending" && (
+                                                            <Button title="Bayar" />
+                                                        )}
+                                                        {order.status ===
+                                                            "paid" && (
+                                                            <Button title="Lihat" />
+                                                        )}
+                                                        {order.status ===
+                                                            "expired" && (
+                                                            <Button title="Bayar Ulang" />
+                                                        )}
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] w-full h-full justify-end">
-                                        <button className="bg-secondary text-white px-3 py-2 rounded-md">
-                                            Bayar Ulang
-                                        </button>
-                                    </div>
-                                </div>
+                                    ))
+                                ) : (
+                                    <p>Kamu Belum membuat pesanan</p>
+                                )}
                             </div>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
                             <div className="flex flex-col gap-y-4">
-                                <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                        <div className="h-full w-fit">
-                                            <p className="text-center">
-                                                17-18-2024
-                                            </p>
-                                            <Image
-                                                src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                                className="h-28 w-28 rounded-lg"
-                                            />
-                                        </div>
-                                        <div className="flex h-full flex-col justify-center">
-                                            <p className="text-secondary font-semibold">
-                                                Soal TryOut TKD BUMN
-                                            </p>
-                                            <p className="text-[#767676]">
-                                                Soal + Pembahasan
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                        <div className="flex h-fit w-full flex-col justify-center items-center">
-                                            <p className="text-secondary font-semibold text-center">
-                                                Status
-                                            </p>
+                                {filteredOrders != null ? (
+                                    filteredOrders.map((order, index) => (
+                                        <div
+                                            className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-col items-center"
+                                            key={index}
+                                        >
+                                            <ul className="flex w-full justify-between">
+                                                <li>{order.invoice}</li>
 
-                                            <div className="text-[#767676] bg-[#C5FFD5]  rounded-full px-3 py-1 text-center flex gap-x-1 justify-center items-center">
-                                                <span>
-                                                    <TfiTime />
-                                                </span>
-                                                Berhasil
-                                            </div>
+                                                <li>
+                                                    {order.status ===
+                                                        "pending" && (
+                                                        <ChipMenggunguPembayaran />
+                                                    )}
+                                                    {order.status ===
+                                                        "paid" && (
+                                                        <ChipBerhasil />
+                                                    )}
+                                                    {order.status ===
+                                                        "expired" && (
+                                                        <ChipGagal />
+                                                    )}
+                                                </li>
+                                            </ul>
+                                            <ul className="flex w-full my-3 gap-y-3 flex-col">
+                                                {order.order_items.map(
+                                                    (order_item, itemIndex) => (
+                                                        <li
+                                                            className="flex w-full justify-between"
+                                                            key={itemIndex}
+                                                        >
+                                                            <div className="flex gap-x-3">
+                                                                <div>
+                                                                    <Image
+                                                                        src={`${base_url}/storage/${order_item.paketsoal.link_cover}`}
+                                                                        className="w-16 h-16 rounded-md"
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    {/* Here you can display more information about the order item if needed */}
+                                                                    <p>
+                                                                        {
+                                                                            order_item
+                                                                                .paketsoal
+                                                                                .name
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <Harga
+                                                                    nilai={
+                                                                        order_item
+                                                                            .paketsoal
+                                                                            .price
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ul>
+                                            <ul className="flex w-full justify-end">
+                                                <li>
+                                                    <div className="flex h-fit w-full flex-row  justify-center items-center gap-x-3">
+                                                        <p className=" text-center text-[#767676]">
+                                                            Total Pesanan:
+                                                        </p>
+                                                        <p className=" text-center">
+                                                            <Harga
+                                                                nilai={
+                                                                    order.gross_amount
+                                                                }
+                                                            ></Harga>
+                                                        </p>
+                                                    </div>
+                                                    <div className="mt-4">
+                                                        {order.status ===
+                                                            "pending" && (
+                                                            <Button title="Bayar" />
+                                                        )}
+                                                        {order.status ===
+                                                            "paid" && (
+                                                            <Button title="Lihat" />
+                                                        )}
+                                                        {order.status ===
+                                                            "expired" && (
+                                                            <Button title="Bayar Ulang" />
+                                                        )}
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div className="flex flex-[0.5] w-full h-full justify-end">
-                                        <button className="bg-secondary text-white px-3 py-2 rounded-md">
-                                            Lihat
-                                        </button>
-                                    </div>
-                                </div>
+                                    ))
+                                ) : (
+                                    <p>Kamu Belum membuat pesanan</p>
+                                )}
                             </div>
                         </CustomTabPanel>
                     </Box>

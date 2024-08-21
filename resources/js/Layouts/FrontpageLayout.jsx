@@ -1,5 +1,3 @@
-// src/Layouts/FrontpageLayout.jsx
-
 import React, { useState } from "react";
 import { Link, Head, router } from "@inertiajs/react";
 import logo from "../../../public/images/logo-edu-test-market.svg";
@@ -17,8 +15,6 @@ import Button from "@mui/material/Button";
 import Footer from "@/Components/Footer";
 import Image from "@/Components/Image";
 import Harga from "@/Components/Harga";
-
-// import { ShoppingChart } from "@heroicons/react/outline/";
 
 const FrontpageLayout = ({ children, user, cart, base_url }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -225,7 +221,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                         {cart &&
                                             cart.map((cartitem) => (
                                                 <div
-                                                    className="flex flex-row w-ful gap-2"
+                                                    className="flex flex-row w-ful gap-2 mb-4"
                                                     key={cartitem.id}
                                                 >
                                                     <Image

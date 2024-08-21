@@ -22,8 +22,8 @@ class CartController extends Controller
     }
     public function addtocart($id)
     {
-        $itemcart = Cart::where('cart_tbl.paketsoal_id', '=', $id)
-            ->where('cart_tbl.email_user', '=', Auth::user()->email)->first();
+        $itemcart = Cart::where('cart_item_tbl.paketsoal_id', '=', $id)
+            ->where('cart_item_tbl.email_user', '=', Auth::user()->email)->first();
         if ($itemcart) {
             return redirect('/cart');
         } else {
@@ -38,7 +38,7 @@ class CartController extends Controller
 
     public function delete($id)
     {
-        $cartitem = Cart::where('cart_tbl.id', '=', $id)->where('cart_tbl.email_user', '=', Auth::user()->email)->first();
+        $cartitem = Cart::where('cart_item_tbl.id', '=', $id)->where('cart_item_tbl.email_user', '=', Auth::user()->email)->first();
         if ($cartitem) {
             $cartitem->delete();
         }

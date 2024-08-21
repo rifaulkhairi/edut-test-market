@@ -1,5 +1,5 @@
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import {
     Box,
     Breadcrumbs,
@@ -20,38 +20,30 @@ import { TbTrash } from "react-icons/tb";
 import Image from "@/Components/Image";
 import RadioCategoryCustom, { RadioGroupCustom } from "@/Components/Radio";
 
-const Checkout = ({ auth, cartitem, base_url }) => {
+const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
     const [pymentMethod, setPymentMethod] = useState("gopay");
+    const [totalPemabayaran, setTotalPembayaran] = useState(0);
+    const { data, setData } = useForm();
 
-    let paketsal = cartitem;
-    const [checked, setChecked] = useState(Array(paketsal.length).fill(false));
-    const [selectedProduct, setSelectedProduct] = useState([]);
-
-    const handleCheckboxChange = (e, index) => {
-        const updatedChecked = [...checked];
-        updatedChecked[index] = e.target.checked;
-        setChecked(updatedChecked);
-        if (e.target.checked) {
-            const newSelectedProduct = [...selectedProduct, paketsal[index]];
-            setSelectedProduct(newSelectedProduct);
-            console.log("Added Product: ", paketsal[index]);
-        } else {
-            const filteredProduct = selectedProduct.filter(
-                (item) => item.id !== paketsal[index].id
-            );
-            setSelectedProduct(filteredProduct);
-            console.log("Removed Product: ", paketsal[index]);
-        }
+    const buatpesanan = () => {
+        router.post("/buatpesanan", {
+            pymentMethod: pymentMethod,
+            totalPemabayaran: totalPemabayaran,
+            orderitem: selecteditem,
+        });
     };
-    useEffect(() => {
-        console.log("Selected Products: ", selectedProduct);
-    }, [selectedProduct]);
 
-    const totalItems = selectedProduct.length;
-    const totalPrice = selectedProduct.reduce(
-        (total, item) => total + Number(item.paketsoal.price),
-        0
-    );
+    useEffect(() => {
+        if (selecteditem && selecteditem.length > 0) {
+            const total = selecteditem.reduce(
+                (acc, item) => acc + (item.paketsoal.price || 0),
+                0
+            );
+            setTotalPembayaran(total);
+        } else {
+            setTotalPembayaran(0);
+        }
+    }, [selecteditem]);
 
     return (
         <FrontpageLayout user={auth} cart={cartitem} base_url={base_url}>
@@ -67,62 +59,45 @@ const Checkout = ({ auth, cartitem, base_url }) => {
                 <div className="flex flex-col w-full gap-x-3 items-stretch mt-3">
                     <h2>Produk Yang di Pesan</h2>
                     <div className="flex flex-col gap-y-3">
-                        <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                            <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                <div className="h-full w-fit">
-                                    <Image
-                                        src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                        className="h-28 w-28 rounded-lg"
-                                    />
+                        {selecteditem && selecteditem.length > 0 ? (
+                            selecteditem.map((item, index) => (
+                                <div
+                                    className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center"
+                                    key={index}
+                                >
+                                    <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
+                                        <div className="h-full w-fit">
+                                            <Image
+                                                src={`${base_url}/storage/${item.paketsoal.link_cover}`}
+                                                className="h-28 w-28 rounded-lg"
+                                            />
+                                        </div>
+                                        <div className="flex h-full flex-col justify-center">
+                                            <p className="text-secondary font-semibold">
+                                                {item.paketsoal.name}
+                                            </p>
+                                            <p className="text-[#767676]">
+                                                Soal + Pembahasan
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
+                                        <div className="flex h-fit w-full flex-col justify-center items-center">
+                                            <p className=" text-center text-[#767676]">
+                                                Harga
+                                            </p>
+                                            <p className=" text-center">
+                                                <Harga
+                                                    nilai={item.paketsoal.price}
+                                                ></Harga>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="flex h-full flex-col justify-center">
-                                    <p className="text-secondary font-semibold">
-                                        Soal TryOut TKD BUMN
-                                    </p>
-                                    <p className="text-[#767676]">
-                                        Soal + Pembahasan
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                <div className="flex h-fit w-full flex-col justify-center items-center">
-                                    <p className=" text-center text-[#767676]">
-                                        Harga
-                                    </p>
-                                    <p className=" text-center">
-                                        <Harga nilai={20000}></Harga>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="w-full bg-white rounded-md gap-x-8 shadow-md p-4 flex flex-row items-center">
-                            <div className="flex flex-1 flex-row gap-x-7 w-full h-full items-center">
-                                <div className="h-full w-fit">
-                                    <Image
-                                        src="https://raw.githubusercontent.com/rifaulkhairi/edu-test-market-public-assets/main/4.png"
-                                        className="h-28 w-28 rounded-lg"
-                                    />
-                                </div>
-                                <div className="flex h-full flex-col justify-center">
-                                    <p className="text-secondary font-semibold">
-                                        Soal TryOut TKD BUMN
-                                    </p>
-                                    <p className="text-[#767676]">
-                                        Soal + Pembahasan
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex flex-[0.5] flex-row gap-x-7 h-full">
-                                <div className="flex h-fit w-full flex-col justify-center items-center">
-                                    <p className=" text-center text-[#767676]">
-                                        Harga
-                                    </p>
-                                    <p className=" text-center">
-                                        <Harga nilai={20000}></Harga>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                            ))
+                        ) : (
+                            <p>Kosong</p>
+                        )}
                     </div>
                     <div className="bg-white rounded-md shadow-md mt-5 p-3">
                         Metode pembayaran
@@ -220,16 +195,19 @@ const Checkout = ({ auth, cartitem, base_url }) => {
                                 <div className="grid grid-cols-2 gap-x-10">
                                     <p>Subtotal untuk produk</p>
                                     <p>
-                                        <Harga nilai={100000} />
+                                        <Harga nilai={totalPemabayaran} />
                                     </p>
                                     <p>Total Pembayaran</p>
-                                    <p>
-                                        <Harga nilai={100000} />
+                                    <p className="text-secondary font-bold ">
+                                        <Harga nilai={totalPemabayaran} />
                                     </p>
                                 </div>
 
-                                <button className="bg-secondary text-white p-3 rounded-sm hover:bg-secondary/65 text-sm  shadow-sm transition-all">
-                                    buat pesanan
+                                <button
+                                    className="bg-secondary text-white px-3 py-2 mt-4  hover:bg-secondary/65 text-sm  shadow-sm transition-all rounded-md"
+                                    onClick={buatpesanan}
+                                >
+                                    Buat Pesanan
                                 </button>
                             </div>
                         </div>

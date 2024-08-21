@@ -18,7 +18,7 @@ class PaketSoalFactory extends Factory
     {
         return [
             'name' => fake()->sentence(3),
-            'description' => fake()->text(),
+            'description' => fake()->text(500),
             'price' => rand(100000, 200000),
             'terjual' => rand(0, 1000),
             'discount' => rand(0, 100) / 100,

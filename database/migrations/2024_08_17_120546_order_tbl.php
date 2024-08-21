@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('email_user')->nullable();
             $table->string('status')->default('pending');
-            $table->string('pyment_type');
+            $table->string('payment_type');
             $table->string('invoice')->nullable();
             $table->timestamps();
             $table->double('gross_amount');
+            $table->text('qr_code_link')->nullable();
             $table->foreign('email_user')->references('email')->on('users')->onDelete('cascade');
         });
     }

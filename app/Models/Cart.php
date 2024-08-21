@@ -11,7 +11,7 @@ class Cart extends Model
 
     protected $fillable = ['email_user', 'paketsoal_id'];
 
-    protected $table = 'cart_tbl';
+    protected $table = 'cart_item_tbl';
 
     public function user()
     {

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart_tbl', function (Blueprint $table) {
+        Schema::create('cart_item_tbl', function (Blueprint $table) {
             $table->id();
             $table->string('email_user');
             $table->foreign('email_user')->references('email')->on('users')->onDelete('cascade');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cart_tbl');
+        Schema::dropIfExists('cart_item_tbl');
     }
 };

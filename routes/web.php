@@ -23,9 +23,9 @@ Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name(
 Route::delete('/cartitem/delete/{id}', [CartController::class, 'delete'])->middleware('auth')->name('delete.cartitem');
 Route::post('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart')->middleware('auth');
 Route::get('/riwayattransaksi', [RiwayatTransaksiController::class, 'index'])->name('riwayattransaksi')->middleware('auth');
-Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
-
-
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout')->middleware('auth');
+Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesanan')->middleware('auth');
+Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware('auth');
 
 
 

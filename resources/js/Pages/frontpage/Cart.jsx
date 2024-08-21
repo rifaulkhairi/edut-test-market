@@ -158,7 +158,10 @@ const Cart = ({ auth, cartitem, base_url }) => {
                                     sx={{ textTransform: "capitalize" }}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        router.visit("/checkout");
+                                        router.post("/checkout", {
+                                            _method: "get",
+                                            orderitem: selectedProduct,
+                                        });
                                     }}
                                 >
                                     Checkout
