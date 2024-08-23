@@ -148,7 +148,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                         >
                             <img src={logo} className="w-14 h-14 flex-none" />
                             <span className="font-bold text-white text-xl ">
-                                EduTest Market
+                                EduTestMarket
                             </span>
                         </a>
                         <div className="w-full flex justify-end items-center gap-2">

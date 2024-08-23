@@ -39,4 +39,9 @@ class SoalController extends Controller
 
         return Inertia::render('frontpage/DetailSoal', ['soal' => $soal, 'paketsoal' => $paketsoal]);
     }
+
+    public function hasilujian()
+    {
+        return Inertia::render('frontpage/HasilUjian');
+    }
 }

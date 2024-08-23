@@ -26,6 +26,8 @@ Route::get('/riwayattransaksi', [RiwayatTransaksiController::class, 'index'])->n
 Route::get('/checkout', [OrderController::class, 'index'])->name('checkout')->middleware('auth');
 Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesanan')->middleware('auth');
 Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware('auth');
+Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware('auth');
+
 
 
 
@@ -37,7 +39,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/dashboard', [Admin::class, 'index']);
-    Route::get('/admin/addsoal', [Admin::class, 'addSoal']);
 
     // Paket Soal
     Route::get('/admin/addpaketsoal', [PeketSoalController::class, 'addPaketSoal']);
@@ -69,7 +70,6 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::post('/admin/storereply/{id}', [PenilaianController::class, 'reply'])->name('admin.reply.penilaian');
 });
 
-// Route::get('/admin/dashboard', [Admin::class, 'index'])->middleware('auth', 'admin');
 Route::get('/editor/dashboard', [Editor::class, 'index'])->middleware('auth', 'editor');
 
 require __DIR__ . '/auth.php';

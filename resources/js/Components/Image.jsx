@@ -9,11 +9,13 @@ const Image = ({ className, src }) => {
     return (
         <>
             {!imageLoaded && (
-                <div
-                    className={`w-full h-full bg-gray-300 animate-pulse ${className}`}
-                ></div>
+                <div className={`bg-gray-300 animate-pulse ${className}`}></div>
             )}
-            <img className={className} src={src} onLoad={handleImageLoad} />
+            <img
+                className={`${className}`}
+                src={src}
+                onLoad={handleImageLoad}
+            />
         </>
     );
 };

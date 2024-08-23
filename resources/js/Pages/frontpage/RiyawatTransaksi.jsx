@@ -235,9 +235,6 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                     router.get(
                                                                         `/pembayaran/${order.id}`
                                                                     );
-                                                                    console.log(
-                                                                        "test"
-                                                                    );
                                                                 }}
                                                             />
                                                         )}
@@ -340,7 +337,17 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                     <div className="mt-4">
                                                         {order.status ===
                                                             "pending" && (
-                                                            <Button title="Bayar" />
+                                                            <Button
+                                                                title="Bayar"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    router.get(
+                                                                        `/pembayaran/${order.id}`
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
@@ -441,7 +448,17 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                     <div className="mt-4">
                                                         {order.status ===
                                                             "pending" && (
-                                                            <Button title="Bayar" />
+                                                            <Button
+                                                                title="Bayar"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    router.get(
+                                                                        `/pembayaran/${order.id}`
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
@@ -542,7 +559,17 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                     <div className="mt-4">
                                                         {order.status ===
                                                             "pending" && (
-                                                            <Button title="Bayar" />
+                                                            <Button
+                                                                title="Bayar"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    router.get(
+                                                                        `/pembayaran/${order.id}`
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
