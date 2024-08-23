@@ -17,4 +17,9 @@ class Penilaian extends Model
     {
         return $this->hasMany(Reply::class);
     }
+
+    public function paketsoal()
+    {
+        return $this->belongsTo(PaketSoal::class, 'id_paket_soal');
+    }
 }

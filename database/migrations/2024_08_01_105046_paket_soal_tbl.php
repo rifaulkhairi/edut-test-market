@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
+
             $table->foreign('created_by')->references('email')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('email')->on('users')->onDelete('set null');
         });

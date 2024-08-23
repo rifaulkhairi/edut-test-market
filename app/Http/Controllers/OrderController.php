@@ -17,10 +17,7 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request->orderitem);
-
         $selecteditem = $request->orderitem;
-
         $cartitem = Cart::where('email_user', Auth::user()->email)
             ->with(['paketsoal'])->get();
         $base_url = url('/');
@@ -30,9 +27,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $grossamont = 0;
-
         $orderitems = $request->orderitem;
-
         foreach ($orderitems as $item) {
             $grossamont += $item["paketsoal"]["price"];
         }
@@ -40,10 +35,7 @@ class OrderController extends Controller
         $data["payment_type"] = $request->pymentMethod;
         $data['email_user'] = Auth::user()->email;
         $data['gross_amount'] = $grossamont;
-
-
         DB::beginTransaction();
-
         try {
             $order = Order::create([
                 'payment_type' => $request->pymentMethod,
@@ -59,7 +51,6 @@ class OrderController extends Controller
                     'paketsoal_id' => $item['paketsoal']['id'],
                 ]);
             }
-
             DB::commit();
             $resp = Http::withHeaders([
                 'Accept' => 'application/json',
@@ -84,6 +75,7 @@ class OrderController extends Controller
                     $actionmap[$action['name']] = $action['url'];
                 }
                 $order->update(['qr_code_link' => $actionmap['generate-qr-code']]);
+
                 return redirect(url('/pembayaran/' . $order->id));
             }
             return response()->json(['message' => $resp['status_message'], 500]);

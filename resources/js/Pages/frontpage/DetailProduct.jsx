@@ -6,44 +6,17 @@ import "slick-carousel/slick/slick-theme.css";
 import BasicTabs from "@/Components/detailProduct/DetailProductTabs";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { deepOrange, deepPurple } from "@mui/material/colors";
+import { Toaster, toast } from "sonner";
+import { useEffect } from "react";
 
-const DetailProduct = ({ auth, detail, base_url, cart }) => {
+const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
     const [sortBy, setSortBy] = useState("semua");
-
-    const [selectedProduct, setSelectedProduct] = useState({
-        id: detail.id,
-        title: detail.name,
-        harga: detail.price,
-        diskon: detail.discount,
-        image: detail.link_cover,
-        description: detail.description,
-        rating: detail.rating,
-    });
 
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleImageLoad = () => {
         setImageLoaded(true);
     };
-
-    const comments = [
-        {
-            id: 1,
-            postID: 1,
-            like: 20,
-            tgl: "15-06-2024",
-            content:
-                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed beatae omnis at voluptates quisquam quia facilis, dolorum deserunt fuga tempora?",
-        },
-        {
-            id: 2,
-            postID: 1,
-            like: 20,
-            tgl: "15-06-2024",
-            content:
-                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed beatae omnis at voluptates quisquam quia facilis, dolorum deserunt fuga tempora?",
-        },
-    ];
 
     const sliderRef = useRef(null);
 
@@ -87,8 +60,19 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
         ],
     };
 
+    useEffect(() => {
+        if (flash.message != null) {
+            if (flash.message.success) {
+                toast.success(flash.message.success);
+            } else if (flash.message.error) {
+                toast.error(flash.message.error);
+            }
+        }
+    }, [flash]);
+
     return (
         <FrontpageLayout user={auth} base_url={base_url} cart={cart}>
+            <Toaster position="top-right" richColors />
             <div className="container px-20 pt-2 max-w-6xl">
                 <div className="grid-cols-1 flex gap-4 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}
@@ -100,7 +84,7 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
                             className={`w-60 h-60  rounded-md ${
                                 imageLoaded ? "" : "hidden"
                             }`}
-                            src={`${base_url}/storage/${selectedProduct.image}`}
+                            src={`${base_url}/storage/${paketsoal.link_cover}`}
                             onLoad={handleImageLoad}
                         />
                     </div>
@@ -108,10 +92,14 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
                     {/* Bagian Detail Produk */}
                     <div className="flex-1">
                         <h1 className="text-2xl font-bold mb-2">
-                            {selectedProduct.title}
+                            {paketsoal.name}
                         </h1>
                         <div>
-                            <BasicTabs auth={auth} detail={detail} />
+                            <BasicTabs
+                                auth={auth}
+                                detail={detail}
+                                paketsoal={paketsoal}
+                            />
                         </div>
                     </div>
                 </div>
@@ -121,21 +109,21 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
                     <h3 className="text-xl font-semibold mb-4">
                         Penilaian Produk
                     </h3>
-                    <div className="flex w-full h-32 bg-secondary/5 px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
+                    <div className="flex w-full  bg-secondary/5 px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
                         <div>
                             <div className="flex w-full text-secondary font-semibold text-4xl items-center justify-center gap-3">
-                                {selectedProduct.rating}
+                                {paketsoal.rating}
                                 <span className="font-normal text-xl">
                                     dari 5
                                 </span>
                             </div>
                             <Rating
-                                value={selectedProduct.rating}
+                                value={paketsoal.rating}
                                 readOnly
                                 size="large"
                             />
                         </div>
-                        <div className="flex gap-4 flex-row">
+                        <div className="flex gap-4 flex-wrap">
                             <RadioGroup
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
@@ -163,26 +151,28 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
                     </div>
                     <div>
                         {/* Ulasan Individual */}
-                        <div className="mb-4 mt-4">
+                        <div className="flex w-full mb-4 mt-4">
                             <div className="flex w-full p-4 flex-col gap-y-4">
-                                {comments.map((comment) => (
-                                    <div className="flex w-full gap-4">
+                                {paketsoal.penilaian.map((comment) => (
+                                    <div className="flex  gap-4 w-full">
                                         <Avatar
                                             sx={{ bgcolor: deepOrange[500] }}
                                         >
                                             RU
                                         </Avatar>
 
-                                        <div className=" min-h-24">
+                                        <div className="flex flex-col w-full min-h-24">
                                             <p className="text-md text-secondary font-semibold">
-                                                Rifa Ulkhairi
+                                                {comment.created_by}
                                             </p>
                                             <div>
                                                 <p className="text-xs text-gray-500">
-                                                    {comment.tgl}
+                                                    {new Date(
+                                                        comment.created_at
+                                                    ).toLocaleString()}
                                                 </p>
                                                 <Rating
-                                                    value={5}
+                                                    value={comment.rating}
                                                     readOnly
                                                     size="small"
                                                     precision={0.5}
@@ -190,8 +180,16 @@ const DetailProduct = ({ auth, detail, base_url, cart }) => {
                                             </div>
 
                                             <p className="text-gray-700">
-                                                {comment.content}
+                                                {comment.comment}
                                             </p>
+                                            {comment.replies.map((reply) => (
+                                                <div className="bg-[#F5F5F5] p-5 my-3 rounded-sm flex flex-col w-full">
+                                                    <p className="text-black font-bold mb-2">
+                                                        Edu Test Market
+                                                    </p>
+                                                    <p>{reply.comment}</p>
+                                                </div>
+                                            ))}
                                         </div>
                                         <Divider orientation="horizontal" />
                                     </div>

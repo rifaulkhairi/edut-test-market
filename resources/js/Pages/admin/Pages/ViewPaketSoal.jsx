@@ -240,7 +240,9 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                                                 </div>
                                                 <div>
                                                     <p className="text-xs text-gray-500">
-                                                        {comment.created_at}
+                                                        {new Date(
+                                                            comment.created_at
+                                                        ).toLocaleString()}
                                                     </p>
                                                     <Rating
                                                         value={comment.rating}

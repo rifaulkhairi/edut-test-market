@@ -179,7 +179,7 @@ hr {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 15px;
 }
 ::-webkit-scrollbar-track {
     /* background: #e0e0e0; */
@@ -187,11 +187,11 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #184c80;
+    background: #d9dbdd;
 }
 
 ::-webkit-scrollbar-track:hover {
-    background: #e0e0e0;
+    background: #f3f3f3;
 }
 .slick-arrow:before {
     color: rgb(24, 76, 128) !important;

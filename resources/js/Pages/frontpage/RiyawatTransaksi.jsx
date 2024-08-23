@@ -99,17 +99,21 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
 
     useEffect(() => {
         const filterOrders = () => {
+            let filtered = orders;
             if (filter === "all") {
-                setFilteredOrders(orders);
-            } else {
-                setFilteredOrders(
-                    orders.filter((order) => order.status === filter)
+                filtered = filtered.sort(
+                    (a, b) => new Date(b.created_at) - new Date(a.created_at)
                 );
+                setFilteredOrders(filtered);
+            } else {
+                filtered = orders.filter((order) => order.status === filter);
+                filtered = filtered.sort(
+                    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+                );
+                setFilteredOrders(filtered);
             }
         };
         filterOrders();
-
-        console.log(filteredOrders);
     }, [filter, orders]);
     return (
         <FrontpageLayout user={auth} cart={cartitem} base_url={base_url}>

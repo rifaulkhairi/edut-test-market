@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PaketSoal extends Model
 {
@@ -26,4 +27,9 @@ class PaketSoal extends Model
         'updated_at'
     ];
     protected $table = 'paket_soal_tbl';
+
+    public function penilaian()
+    {
+        return $this->hasMany(Penilaian::class, 'id_paket_soal');
+    }
 }

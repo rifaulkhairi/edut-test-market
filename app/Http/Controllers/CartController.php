@@ -25,14 +25,14 @@ class CartController extends Controller
         $itemcart = Cart::where('cart_item_tbl.paketsoal_id', '=', $id)
             ->where('cart_item_tbl.email_user', '=', Auth::user()->email)->first();
         if ($itemcart) {
-            return redirect('/cart');
+            return redirect()->back()->with('message', ['error' => 'Produk Sudah Ada di dalam Keranjang']);
         } else {
             $data = [
                 'paketsoal_id' => $id,
                 'email_user' => Auth::user()->email,
             ];
             Cart::create($data);
-            return redirect('/cart');
+            return redirect()->back()->with('message', ['success' => 'berhasil ditembahkan ke dalam Keranjang']);;
         }
     }
 

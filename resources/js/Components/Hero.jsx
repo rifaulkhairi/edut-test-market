@@ -17,7 +17,7 @@ export default function Hero() {
                     variant="text"
                     onClick={handlePrev}
                     size="sm"
-                    className="!absolute top-2/4 left-4 -translate-y-2/4 shadow-md"
+                    className="!absolute top-2/4 left-0 -translate-y-2/4 shadow-sm"
                 >
                     <ChevronLeftIcon className="size-5 text-secondary" />
                 </Button>
@@ -28,7 +28,7 @@ export default function Hero() {
                     variant="text"
                     onClick={handleNext}
                     size="sm"
-                    className="!absolute top-2/4 !right-4 -translate-y-2/4 shadow-md"
+                    className="!absolute top-2/4 !right-0 -translate-y-2/4 shadow-sm"
                 >
                     <ChevronRightIcon className="size-5 text-secondary" />
                 </Button>
@@ -38,10 +38,10 @@ export default function Hero() {
                     {new Array(length).fill("").map((_, i) => (
                         <span
                             key={i}
-                            className={`block h-1  cursor-pointer rounded-2xl transition-all content-[''] z-20 ${
+                            className={`block h-1  cursor-pointer rounded-full transition-all content-[''] z-20 ${
                                 activeIndex === i
-                                    ? "w-8 bg-secondary"
-                                    : "w-4 bg-secondary/50"
+                                    ? " w-2 h-2 bg-secondary"
+                                    : " w-2 h-2 bg-secondary/50"
                             }`}
                             onClick={() => setActiveIndex(i)}
                         />

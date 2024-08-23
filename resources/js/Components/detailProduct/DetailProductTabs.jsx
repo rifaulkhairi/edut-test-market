@@ -5,10 +5,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import Harga from "../Harga";
-import { Avatar, Rating } from "@mui/material";
+import { Rating } from "@mui/material";
 import { Link, router } from "@inertiajs/react";
-import { green } from "@mui/material/colors";
-import { People } from "@mui/icons-material";
 import PeopleCard from "../leaderboard/PeopleCard";
 
 function CustomTabPanel(props) {
@@ -84,18 +82,8 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
     })
 );
 
-export default function BasicTabs({ auth, detail }) {
+export default function BasicTabs({ auth, paketsoal }) {
     const [value, setValue] = React.useState(0);
-
-    const [selectedProduct, setSelectedProduct] = React.useState({
-        id: detail.id,
-        title: detail.name,
-        harga: detail.price,
-        diskon: detail.discount,
-        image: detail.link_cover,
-        description: detail.description,
-        rating: detail.rating,
-    });
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -116,28 +104,37 @@ export default function BasicTabs({ auth, detail }) {
             <CustomTabPanel value={value} index={0}>
                 <h2 className="text-xl text-indigo-600 mb-4">
                     <Harga
-                        nilai={selectedProduct.harga}
+                        nilai={paketsoal.price}
                         className="text-md font-semibold text-secondary"
                     ></Harga>
                 </h2>
                 <p className="text-md text-gray-600"> 1rb terjual</p>
                 <div className="flex gap-x-2">
                     <p className="text-xl font-semibold text-secondary">
-                        {selectedProduct.rating}
+                        {paketsoal.rating}
                     </p>
-                    <Rating value={selectedProduct.rating} readOnly />
+                    <Rating value={paketsoal.rating} readOnly />
                 </div>
                 <button
                     className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10"
                     onClick={() => {
-                        router.post(`/addtocart/${detail.id}`);
+                        router.post(
+                            `/addtocart/${paketsoal.id}`,
+                            {},
+                            {
+                                preserveState: true,
+                                preserveScroll: true,
+                                only: ["cart", "flash"],
+                                progressIndicator: false,
+                            }
+                        );
                     }}
                 >
                     Add to Cart
                 </button>
                 <Link
                     href={route("kerjakansoal", {
-                        id: selectedProduct.id,
+                        id: paketsoal.id,
                     })}
                 >
                     <button className="mt-4 mx-8 bg-secondary text-white px-4 py-2 rounded hover:bg-secondary/70">
@@ -145,7 +142,7 @@ export default function BasicTabs({ auth, detail }) {
                     </button>
                 </Link>
                 <div className="pr-20">
-                    <p className="mt-4">{selectedProduct.description}</p>
+                    <p className="mt-4">{paketsoal.description}</p>
                 </div>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>

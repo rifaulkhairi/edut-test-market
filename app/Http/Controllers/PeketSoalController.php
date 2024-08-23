@@ -32,28 +32,9 @@ class PeketSoalController extends Controller
 
     public function viewPaketSoal(Request $request, $id)
     {
-        $paketsoal = PaketSoal::find($id);
+        $paketsoal = PaketSoal::where('paket_soal_tbl.id', '=', $id)->with("penilaian.replies")->get()->first();
+
         $paketsoal['base_url'] = url("/");
-        $penilaian = Penilaian::where('penilaian_tbl.id_paket_soal', '=', $id)
-            ->with('replies')
-            ->get();
-
-        // dd($penilaian[0]->replies);
-
-        $datapenilaian = $penilaian->map(function ($item) {
-            return [
-                "id" => $item->id,
-                "comment" => $item->comment,
-                "id_paket_soal" => $item->id_paket_soal,
-                "created_by" => $item->created_by,
-                "rating" => $item->rating,
-                "created_at" => Carbon::parse($item->created_at)->format('Y-m-d H:i:s'),
-                "updated_at" => Carbon::parse($item->updated_at)->format('Y-m-d H:i:s'),
-                "replies" => $item->replies,
-
-            ];
-        });
-        $paketsoal['penilaian'] = $datapenilaian;
 
         $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
         $paketsoal['rating'] = $averageRating;

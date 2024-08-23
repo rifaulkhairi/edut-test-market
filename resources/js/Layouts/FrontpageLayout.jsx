@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, Head, router } from "@inertiajs/react";
-import logo from "../../../public/images/logo-edu-test-market.svg";
+import logo from "../../../public/images/logo-EduShop.svg";
 import { BsSearch } from "react-icons/bs";
 import {
     ShoppingCartIcon,
@@ -11,7 +11,7 @@ import { Badge, Paper, IconButton } from "@mui/material";
 import { Menu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-
+import { styled } from "@mui/material/styles";
 import Footer from "@/Components/Footer";
 import Image from "@/Components/Image";
 import Harga from "@/Components/Harga";
@@ -37,6 +37,18 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
     };
 
     // console.log(cart);
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        "& .MuiBadge-badge": {
+            right: 0,
+            // top: 13,
+            color: "#184C80",
+            textTransform: "capitalize",
+            background: "#ffffff",
+            border: `2px solid ${theme.palette.background.paper}`,
+            padding: "0 4px",
+            fontWeight: 800,
+        },
+    }));
 
     return (
         <>
@@ -127,27 +139,29 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white h-16 shadow-md opacity-95 flex justify-center">
+                <div className="bg-secondary h-16 shadow-md  flex justify-center">
                     <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full max-w-6xl">
                         {/* logo */}
                         <a
                             href="/"
-                            className="block h-full content-center w-10"
+                            className="flex h-full justify-center items-center mb-2 gap-x-2"
                         >
-                            <img src={logo} className="w-12 h-12 flex-none" />
+                            <img src={logo} className="w-14 h-14 flex-none" />
+                            <span className="font-bold text-white text-xl ">
+                                EduTest Market
+                            </span>
                         </a>
                         <div className="w-full flex justify-end items-center gap-2">
                             {/* search */}
                             <div className="relative w-full max-w-[500px]">
                                 <input
                                     type="text"
-                                    className="border-secondary focus:ring-2 focus:ring-secondary focus:border-secondary bg-[#f2f3f5] px-6 py-2 rounded-md w-full text-sm"
+                                    className="border-secondary focus:ring-2 focus:ring-secondary focus:border-secondary bg-[#f2f3f5] px-6 py-2 rounded-sm w-full text-sm"
                                     placeholder="Search Product"
                                 />
-                                <BsSearch
-                                    className="absolute top-0 right-0 mt-2 mr-5 text-secondary"
-                                    size={18}
-                                />
+                                <div className="bg-secondary cursor-pointer hover:bg-secondary/80 top-[3px] px-3 rounded-sm py-[6px] absolute right-0  mr-1 text-white">
+                                    <BsSearch className="" size={20} />
+                                </div>
                             </div>
                             {/* icons */}
                             <React.Fragment>
@@ -156,19 +170,19 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                     onClick={handleClick}
                                 >
                                     {cart !== null ? (
-                                        <Badge
+                                        <StyledBadge
                                             badgeContent={cart.length}
                                             color="warning"
                                             overlap="circular"
                                         >
-                                            <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
-                                        </Badge>
+                                            <ShoppingCartIcon className="size-8 text-white"></ShoppingCartIcon>
+                                        </StyledBadge>
                                     ) : (
                                         <Badge
                                             color="warning"
                                             overlap="circular"
                                         >
-                                            <ShoppingCartIcon className="size-8 text-secondary"></ShoppingCartIcon>
+                                            <ShoppingCartIcon className="size-8 text-white"></ShoppingCartIcon>
                                         </Badge>
                                     )}
                                 </IconButton>

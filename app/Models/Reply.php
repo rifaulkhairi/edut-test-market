@@ -15,6 +15,6 @@ class Reply extends Model
 
     public function penilaian()
     {
-        return $this->belongsTo(Penilaian::class);
+        return $this->belongsTo(Penilaian::class, );
     }
 }

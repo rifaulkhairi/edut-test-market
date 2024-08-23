@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\PaketSoal;
+use App\Models\Penilaian;
 use Inertia\Inertia;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,13 @@ class ProdukController extends Controller
         $produk = PaketSoal::find($id);
         $baseurl = url("/");
         $cart = null;
+        $paketsoal = PaketSoal::where('paket_soal_tbl.id', '=', $id)->with("penilaian.replies")->get()->first();
+
+        $paketsoal['base_url'] = url("/");
+
+        $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
+        $paketsoal['rating'] = $averageRating;
+
 
 
         if (Auth::user()) {
@@ -53,7 +61,7 @@ class ProdukController extends Controller
         if (!$produk) {
             return redirect('/produks')->with('error', 'Produk tidak ditemukan');
         }
-        return Inertia::render('frontpage/DetailProduct', ['base_url' => $baseurl, 'detail' => $produk, 'products' => $produks, 'cart' => $cart]);
+        return Inertia::render('frontpage/DetailProduct', ['base_url' => $baseurl, 'detail' => $produk, 'products' => $produks, 'cart' => $cart, 'paketsoal' => $paketsoal]);
     }
     public function addPaketSoal() {}
 }
