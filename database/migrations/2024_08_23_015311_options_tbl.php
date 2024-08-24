@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('option');
             $table->double('nilai');
             $table->foreignId('question_id')->constrained('questions_tbl', 'id')->onDelete('cascade');
+            $table->timestamps();
             $table->char('Alias');
         });
     }

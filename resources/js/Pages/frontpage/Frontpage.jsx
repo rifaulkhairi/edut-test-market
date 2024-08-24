@@ -11,6 +11,8 @@ import ProductCard from "@/Components/ProductCard";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
+import { Fab } from "@mui/material";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 export default function Frontpage({ auth, produks, base_url, cart }) {
     const [sortBy, setSortBy] = useState("terpopuler");
@@ -87,6 +89,11 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                         ))}
                     </div>
                 </section>
+                <div className="w-fit fixed bottom-5 right-5">
+                    <Fab variant="circular">
+                        <IoLogoWhatsapp className="text-green-600 text-4xl" />
+                    </Fab>
+                </div>
 
                 <div></div>
             </FrontpageLayout>

@@ -53,7 +53,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
     return (
         <>
             <Head title="Edu Test Market"></Head>
-            <header className="fixed z-50 bg-secondary">
+            <header className="fixed z-50 ">
                 <div className="w-screen px-2 bg-secondary items-center flex justify-center">
                     <div className="flex w-full max-w-6xl">
                         <div className="flex-1 gap-8 ml-3 text-white flex">
@@ -139,7 +139,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-secondary h-16 shadow-md  flex justify-center">
+                <div className="bg-gradient-to-b from-secondary from-10%  to-[#2062a5] h-16 shadow-md  flex justify-center">
                     <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full max-w-6xl">
                         {/* logo */}
                         <a

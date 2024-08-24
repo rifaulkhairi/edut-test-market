@@ -43,7 +43,6 @@ Route::middleware('auth', 'admin')->group(function () {
     // Paket Soal
     Route::get('/admin/addpaketsoal', [PeketSoalController::class, 'addPaketSoal']);
     Route::get('/admin/viewpaketsoal/{id}', [PeketSoalController::class, 'viewPaketSoal']);
-    Route::get('/admin/editpaketsoal', [PeketSoalController::class, 'editPaketSoal']);
     Route::get('/admin/daftarpaketsoal', [PeketSoalController::class, 'showAll'])->name('daftarpaketsoal');
     Route::get('/admin/editpaketsoal/{id}', [PeketSoalController::class, 'edit'])->name('editpaketsoal');
     Route::patch('/admin/paketsoal/update/{id}', [PeketSoalController::class, 'update']);

@@ -2,12 +2,13 @@ import Sidebar from "@/Components/admin/Sidebar";
 import Header from "@/Components/admin/Header";
 import React, { useState } from "react";
 import { Button, InputLabel, TextField, IconButton } from "@mui/material";
-import { useForm } from "@inertiajs/inertia-react";
 import MUIDataTable from "mui-datatables";
 import { Link, router } from "@inertiajs/react";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
+import { Toaster, toast } from "sonner";
+import { useEffect } from "react";
 
 const columns = [
     {
@@ -22,17 +23,47 @@ const columns = [
         },
     },
     {
-        name: "soal",
+        name: "question",
         options: {
             customBodyRender: (value) => (
                 <div className="flex">
-                    <div dangerouslySetInnerHTML={{ __html: value }}></div>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: value }}
+                        className="line-clamp-1"
+                    ></div>
                 </div>
             ),
         },
     },
-    { name: "nama_paket_soal", label: "Paket Soal " },
-    { name: "nama_tipe_test", label: "Tipe Test " },
+    {
+        name: "paketsoal",
+        label: "Paket Soal",
+        options: {
+            customBodyRender: (value) => (
+                <div className="flex">{value.name}</div>
+            ),
+        },
+    },
+    { name: "tipe_soal", label: "Tipe Soal " },
+    {
+        name: "tipetest",
+        label: "Tipe Test ",
+        options: {
+            customBodyRender: (value) => (
+                <div className="flex">{value.name}</div>
+            ),
+        },
+    },
+    {
+        name: "author",
+        label: "Author",
+        options: {
+            customBodyRender: (value) => (
+                <div className="flex">{value.name}</div>
+            ),
+        },
+    },
+
     {
         name: "id",
         label: "Action",
@@ -78,9 +109,20 @@ const options = {
     selectableRows: false,
 };
 
-const ListSoal = ({ soal }) => {
+const ListSoal = ({ soal, flash, question }) => {
+    useEffect(() => {
+        if (flash.message != null) {
+            if (flash.message.success) {
+                toast.success(flash.message.success);
+            } else if (flash.message.error) {
+                toast.error(flash.message.error);
+            }
+        }
+    }, [flash]);
     return (
         <section className="main flex">
+            <Toaster position="top-right" richColors />
+
             <div className="sidebarWrapper w-[15%]">
                 <Sidebar tab={1} />
             </div>
@@ -102,7 +144,7 @@ const ListSoal = ({ soal }) => {
                     </div>
                     <MUIDataTable
                         title={"Daftar Soal"}
-                        data={soal}
+                        data={question}
                         columns={columns}
                         options={options}
                     ></MUIDataTable>

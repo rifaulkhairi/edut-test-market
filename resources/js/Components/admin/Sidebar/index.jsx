@@ -7,6 +7,8 @@ import { FaAngleRight, FaCartArrowDown } from "react-icons/fa6";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { TbBrandProducthunt } from "react-icons/tb";
 import { router } from "@inertiajs/react";
+import { IoPeopleOutline } from "react-icons/io5";
+import { useEffect } from "react";
 
 const Sidebar = ({ tab }) => {
     const [activeTab, setActiveTab] = useState(tab);
@@ -16,6 +18,7 @@ const Sidebar = ({ tab }) => {
         setActiveTab(index);
         setIsToggleSubmenu(!isToggleSubmenu);
     };
+
     return (
         <>
             <div className="sidebar fixed top-0 left-0 z-[100] w-[15%] shadow-lg shadow-blue-500/10">
@@ -136,7 +139,70 @@ const Sidebar = ({ tab }) => {
                                 </span>
                             </Button>
                         </li>
-                        {/* <div className="bg-black h-[1000px]"></div> */}
+                        <li>
+                            <Button
+                                className={`w-full flex items-center justify-center ${
+                                    activeTab === 3 ? "active" : ""
+                                }`}
+                                onClick={() => isOpenSubmenu(3)}
+                            >
+                                <span className="icon w-[30px] h-[30px] flex items-center justify-center rounded-md">
+                                    <IoPeopleOutline />
+                                </span>
+                                Pengguna
+                                <span
+                                    className={`arrow ml-auto w-[25px]  h-[25px] flex items-center justify-center ${
+                                        activeTab === 3 &&
+                                        isToggleSubmenu === true
+                                            ? "rotate"
+                                            : ""
+                                    }`}
+                                >
+                                    <FaAngleRight />
+                                </span>
+                            </Button>
+                            <div
+                                className={`submenuWrapper ${
+                                    activeTab === 3 && isToggleSubmenu === true
+                                        ? "colapse"
+                                        : "colapsed"
+                                }`}
+                            >
+                                <div className="submenu">
+                                    <Button
+                                        className="w-full"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            // router.visit(
+                                            //     "/admin/daftarpaketsoal"
+                                            // );
+                                        }}
+                                    >
+                                        Admin
+                                    </Button>
+                                    <Button
+                                        className="w-full"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            // router.visit(
+                                            //     "/admin/daftartipetest"
+                                            // );
+                                        }}
+                                    >
+                                        Author
+                                    </Button>
+                                    <Button
+                                        className="w-full"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            // router.visit("/admin/daftarsoal");
+                                        }}
+                                    >
+                                        Pelanggan
+                                    </Button>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

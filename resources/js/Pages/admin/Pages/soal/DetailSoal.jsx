@@ -4,7 +4,11 @@ import { Link } from "@inertiajs/react";
 import { Breadcrumbs } from "@mui/material";
 import { MdOutlineNavigateNext } from "react-icons/md";
 
-const DetailSoal = ({ soal }) => {
+const DetailSoal = ({ question }) => {
+    let options = question.options;
+    const maxNilai = Math.max(...options.map((option) => option.nilai));
+
+    const maxOptions = options.filter((option) => option.nilai === maxNilai);
     return (
         <section className="main flex">
             <div className="sidebarWrapper w-[15%]">
@@ -27,20 +31,20 @@ const DetailSoal = ({ soal }) => {
                                 <h5 className="soal my-5">
                                     <div
                                         dangerouslySetInnerHTML={{
-                                            __html: soal.soal,
+                                            __html: question.question,
                                         }}
                                     ></div>
                                 </h5>
                                 <div className="pilihan h-auto">
                                     <ul className="space-y-2">
-                                        {soal.choices.map((item, index) => (
+                                        {question.options.map((item, index) => (
                                             <li
                                                 key={index}
                                                 className="h-auto w-full py-3 px-6 rounded-2xl cursor-pointer bg-blue-gray-100"
                                             >
                                                 <div
                                                     dangerouslySetInnerHTML={{
-                                                        __html: item.content,
+                                                        __html: item.option,
                                                     }}
                                                 ></div>
                                             </li>
@@ -56,47 +60,55 @@ const DetailSoal = ({ soal }) => {
                                     <div
                                         className="mt-3"
                                         dangerouslySetInnerHTML={{
-                                            __html: soal.pembahasan,
+                                            __html: question.pembahasan,
                                         }}
                                     ></div>
                                 </h5>
                                 <div>
                                     <span className="px-3 bg-green-600 py-2 rounded-md text-white">
-                                        {`Jawaban ${soal.jawaban_betul}`}
+                                        {`Jawaban  ${String.fromCharCode(
+                                            97 +
+                                                parseInt(
+                                                    maxOptions[0].Alias,
+                                                    10
+                                                )
+                                        ).toUpperCase()}`}
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div className="p-5 rounded-xl bg-white shadow-blue-500/10 shadow-md max-w-72">
-                            <h5 className="soal my-5 text-blue-500 font-bold">
-                                Informasi
-                            </h5>
-                            <div className="pilihan h-auto">
-                                <ul className="grid grid-rows-3 grid-cols-2 gap-y-1 gap-x-2 items-start content-center">
-                                    <li className="h-auto w-full  px-2 rounded-2xl">
-                                        Paket Soal
-                                    </li>
-                                    <li className="h-auto w-full px-2 rounded-2xl">
-                                        {soal.nama_paket_soal}
-                                    </li>
-                                    <li className="h-auto w-full px-2 rounded-2xl">
-                                        Tipe Test
-                                    </li>
-                                    <li className="h-auto w-full px-2 rounded-2xl">
-                                        {soal.nama_tipe_test}
-                                    </li>
-                                    <li className="h-auto w-full px-2 rounded-2xl">
-                                        Author
-                                    </li>
-                                    <li className="h-auto w-full px-2 rounded-2xl">
-                                        <Link
-                                            href="#"
-                                            className="text-blue-500"
-                                        >
-                                            Rifa Ulkhairi
-                                        </Link>
-                                    </li>
-                                </ul>
+                        <div className="min-w-72 flex">
+                            <div className="p-5 rounded-xl h-fit bg-white shadow-blue-500/10 shadow-md max-w-72">
+                                <h5 className="soal my-5 text-blue-500 font-bold">
+                                    Informasi
+                                </h5>
+                                <div className="pilihan h-auto">
+                                    <ul className="grid grid-rows-3 grid-cols-2 gap-y-1 gap-x-2 items-start content-center">
+                                        <li className="h-auto w-full  px-2 rounded-2xl">
+                                            Paket Soal
+                                        </li>
+                                        <li className="h-auto w-full px-2 rounded-2xl">
+                                            {question.paketsoal.name}
+                                        </li>
+                                        <li className="h-auto w-full px-2 rounded-2xl">
+                                            Tipe Test
+                                        </li>
+                                        <li className="h-auto w-full px-2 rounded-2xl">
+                                            {question.tipetest.name}
+                                        </li>
+                                        <li className="h-auto w-full px-2 rounded-2xl">
+                                            Author
+                                        </li>
+                                        <li className="h-auto w-full px-2 rounded-2xl">
+                                            <Link
+                                                href="#"
+                                                className="text-blue-500"
+                                            >
+                                                {question.author.name}
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

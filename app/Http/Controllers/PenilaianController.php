@@ -22,12 +22,11 @@ class PenilaianController extends Controller
     public function reply(Request $request, $id)
     {
 
-        // dd($id);
         $data = [
             'comment' => $request->reply,
             'penilaian_id' => $id,
         ];
-        // dd($data);
+
         Reply::create($data);
         return redirect()->back();
     }

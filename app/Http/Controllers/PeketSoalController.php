@@ -21,13 +21,13 @@ class PeketSoalController extends Controller
             'link_cover',
             'discount'
         )->get();
-        return Inertia::render('admin/Pages/ListPaketSoal', ['daftarpaketsoal' => $daftarpaketsoal]);
+        return Inertia::render('admin/Pages/paketsoal/ListPaketSoal', ['daftarpaketsoal' => $daftarpaketsoal]);
     }
 
     public function addPaketSoal()
     {
 
-        return Inertia::render('admin/Pages/AddPaketSoal');
+        return Inertia::render('admin/Pages/paketsoal/AddPaketSoal');
     }
 
     public function viewPaketSoal(Request $request, $id)
@@ -39,12 +39,9 @@ class PeketSoalController extends Controller
         $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
         $paketsoal['rating'] = $averageRating;
 
-        return Inertia::render('admin/Pages/ViewPaketSoal', ['paketsoal' => $paketsoal]);
+        return Inertia::render('admin/Pages/paketsoal/ViewPaketSoal', ['paketsoal' => $paketsoal]);
     }
-    public function editPaketSoal()
-    {
-        return Inertia::render('admin/Pages/EditPaketSoal');
-    }
+   
 
     public function storePaketSoal(Request $request)
     {
@@ -101,7 +98,7 @@ class PeketSoalController extends Controller
     {
         $paketsoal = PaketSoal::find($id);
 
-        return Inertia::render('admin/Pages/EditPaketSoal', ['paketsoal' => $paketsoal]);
+        return Inertia::render('admin/Pages/paketsoal/EditPaketSoal', ['paketsoal' => $paketsoal]);
     }
 
     public function delete(Request $request, $id)

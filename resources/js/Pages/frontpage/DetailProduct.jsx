@@ -8,6 +8,8 @@ import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import { Toaster, toast } from "sonner";
 import { useEffect } from "react";
+import { Fab } from "@mui/material";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
     const [sortBy, setSortBy] = useState("semua");
@@ -198,6 +200,11 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                         </div>
                         {/* Tambahkan ulasan lainnya di sini */}
                     </div>
+                </div>
+                <div className="w-fit fixed bottom-5 right-5">
+                    <Fab variant="circular">
+                        <IoLogoWhatsapp className="text-green-600 text-4xl" />
+                    </Fab>
                 </div>
 
                 {/* Bagian Produk Terkait */}

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('created_by')->nullable();
             $table->string('tipe_soal')->default('pg'); //pg pg-v2 pgcomplex benarsalah
             $table->text('pembahasan');
+            $table->timestamps();
             $table->foreign('created_by')->references('email')->on('users')->onDelete('set null');
         });
     }

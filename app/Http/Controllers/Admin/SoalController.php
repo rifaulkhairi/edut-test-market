@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Option;
 use App\Models\PaketSoal;
 use App\Models\Penilaian;
+use App\Models\Question;
 use App\Models\SoalPG;
 use App\Models\TipeTest;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use PDO;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SoalController extends Controller
 {
@@ -24,151 +30,144 @@ class SoalController extends Controller
     }
     public function show()
     {
-        $soal = SoalPG::join('paket_soal_tbl', 'soalpg_tbl.paketsoal_id', '=', 'paket_soal_tbl.id')
-            ->join('tipe_test_tbl', 'soalpg_tbl.tipetest_id', '=', 'tipe_test_tbl.id')
-            ->select(
-                'soalpg_tbl.id',
-                'soalpg_tbl.soal',
-                'soalpg_tbl.opsiB',
-                'paket_soal_tbl.name as nama_paket_soal',
-                'tipe_test_tbl.name as nama_tipe_test'
-            )
 
-            ->get();
+        $questions = Question::with('options', 'author', 'paketsoal', 'tipetest')->get();
 
-        return Inertia::render('admin/Pages/soal/ListSoal', ['soal' => $soal]);
+
+
+        return Inertia::render('admin/Pages/soal/ListSoal', ['question' => $questions]);
     }
     public function store(Request $request)
     {
-        // dd($request);
 
-        $data = [
-            'paketsoal_id' => $request->idpaketsoal,
-            'nilai' => $request->nilai,
-            'jawaban_betul' => $request->jawabanBetul,
-            'status' => 'publish',
-            'tipetest_id' => $request->idtipetest,
-            'created_by' => Auth::user()->email,
-            'updated_by' => Auth::user()->email,
-            'soal' => $request->soal,
-            'opsiA' => $request->opsiA,
-            'opsiB' => $request->opsiB,
-            'opsiC' => $request->opsiC,
-            'opsiD' => $request->opsiD,
-            'opsiE' => $request->opsiE,
-            'pembahasan' => $request->pembahsan,
-            'created_by' => Auth::user()->username,
-            'updated_by' => Auth::user()->username,
+        $validator = Validator::make($request->all(), [
+            'soal' => 'required|string',
+            'choices' => 'required|array|min:2',
+            'choices.*.choice_text' => 'required|string',
+            'choices.*.points' => 'required|numeric',
+            'pembahasan' => 'required|string',
+            'idpaketsoal' => 'required',
+            'idtipetest' => 'required',
+            'tipesoal' => 'required|string|in:pg,pgcomplex,bs',
 
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        DB::beginTransaction();
+        try {
+            $questiondata = [
+                'question' => $request->soal,
+                'paketsoal_id' => $request->idpaketsoal,
+                'tipetest_id' => $request->idtipetest,
+                'created_by' => Auth::user()->email,
+                'tipe_soal' => $request->tipesoal,
+                'pembahasan' => $request->pembahasan,
+            ];
 
-        ];
+            $question = Question::create($questiondata);
+            // dd($question);
 
-        SoalPG::create($data);
-        return to_route('daftarsoal');
+            foreach ($request->choices as $choice) {
+                $optionsdata = [
+                    'option' => $choice["choice_text"],
+                    'nilai' => $choice["points"],
+                    'Alias' => $choice["alias"],
+                    'question_id' => $question["id"],
+                ];
+                Option::create($optionsdata);
+            }
+
+            DB::commit();
+            return to_route('daftarsoal')->with('message', ['success' => 'Soal Berhasil Ditambahkan']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error while storing question and choices: ' . $e->getMessage());
+            return redirect()->back()->with('message', ['error' => 'Something went wrong']);
+        }
     }
 
     public function detail(Request $request, $id)
     {
-        $soal = SoalPG::join('paket_soal_tbl', 'soalpg_tbl.paketsoal_id', '=', 'paket_soal_tbl.id')
-            ->join('tipe_test_tbl', 'soalpg_tbl.tipetest_id', '=', 'tipe_test_tbl.id')
-            ->where('soalpg_tbl.id', '=', $id) // Moved after the joins for clarity
-            ->select(
-                'soalpg_tbl.id',
-                'soalpg_tbl.soal',
-                'soalpg_tbl.opsiA',
-                'soalpg_tbl.opsiB',
-                'soalpg_tbl.opsiC',
-                'soalpg_tbl.opsiD',
-                'soalpg_tbl.opsiE',
-                'soalpg_tbl.pembahasan',
-                'soalpg_tbl.jawaban_betul',
-                'paket_soal_tbl.name as nama_paket_soal',
-                'tipe_test_tbl.name as nama_tipe_test'
-            )
-            ->get();
-        // dd($soal);
-        $data = [
-            'id' => $soal[0]['id'],
-            'soal' => $soal[0]['soal'],
-            'nama_paket_soal' => $soal[0]['nama_paket_soal'],
-            'nama_tipe_test' => $soal[0]['nama_tipe_test'],
-            'pembahasan' => $soal[0]['pembahasan'],
-            'jawaban_betul' => $soal[0]['jawaban_betul'],
+        $question = Question::where('questions_tbl.id', '=', $id)->with('options', 'author', 'paketsoal', 'tipetest')->first();
+        
 
-            'choices' => [
-                '0' => ['content' => $soal[0]['opsiA'], 'option' => 'A'],
-                '1' => ['content' => $soal[0]['opsiB'], 'option' => 'B'],
-                '2' => ['content' => $soal[0]['opsiC'], 'option' => 'C'],
-                '3' => ['content' => $soal[0]['opsiD'], 'option' => 'D'],
-                '4' => ['content' => $soal[0]['opsiE'], 'option' => 'E'],
-
-            ],
-
-        ];
-        // dd($data);
-        return Inertia::render('admin/Pages/soal/DetailSoal', ['soal' => $data]);
+        return Inertia::render('admin/Pages/soal/DetailSoal', ['question' => $question]);
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $soal = SoalPG::join('paket_soal_tbl', 'soalpg_tbl.paketsoal_id', '=', 'paket_soal_tbl.id')
-            ->join('tipe_test_tbl', 'soalpg_tbl.tipetest_id', '=', 'tipe_test_tbl.id')
-            ->where('soalpg_tbl.id', '=', $id) // Moved after the joins for clarity
-            ->select(
-                'soalpg_tbl.id',
-                'soalpg_tbl.soal',
-                'soalpg_tbl.opsiA',
-                'soalpg_tbl.opsiB',
-                'soalpg_tbl.opsiC',
-                'soalpg_tbl.opsiD',
-                'soalpg_tbl.opsiE',
-                'soalpg_tbl.pembahasan',
-                'soalpg_tbl.jawaban_betul',
-                'soalpg_tbl.nilai',
-                'paket_soal_tbl.name as nama_paket_soal',
-                'tipe_test_tbl.name as nama_tipe_test',
-                'tipe_test_tbl.id as id_tipe_test',
-                'paket_soal_tbl.id as id_paket_soal',
+        $question = Question::where('questions_tbl.id', '=', $id)->with('options', 'author', 'paketsoal', 'tipetest')->first();
 
 
-
-            )
-            ->get();
 
         $tipetest = TipeTest::all();
         $paketsoal = PaketSoal::all();
-        return Inertia::render('admin/Pages/soal/EditSoalPG', ['datasoal' => $soal, 'tipetest' => $tipetest, 'paketsoal' => $paketsoal]);
+        return Inertia::render('admin/Pages/soal/EditSoalPG', ['tipetest' => $tipetest, 'paketsoal' => $paketsoal, 'question' => $question]);
     }
 
     public function update(Request $request, $id)
     {
-        $soal = SoalPG::find($id);
 
-        $data = [
-            'soal' => $request->soal,
-            'nilai' => $request->nilai,
-            'opsiA' => $request->opsiA,
-            'opsiB' => $request->opsiB,
-            'opsiC' => $request->opsiC,
-            'opsiD' => $request->opsiD,
-            'opsiE' => $request->opsiE,
-            'pembahasan' => $request->pembahsan,
-            'paketsoal_id' => $request->idpaketsoal,
-            'tipetest_id' => $request->idtipetest,
-            'jawaban_betul' => $request->jawabanBetul,
-            'updated_by' => Auth::user()->username,
+        // dd($request);
+        $validator = Validator::make($request->all(), [
+            'soal' => 'required|string',
+            'choices' => 'required|array|min:2',
+            'choices.*.option' => 'required|string',
+            'choices.*.nilai' => 'required|numeric',
+            'pembahasan' => 'required|string',
+            'idpaketsoal' => 'required',
+            'idtipetest' => 'required',
+            'tipesoal' => 'required|string|in:pg,pgcomplex,bs',
 
-        ];
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        DB::beginTransaction();
+        try {
+            $questiondata = [
+                'question' => $request->soal,
+                'paketsoal_id' => $request->idpaketsoal,
+                'tipetest_id' => $request->idtipetest,
+                'tipe_soal' => $request->tipesoal,
+                'pembahasan' => $request->pembahasan,
+            ];
 
-        $soal->update($data);
+            $question = Question::find($id);
+            if ($question) {
+                $question->update($questiondata);
+            }
 
-        return redirect('admin/daftarsoal');
+            foreach ($request->choices as $choice) {
+                $optionsdata = [
+                    'option' => $choice["option"],
+                    'nilai' => $choice["nilai"],
+                    'Alias' => $choice["Alias"],
+                ];
+
+                $option = Option::find($choice["id"]);
+                if ($option) {
+                    $option->update($optionsdata);
+                }
+            }
+
+            DB::commit();
+            return to_route('daftarsoal')->with('message', ['success' => 'Soal Berhasil di Perbaharui']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('message', ['error' => 'Something went wrong']);
+        }
     }
 
     public function delete($id)
     {
-        $soalpg = SoalPG::find($id);
-        $soalpg->delete();
-        return redirect('admin/daftarsoal');
+        $question = Question::find($id);
+        $question->delete();
+        return redirect()->back()->with('message', ['success' => 'Soal Berhasil Dihapus']);
     }
 }
