@@ -32,4 +32,8 @@ class PaketSoal extends Model
     {
         return $this->hasMany(Penilaian::class, 'id_paket_soal');
     }
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'paketsoal_id');
+    }
 }

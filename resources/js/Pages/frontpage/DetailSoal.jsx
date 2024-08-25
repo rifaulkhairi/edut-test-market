@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import EndExamModal from "@/Components/EndExamModal";
 import Timer from "@/Components/Timer";
+import { useEffect } from "react";
 
-const DetailSoal = ({ soal, paketsoal }) => {
+const DetailSoal = ({ paketsoal, groupedQuestions, tipetestdata }) => {
+    const [currentTipeTest, setCurrentTipeTest] = useState("1");
+
+    const [currentQuestionGroup, setCurrentQuestionGroup] = useState(
+        groupedQuestions[currentTipeTest]
+    );
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [answers, setAnswers] = useState(Array(soal.length).fill(null));
+    const [answers, setAnswers] = useState(
+        Object.keys(groupedQuestions).map((tipetest) => ({
+            tipetest: tipetest,
+            answer: Array(groupedQuestions[tipetest].length).fill(null),
+        }))
+    );
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const nextQuestion = () => {
-        if (currentQuestion < soal.length - 1) {
+        if (currentQuestion < currentQuestionGroup.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
         }
     };
@@ -20,10 +32,16 @@ const DetailSoal = ({ soal, paketsoal }) => {
     };
 
     const handleChoiceClick = (choice) => {
-        const newAnswers = [...answers];
-        newAnswers[currentQuestion] = choice;
-        setAnswers(newAnswers);
-        console.log(choice);
+        setAnswers((prevAnswers) =>
+            prevAnswers.map((answerObj) => {
+                if (answerObj.tipetest === currentTipeTest) {
+                    const updatedAnswers = [...answerObj.answer];
+                    updatedAnswers[currentQuestion] = choice; // Fill the specific question with the selected choice
+                    return { ...answerObj, answer: updatedAnswers };
+                }
+                return answerObj;
+            })
+        );
     };
 
     const handleEndExamClick = () => {
@@ -36,7 +54,7 @@ const DetailSoal = ({ soal, paketsoal }) => {
 
     const handleConfirmEndExam = () => {
         // Logika untuk mengakhiri ujian bisa ditambahkan di sini
-        console.log("Ujian diakhiri");
+        // console.log("Ujian diakhiri");
         setIsModalOpen(false);
     };
 
@@ -44,85 +62,57 @@ const DetailSoal = ({ soal, paketsoal }) => {
         setCurrentQuestion(index);
     };
 
+    const handleTipeTest = (value, index) => {
+        setCurrentTipeTest(value);
+        setCurrentQuestionGroup(groupedQuestions[value]);
+        setCurrentQuestion(0);
+    };
+
+    useEffect(() => {
+        // console.log(currentTipeTest);
+        // console.log(currentQuestionGroup);
+        console.log(answers);
+    }, [answers]);
+
+    // console.log(tipetestdata);
+
     return (
-        <div className="container flex p-4 m-auto">
-            <div className="contsoal flex-1 p-10 rounded-xl shadow-xl">
+        <div className=" container flex p-4 m-auto ">
+            <div className="relative contsoal flex-1 p-10 rounded-xl shadow-xl z-auto">
                 <h2 className="font-semibold">
                     Soal Nomor {currentQuestion + 1}
                 </h2>
                 <h5
                     className="soal my-5"
                     dangerouslySetInnerHTML={{
-                        __html: soal[currentQuestion].soal,
+                        __html: currentQuestionGroup[currentQuestion].question,
                     }}
                 ></h5>
                 <div className="pilihan h-auto">
                     <ul className="space-y-2">
-                        <li
-                            key={"A"}
-                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
-                                answers[currentQuestion] ===
-                                soal[currentQuestion].opsiA
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-blue-gray-100"
-                            }`}
-                            onClick={() => handleChoiceClick("A")}
-                            dangerouslySetInnerHTML={{
-                                __html: soal[currentQuestion].opsiA,
-                            }}
-                        ></li>
-                        <li
-                            key={"B"}
-                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
-                                answers[currentQuestion] ===
-                                soal[currentQuestion].opsiB
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-blue-gray-100"
-                            }`}
-                            onClick={() => handleChoiceClick("B")}
-                            dangerouslySetInnerHTML={{
-                                __html: soal[currentQuestion].opsiB,
-                            }}
-                        ></li>
-                        <li
-                            key={"C"}
-                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
-                                answers[currentQuestion] ===
-                                soal[currentQuestion].opsiC
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-blue-gray-100"
-                            }`}
-                            onClick={() => handleChoiceClick("C")}
-                            dangerouslySetInnerHTML={{
-                                __html: soal[currentQuestion].opsiC,
-                            }}
-                        ></li>
-                        <li
-                            key={"D"}
-                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
-                                answers[currentQuestion] ===
-                                soal[currentQuestion].opsiD
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-blue-gray-100"
-                            }`}
-                            onClick={() => handleChoiceClick("D")}
-                            dangerouslySetInnerHTML={{
-                                __html: soal[currentQuestion].opsiD,
-                            }}
-                        ></li>
-                        <li
-                            key={"E"}
-                            className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
-                                answers[currentQuestion] ===
-                                soal[currentQuestion].opsiE
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-blue-gray-100"
-                            }`}
-                            onClick={() => handleChoiceClick("E")}
-                            dangerouslySetInnerHTML={{
-                                __html: soal[currentQuestion].opsiE,
-                            }}
-                        ></li>
+                        {currentQuestionGroup[currentQuestion].options.map(
+                            (choice, index) => (
+                                <li
+                                    key={choice.Alias}
+                                    className={`h-auto w-full p-2 rounded-2xl cursor-pointer ${
+                                        answers.find(
+                                            (answerObj) =>
+                                                answerObj.tipetest ===
+                                                currentTipeTest
+                                        ).answer[currentQuestion] ===
+                                        choice.Alias
+                                            ? "bg-blue-500 text-white" // Highlight selected choice
+                                            : "bg-blue-gray-100"
+                                    }`}
+                                    onClick={() =>
+                                        handleChoiceClick(choice.Alias)
+                                    }
+                                    dangerouslySetInnerHTML={{
+                                        __html: choice.option,
+                                    }}
+                                ></li>
+                            )
+                        )}
                     </ul>
                     <div className="navigasi flex gap-2 mt-4">
                         <div className="back bg-secondary text-white w-auto h-auto p-2 rounded-3xl">
@@ -136,7 +126,10 @@ const DetailSoal = ({ soal, paketsoal }) => {
                         <div className="next bg-secondary text-white w-auto h-auto p-2 rounded-3xl">
                             <button
                                 onClick={nextQuestion}
-                                disabled={currentQuestion === soal.length - 1}
+                                disabled={
+                                    currentQuestion ===
+                                    currentQuestionGroup.length - 1
+                                }
                             >
                                 Selanjutnya
                             </button>
@@ -144,7 +137,7 @@ const DetailSoal = ({ soal, paketsoal }) => {
                     </div>
                 </div>
             </div>
-            <div className="sisikanan w-autoflex flex-col p-4">
+            <div className="relative z-30 sisikanan w-autoflex min-w-72 flex-col p-4">
                 <Timer
                     initialHours={paketsoal.jam}
                     initialMinutes={paketsoal.menit}
@@ -158,36 +151,51 @@ const DetailSoal = ({ soal, paketsoal }) => {
                 <div className="tipe shadow-xl rounded-2xl">
                     <div className="tes m-4 grid gap-1 py-4">
                         <h1 className="font-bold">Pilih Tipe tes</h1>
-                        <div className="twk p-2 bg-tertiary text-xs flex justify-between items-center text-white rounded-lg">
-                            Tes Wawasan Kebangsaan
-                            <div className="persen h-10 w-10 border border-white rounded-full"></div>
-                        </div>
-                        <div className="twk p-2 bg-tertiary text-xs flex justify-between items-center text-white rounded-lg">
-                            Tes Intelegensi Umum
-                            <div className="persen h-10 w-10 border border-white rounded-full"></div>
-                        </div>
-                        <div className="twk p-2 bg-tertiary text-xs flex justify-between items-center text-white rounded-lg">
-                            Tes Karakteristik Pribadi
-                            <div className="persen h-10 w-10 border border-white rounded-full"></div>
-                        </div>
+                        {Object.keys(groupedQuestions).map(
+                            (tipetest, index) => (
+                                <button
+                                    className="twk p-2 bg-tertiary text-xs flex justify-between items-center text-white rounded-lg"
+                                    onClick={() =>
+                                        handleTipeTest(tipetest, index)
+                                    }
+                                >
+                                    {tipetest}
+                                </button>
+                            )
+                        )}
                     </div>
                 </div>
                 <div className="daftar p-4 bg-white rounded-2xl shadow-xl">
                     <h1 className="font-bold py-2">Daftar Soal</h1>
                     <div className="bks grid grid-cols-5 gap-1">
-                        {Array.from({ length: soal.length }, (_, i) => (
-                            <button
-                                key={i + 1}
-                                className={`number-div p-2 hover:scale-110 ${
-                                    answers[i] !== null
-                                        ? "bg-green-500"
-                                        : "bg-red-500"
-                                } text-center rounded-md`}
-                                onClick={() => goToQuestion(i)}
-                            >
-                                {i + 1}
-                            </button>
-                        ))}
+                        {Array.from(
+                            { length: currentQuestionGroup.length },
+                            (_, i) => {
+                                const currentAnswerObj = answers.find(
+                                    (answerObj) =>
+                                        answerObj.tipetest === currentTipeTest
+                                );
+
+                                // Get the answer for the current question in the current TipeTest
+                                const isAnswered =
+                                    currentAnswerObj &&
+                                    currentAnswerObj.answer[i] !== null;
+
+                                return (
+                                    <button
+                                        key={i + 1}
+                                        className={`number-div p-2 hover:scale-110 ${
+                                            isAnswered
+                                                ? "bg-green-500"
+                                                : "bg-red-500"
+                                        } text-center rounded-md`}
+                                        onClick={() => goToQuestion(i)}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                );
+                            }
+                        )}
                     </div>
                 </div>
             </div>

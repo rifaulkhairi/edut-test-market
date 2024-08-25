@@ -5,40 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DataSoal;
 use App\Models\PaketSoal;
+use App\Models\Question;
 use App\Models\SoalPG;
+use App\Models\TipeTest;
 use Inertia\Inertia;
 
 class SoalController extends Controller
 {
     public function index($id)
     {
-        $soal = SoalPG::where('soalpg_tbl.paketsoal_id', '=', $id)
-            ->get();
-        $paketsoal = PaketSoal::find($id);
 
-        // dd($paketSoal);
+        $paketSoal = PaketSoal::where('paket_soal_tbl.id', '=', $id)
+            ->with('questions.options', 'questions.tipetest')
+            ->first();
 
-        // $soalsoal = DataSoal::find($id);
+        $tipetest = TipeTest::all();
+        $groupedQuestions = $paketSoal->questions->groupBy('tipetest_id');
 
-        // function generateRandomOrderQuestions($questions)
-        // {
-        //     shuffle($questions);
 
-        //     foreach ($questions as &$question) {
-        //         shuffle($question['choices']);
-        //     }
-
-        //     return $questions;
-        // }
-
-        // if (!$soal) {
-        //     return redirect('/produk')->with('error', 'Produk tidak ditemukan');
-        // }
-
-        // $randomOrderQuestions = generateRandomOrderQuestions($soalsoal['soal']);
-
-        return Inertia::render('frontpage/DetailSoal', ['soal' => $soal, 'paketsoal' => $paketsoal]);
+        return Inertia::render('frontpage/DetailSoal', ['paketsoal' => $paketSoal, 'groupedQuestions' => $groupedQuestions, 'tipetest' => $tipetest]);
     }
+
+
 
     public function hasilujian()
     {
