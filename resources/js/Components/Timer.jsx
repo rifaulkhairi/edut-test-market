@@ -33,17 +33,20 @@ const Timer = ({
     }, [hours, minutes, seconds, onTimeUp]);
 
     return (
-        <div className="waktu shadow-lg rounded-2xl">
-            <h1 className="font-bold ml-4 mt-2">Sisa Waktu</h1>
-            <div className="waktu grid grid-flow-col p-4 text-white">
-                <div className="jam h-14 w-14 bg-tertiary rounded-lg flex items-center justify-center">
-                    {hours}
+        <div className="waktu shadow-lg rounded-2xl bg-white pt-4">
+            <h1 className="font-bold ml-4">Sisa Waktu</h1>
+            <div className="waktu grid grid-flow-col pb-4 pt-1 px-4 text-white gap-x-3">
+                <div className="jam h-14 w-20 bg-tertiary rounded-lg flex items-center justify-center flex-col">
+                    <p className="font-bold text-xl">{hours}</p>
+                    <p>Jam</p>
                 </div>
-                <div className="menit h-14 w-14 bg-tertiary rounded-lg flex items-center justify-center">
-                    {minutes}
+                <div className="menit h-14 w-20 bg-tertiary rounded-lg flex items-center justify-center flex-col">
+                    <p className="font-bold text-xl">{minutes}</p>
+                    <p>Menit</p>
                 </div>
-                <div className="detik h-14 w-14 bg-tertiary rounded-lg flex items-center justify-center">
-                    {seconds}
+                <div className="detik h-14 w-20 bg-tertiary rounded-lg flex items-center justify-center flex-col">
+                    <p className="font-bold text-xl">{seconds}</p>
+                    <p>Detik</p>
                 </div>
             </div>
         </div>

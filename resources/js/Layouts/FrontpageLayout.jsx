@@ -139,7 +139,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-gradient-to-b from-secondary from-10%  to-[#2062a5] h-16 shadow-md  flex justify-center">
+                <div className="bg-secondary h-16 shadow-md  flex justify-center">
                     <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full max-w-6xl">
                         {/* logo */}
                         <a

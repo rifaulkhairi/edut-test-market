@@ -76,14 +76,14 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
         <FrontpageLayout user={auth} base_url={base_url} cart={cart}>
             <Toaster position="top-right" richColors />
             <div className="container px-20 pt-2 max-w-6xl">
-                <div className="grid-cols-1 flex gap-4 bg-white shadow-md p-5 rounded-md">
+                <div className="grid grid-flow-col gap-4 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}
-                    <div className="flex-[0.3] text-center">
+                    <div className="text-center">
                         {!imageLoaded && (
-                            <div className="w-60 h-60 bg-gray-100 rounded-md animate-pulse"></div>
+                            <div className="w-52 h-52 bg-gray-100 rounded-md animate-pulse"></div>
                         )}
                         <img
-                            className={`w-60 h-60  rounded-md ${
+                            className={`w-52 h-52  rounded-md ${
                                 imageLoaded ? "" : "hidden"
                             }`}
                             src={`${base_url}/storage/${paketsoal.link_cover}`}
@@ -92,7 +92,7 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                     </div>
 
                     {/* Bagian Detail Produk */}
-                    <div className="flex-1">
+                    <div className="">
                         <h1 className="text-2xl font-bold mb-2">
                             {paketsoal.name}
                         </h1>

@@ -19,11 +19,11 @@ class SoalController extends Controller
             ->with('questions.options', 'questions.tipetest')
             ->first();
 
-        $tipetest = TipeTest::all();
+        $tipetestData = TipeTest::all();
         $groupedQuestions = $paketSoal->questions->groupBy('tipetest_id');
 
 
-        return Inertia::render('frontpage/DetailSoal', ['paketsoal' => $paketSoal, 'groupedQuestions' => $groupedQuestions, 'tipetest' => $tipetest]);
+        return Inertia::render('frontpage/DetailSoal', ['paketsoal' => $paketSoal, 'groupedQuestions' => $groupedQuestions, 'tipetestData' => $tipetestData]);
     }
 
 

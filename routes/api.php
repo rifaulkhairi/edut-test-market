@@ -9,5 +9,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 Route::post('/verify-pyment', [OrderController::class, 'verify'])->name('verify-pyment');
-Route::post('/save-answere', [AnswerController::class, 'store'])->name('answere.store');
+Route::post('/save-answer', [AnswerController::class, 'store'])->name('answere.store');
 

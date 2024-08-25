@@ -17,12 +17,12 @@ class PaketSoalFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->sentence(3),
+            'name' => 'Soal SKD Kendinasan 202' . rand(0, 4),
             'description' => fake()->text(500),
             'price' => rand(100000, 200000),
             'terjual' => rand(0, 1000),
             'discount' => rand(0, 100) / 100,
-            'link_cover' => 'cover/hlmHxbNEoYQ7m9Ey20YyFKGzBEBlGK9050CmSgMS.png',
+            'link_cover' => 'cover/D9t9R2hfHmh0bxv3jRpgMW0EuPHwb51l7ZYZu6ZQ.png',
 
 
         ];

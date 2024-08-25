@@ -9,6 +9,6 @@ class AnswerController extends Controller
 {
     public function store(Request $request)
     {
-        dd($request);
+        return response()->json(['success' => true, 'message' => 'Jawaban berhasil disimpan']);
     }
 }

@@ -52,7 +52,7 @@ const DetailSoal = ({ question }) => {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="contsoal flex-1 p-10 rounded-xl bg-white shadow-blue-500/10 shadow-md">
+                            <div className="flex-1 p-10 rounded-xl bg-white shadow-blue-500/10 shadow-md">
                                 <h5 className="soal my-5">
                                     <span className="font-bold text-secondary">
                                         Pembahasan
