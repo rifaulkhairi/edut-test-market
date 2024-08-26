@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-const DetailSoal = ({ paketsoal, groupedQuestions, tipetestData }) => {
+const ExamRoom = ({ paketsoal, groupedQuestions, tipetestData }) => {
     const [currentTipeTest, setCurrentTipeTest] = useState("1");
 
     const [currentQuestionGroup, setCurrentQuestionGroup] = useState(
@@ -50,7 +50,7 @@ const DetailSoal = ({ paketsoal, groupedQuestions, tipetestData }) => {
         }
     };
 
-    const handleChoiceClick = (choice) => {
+    const handleChoiceClick = async (choice) => {
         setAnswers((prevAnswers) =>
             prevAnswers.map((answerObj) => {
                 if (answerObj.tipetest === currentTipeTest) {
@@ -61,6 +61,7 @@ const DetailSoal = ({ paketsoal, groupedQuestions, tipetestData }) => {
                 return answerObj;
             })
         );
+        await saveAnswer();
     };
 
     const handleEndExamClick = () => {
@@ -248,4 +249,4 @@ const DetailSoal = ({ paketsoal, groupedQuestions, tipetestData }) => {
         </div>
     );
 };
-export default DetailSoal;
+export default ExamRoom;

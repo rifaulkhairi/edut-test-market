@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test Karakteristik Pribadi '],
         ];
 
-        PaketSoal::factory(2)->create();
+        PaketSoal::factory(10)->create();
         foreach ($typeTests as $typeTest) {
             TipeTest::factory()->create($typeTest);
         }

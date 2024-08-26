@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Editor;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PeketSoalController;
 use App\Http\Controllers\PenilaianController;
@@ -27,6 +28,8 @@ Route::get('/checkout', [OrderController::class, 'index'])->name('checkout')->mi
 Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesanan')->middleware('auth');
 Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware('auth');
 Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware('auth');
+Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth');
+Route::get('/examdashboard/id=', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth');
 
 
 
