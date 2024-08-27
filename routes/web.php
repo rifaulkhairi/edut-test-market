@@ -13,6 +13,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RiwayatTransaksiController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\TipeTestController;
+use App\Http\Controllers\User\PaketSoalKuController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,8 +30,8 @@ Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesana
 Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware('auth');
 Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware('auth');
 Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth');
-Route::get('/examdashboard/id=', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth');
-
+Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth');
+Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
 
 
 

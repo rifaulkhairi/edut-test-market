@@ -71,7 +71,7 @@ export default function Hero() {
             <div className="w-[400px] flex flex-col gap-y-1">
                 <div className="bg-black h-full w-full">
                     <img
-                        src={Banner3}
+                        src={Banner1}
                         alt="image 1"
                         className="h-full w-full object-cover"
                     />
@@ -79,7 +79,7 @@ export default function Hero() {
                 <div className="bg-black h-full w-full">
                     <div className="bg-black h-full w-full">
                         <img
-                            src={Banner4}
+                            src={Banner2}
                             alt="image 1"
                             className="h-full w-full object-cover"
                         />

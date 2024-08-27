@@ -6,7 +6,9 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 const DetailSoal = ({ paketsoal, groupedQuestions, tipetestData }) => {
-    const [currentTipeTest, setCurrentTipeTest] = useState("1");
+    const [currentTipeTest, setCurrentTipeTest] = useState(
+        Object.keys(groupedQuestions)[0]
+    );
 
     const [currentQuestionGroup, setCurrentQuestionGroup] = useState(
         groupedQuestions[currentTipeTest]

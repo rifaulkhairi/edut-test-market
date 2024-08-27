@@ -146,8 +146,11 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                             href="/"
                             className="flex h-full justify-center items-center mb-2 gap-x-2"
                         >
-                            <img src={logo} className="w-14 h-14 flex-none" />
-                            <span className="font-bold text-white text-xl ">
+                            <img
+                                src={logo}
+                                className="w-12 h-12 mt-2 flex-none"
+                            />
+                            <span className="font-bold text-white text-xl mt-2">
                                 EduTestMarket
                             </span>
                         </a>
@@ -280,7 +283,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                     </div>
                 </div>
             </header>
-            <main className="flex pt-24 overflow-x-hidden items-center justify-center flex-col gap-4">
+            <main className="flex pt-24 items-center justify-center flex-col gap-4">
                 {children}
             </main>
             <div className="flex items-center w-full justify-center bg-white mt-10">

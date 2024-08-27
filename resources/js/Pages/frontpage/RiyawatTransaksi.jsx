@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 
 import React, { useEffect, useState } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import { TfiTime } from "react-icons/tfi";
-import { LiaTimesCircle } from "react-icons/lia";
-import { IoIosCheckmark } from "react-icons/io";
+
 import Harga from "@/Components/Harga";
 import ChipMenggunguPembayaran from "@/Components/ChipMenggunguPembayaran";
 import ChipBerhasil from "@/Components/ChipBerhasil";
@@ -240,7 +238,24 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
-                                                            <Button title="Lihat" />
+                                                            <Button
+                                                                title="Lihat"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    console.log(
+                                                                        "press"
+                                                                    );
+                                                                    router.get(
+                                                                        "/examdashboard",
+                                                                        {
+                                                                            paketsoal_id:
+                                                                                order.id,
+                                                                        }
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                         {order.status ===
                                                             "expired" && (
@@ -351,7 +366,24 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
-                                                            <Button title="Lihat" />
+                                                            <Button
+                                                                title="Lihat"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    console.log(
+                                                                        "press"
+                                                                    );
+                                                                    router.get(
+                                                                        "/examdashboard",
+                                                                        {
+                                                                            paketsoal_id:
+                                                                                order.id,
+                                                                        }
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                         {order.status ===
                                                             "expired" && (
@@ -573,7 +605,21 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
-                                                            <Button title="Lihat" />
+                                                            <Button
+                                                                title="Lihat"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    router.get(
+                                                                        "/examdashboard",
+                                                                        {
+                                                                            paketsoal_id:
+                                                                                order.id,
+                                                                        }
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                         {order.status ===
                                                             "expired" && (

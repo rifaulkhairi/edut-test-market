@@ -3,6 +3,7 @@ import { Link, Head } from "@inertiajs/react";
 import { Button, Select, Option, Card } from "@material-tailwind/react";
 import Harga from "./Harga";
 import { Skeleton } from "@mui/material";
+import Image from "./Image";
 
 const ProductCard = ({ product, base_url }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -15,28 +16,20 @@ const ProductCard = ({ product, base_url }) => {
     return (
         <Link
             href={route("detailproduct", { id: product.id })}
-            className="hover:-translate-y-1 transition-all"
+            className="hover:-translate-y-1 transition-all hover:shadow-md"
         >
-            <Card className="w-40 h-72 rounded-md">
-                <div className="bg-black w-40 h-40 rounded-md">
-                    {!imageLoaded && (
-                        <div className="w-full h-full bg-gray-300 rounded-md animate-pulse"></div>
-                    )}
-                    <img
-                        className={`w-full h-full bg-cover rounded-md ${
-                            imageLoaded ? "" : "hidden"
-                        }`}
-                        src={`${base_url}/storage/${product.link_cover}`}
-                        onLoad={handleImageLoad}
-                    />
+            <div className="w-40 h-72 bg-white">
+                <div className="relative bg-black w-40 h-40 rounded-md">
+                    <p className="absolute right-0 w-12 py-1 bg-tertiary/45 text-white text-xs px-2">
+                        -{product.discount * 100}%
+                    </p>
+                    <Image src={`${base_url}/storage/${product.link_cover}`} />
                 </div>
                 <div className="w-40 h-40 rounded-md flex p-2 flex-col gap-1">
                     <p className="text-sm font-semibold line-clamp-2 text-secondary">
                         {product.name}
                     </p>
-                    <p className="relative w-12 py-1 rounded-md bg-secondary text-white text-xs px-2">
-                        -{product.discount * 100}%
-                    </p>
+
                     <p className="text-sm text-gray-500 line-clamp-2 line-through">
                         <Harga nilai={product.price}></Harga>
                     </p>
@@ -54,7 +47,7 @@ const ProductCard = ({ product, base_url }) => {
                         </p>
                     </div>
                 </div>
-            </Card>
+            </div>
         </Link>
     );
 };
