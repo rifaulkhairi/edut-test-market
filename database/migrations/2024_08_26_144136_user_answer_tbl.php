@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('user_answer_tbl', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained('questions_tbl');
+            $table->string('answer')->nullable();
+            $table->foreignId('option_id')->constrained('options_tbl')->nullable();
             $table->foreignId('percobaan_id')->constrained('percobaan_ujian_tbl');
             $table->timestamps();
         });

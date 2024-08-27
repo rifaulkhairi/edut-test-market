@@ -5,7 +5,12 @@ import { useEffect } from "react";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-const ExamRoom = ({ paketsoal, groupedQuestions, tipetestData }) => {
+const ExamRoom = ({
+    paketsoal,
+    groupedQuestions,
+    tipetestData,
+    percobaanujian,
+}) => {
     const [currentTipeTest, setCurrentTipeTest] = useState("1");
 
     const [currentQuestionGroup, setCurrentQuestionGroup] = useState(
@@ -20,15 +25,40 @@ const ExamRoom = ({ paketsoal, groupedQuestions, tipetestData }) => {
     );
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const saveAnswer = async () => {
-        const selectedoption = answers.find(
+    const handleChoiceClick = async (choice, option_id) => {
+        setAnswers((prevAnswers) => {
+            const newAnswers = prevAnswers.map((answerObj) => {
+                if (answerObj.tipetest === currentTipeTest) {
+                    const updatedAnswers = [...answerObj.answer];
+                    updatedAnswers[currentQuestion] = choice;
+                    return { ...answerObj, answer: updatedAnswers };
+                }
+                return answerObj;
+            });
+
+            // Call saveAnswer after the state is updated
+            saveAnswer(newAnswers, option_id);
+            return newAnswers; // Ensure the new state is returned
+        });
+    };
+
+    // Modify saveAnswer to accept the updated answers as a parameter
+    const saveAnswer = async (updatedAnswers, option_id) => {
+        const selectedoption = updatedAnswers.find(
             (answerObj) => answerObj.tipetest === currentTipeTest
         ).answer[currentQuestion];
+        console.log("percobaanujian:", percobaanujian); // Log percobaanujian object
+        console.log("percobaan_id:", percobaanujian?.id); // Log percobaan_id
         if (selectedoption != null) {
             try {
+                let tipesoal = currentQuestionGroup[currentQuestion].tipe_soal;
+                console.log(tipesoal);
                 const response = await axios.post("/api/save-answer", {
+                    tipesoal: tipesoal,
                     question_id: currentQuestionGroup[currentQuestion].id,
                     answer: selectedoption,
+                    option_id: option_id,
+                    percobaan_id: percobaanujian[0].id,
                 });
                 console.log("Jawaban disimpan", response.data);
             } catch (error) {
@@ -38,7 +68,6 @@ const ExamRoom = ({ paketsoal, groupedQuestions, tipetestData }) => {
     };
 
     const nextQuestion = async () => {
-        await saveAnswer();
         if (currentQuestion < currentQuestionGroup.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
         }
@@ -48,20 +77,6 @@ const ExamRoom = ({ paketsoal, groupedQuestions, tipetestData }) => {
         if (currentQuestion > 0) {
             setCurrentQuestion(currentQuestion - 1);
         }
-    };
-
-    const handleChoiceClick = async (choice) => {
-        setAnswers((prevAnswers) =>
-            prevAnswers.map((answerObj) => {
-                if (answerObj.tipetest === currentTipeTest) {
-                    const updatedAnswers = [...answerObj.answer];
-                    updatedAnswers[currentQuestion] = choice;
-                    return { ...answerObj, answer: updatedAnswers };
-                }
-                return answerObj;
-            })
-        );
-        await saveAnswer();
     };
 
     const handleEndExamClick = () => {
@@ -122,7 +137,10 @@ const ExamRoom = ({ paketsoal, groupedQuestions, tipetestData }) => {
                                                 : "bg-blue-gray-200/30"
                                         }`}
                                         onClick={() =>
-                                            handleChoiceClick(choice.Alias)
+                                            handleChoiceClick(
+                                                choice.Alias,
+                                                choice.id
+                                            )
                                         }
                                     >
                                         <p>

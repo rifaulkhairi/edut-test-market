@@ -1,20 +1,7 @@
 import SimpleFrontpageLayout from "@/Layouts/SimpleFrontpageLayout";
 import React from "react";
-import {
-    Autocomplete,
-    Box,
-    Breadcrumbs,
-    capitalize,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    IconButton,
-    Radio,
-    RadioGroup,
-    TextField,
-} from "@mui/material";
-import { Link } from "@inertiajs/react";
+import { Autocomplete, Breadcrumbs, TextField } from "@mui/material";
+import { Link, router } from "@inertiajs/react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Image from "@/Components/Image";
 import Button from "@/Components/Button";
@@ -22,7 +9,6 @@ import { BiCoinStack } from "react-icons/bi";
 import { LuClock3 } from "react-icons/lu";
 import { GiLaurelsTrophy } from "react-icons/gi";
 import {
-    Bar,
     CartesianGrid,
     ComposedChart,
     Legend,
@@ -89,7 +75,7 @@ const atempData = [
     { id: 5, id_paket_soal: 2, nilai: 20, name: "percobaan 5" },
 ];
 
-const HasilUjian = ({ auth }) => {
+const HasilUjian = ({ auth, percobaanujian, paketsoal }) => {
     const [percobaan, setPercobaan] = useState();
     return (
         <SimpleFrontpageLayout user={auth}>
@@ -125,10 +111,28 @@ const HasilUjian = ({ auth }) => {
                                     Peringkat
                                 </p>
                             </li>
-
-                            <li>
-                                <Button title="Lihat Pembahasan" />
-                            </li>
+                            {percobaanujian.status === "pending" ? (
+                                <li>
+                                    <Button
+                                        title="Mulai Ujian"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.get("examroom", {
+                                                paketsoal_id: paketsoal.id,
+                                            });
+                                        }}
+                                    />
+                                </li>
+                            ) : (
+                                <>
+                                    <li>
+                                        <Button title="Ulangi Ujian" />
+                                    </li>
+                                    <li>
+                                        <Button title="Lihat Pembahasan" />
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>
