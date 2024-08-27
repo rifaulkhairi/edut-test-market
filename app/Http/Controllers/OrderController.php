@@ -57,7 +57,7 @@ class OrderController extends Controller
                 'Content-Type' => 'application/json'
 
             ])->withBasicAuth(env('MIDTRANS_SERVER_KEY'), '')
-                ->post('https://api.sandbox.midtrans.com/v2/charge', [
+                ->post(env('MIDTRANS_ENDPOINT'), [
                     'payment_type' => 'gopay',
                     'transaction_details' => [
                         'order_id' => $order->id,

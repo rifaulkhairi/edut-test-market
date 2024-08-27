@@ -9,7 +9,7 @@ class PercobaanUjian extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['paketsoal_id', 'email_user', 'status', 'total_nilai', 'diselesaikan_pada'];
+    protected $fillable = ['paketsoal_id', 'email_user', 'status', 'total_nilai', 'diselesaikan_pada', 'created_at'];
 
     protected $table = 'percobaan_ujian_tbl';
 

@@ -31,12 +31,12 @@ class ExamController extends Controller
             ->with(['useranswer.soal'])
             ->first();
 
-        $groupedAnswers = collect($datainprogressujian->useranswer)->groupBy(function ($item) {
-            return $item['soal']['tipetest_id'];
-        });
-
-
-
+        $groupedAnswers = [];
+        if ($datainprogressujian) {
+            $groupedAnswers = collect($datainprogressujian->useranswer)->groupBy(function ($item) {
+                return $item['soal']['tipetest_id'];
+            });
+        }
 
         if ($percobaanujian->isEmpty()) {
             $datapercobaanujian = [
@@ -47,21 +47,43 @@ class ExamController extends Controller
 
             $percobaanujian = PercobaanUjian::create($datapercobaanujian);
         } else {
-            // dd($percobaanujian);
-            $waktuujiandikerjakan = $percobaanujian[0]->created_at;
-            $detikBerjalan = $waktuujiandikerjakan->diffInSeconds(now());
 
-            $timer = ($paketSoal->jam * 60 * 60) + ($paketSoal->menit * 60) + $paketSoal->detik;
+            if ($datainprogressujian) {
 
-            $difwaktu = $timer - $detikBerjalan;
-            // dd($difwaktu);
+                $waktuujiandikerjakan = $datainprogressujian->created_at;
+                $detikBerjalan = $waktuujiandikerjakan->diffInSeconds(now());
+
+                $timer = ($paketSoal->jam * 60 * 60) + ($paketSoal->menit * 60) + $paketSoal->detik;
+
+
+                $difwaktu = $timer - $detikBerjalan;
+                $seconds = $difwaktu;
+                $hours = floor($seconds / 3600);
+                $minutes = floor(($seconds % 3600) / 60);
+                $seconds = $seconds % 60;
+                $paketSoal['jam'] = $hours;
+                $paketSoal['menit'] = $minutes;
+                $paketSoal['detik'] = $seconds;
+
+                $percobaanujian = $datainprogressujian;
+            } else {
+                //batasi percobaan ujian hanya 5 kali
+                if (count($percobaanujian) < 5) {
+                    $datapercobaanujian = [
+                        'paketsoal_id' => $request->paketsoal_id,
+                        'email_user' => Auth::user()->email,
+
+                    ];
+
+                    $percobaanujian = PercobaanUjian::create($datapercobaanujian);
+                }
+            }
         }
         return Inertia::render('frontpage/exam/ExamRoom', [
             'paketsoal' => $paketSoal,
             'groupedQuestions' => $groupedQuestions,
             'tipetestData' => $tipetestData,
             'percobaanujian' => $percobaanujian,
-            // 'datainprogressujian' => $datainprogressujian,
             'groupedAnswers' => $groupedAnswers,
         ]);
     }

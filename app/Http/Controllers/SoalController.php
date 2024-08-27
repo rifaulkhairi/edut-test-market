@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DataSoal;
+
 use App\Models\PaketSoal;
-use App\Models\Question;
-use App\Models\SoalPG;
+
 use App\Models\TipeTest;
 use Inertia\Inertia;
 

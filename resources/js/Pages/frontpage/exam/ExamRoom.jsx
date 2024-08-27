@@ -98,7 +98,7 @@ const ExamRoom = ({
                     question_id: currentQuestionGroup[currentQuestion].id,
                     answer: selectedQuestion.answer,
                     option_id: option_id,
-                    percobaan_id: percobaanujian[0].id,
+                    percobaan_id: percobaanujian.id,
                 });
 
                 console.log("Jawaban disimpan", response.data);
@@ -158,7 +158,6 @@ const ExamRoom = ({
 
         return jawaban;
     };
-
 
     return (
         <div className="relative">

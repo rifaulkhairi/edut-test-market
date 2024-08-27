@@ -23,7 +23,10 @@ const ProductCard = ({ product, base_url }) => {
                     <p className="absolute right-0 w-12 py-1 bg-tertiary/45 text-white text-xs px-2">
                         -{product.discount * 100}%
                     </p>
-                    <Image src={`${base_url}/storage/${product.link_cover}`} />
+                    <Image
+                        src={`${base_url}/storage/${product.link_cover}`}
+                        className="w-40 h-40"
+                    />
                 </div>
                 <div className="w-40 h-40 rounded-md flex p-2 flex-col gap-1">
                     <p className="text-sm font-semibold line-clamp-2 text-secondary">
