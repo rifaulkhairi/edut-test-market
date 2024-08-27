@@ -10,6 +10,7 @@ const ExamRoom = ({
     groupedQuestions,
     tipetestData,
     percobaanujian,
+    groupedAnswers,
 }) => {
     const [currentTipeTest, setCurrentTipeTest] = useState("1");
 
@@ -18,52 +19,94 @@ const ExamRoom = ({
     );
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState(
-        Object.keys(groupedQuestions).map((tipetest) => ({
-            tipetest: tipetest,
-            answer: Array(groupedQuestions[tipetest].length).fill(null),
-        }))
+        Object.keys(groupedQuestions).map((tipetest) => {
+            const questionGroup = groupedQuestions[tipetest] || [];
+            const answerGroup = groupedAnswers[tipetest] || [];
+
+            const questionsWithAnswers = questionGroup.map(
+                (question, index) => {
+                    const answerObj = answerGroup.find(
+                        (ans) => ans.question_id === question.id
+                    );
+                    return {
+                        id: question.id,
+                        answer: answerObj ? answerObj.answer : null,
+                    };
+                }
+            );
+
+            return {
+                tipetest: tipetest,
+                questions: questionsWithAnswers,
+            };
+        })
     );
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        setCurrentQuestionGroup(groupedQuestions[currentTipeTest] || []);
+    }, [currentTipeTest, groupedQuestions]);
+
     const handleChoiceClick = async (choice, option_id) => {
         setAnswers((prevAnswers) => {
             const newAnswers = prevAnswers.map((answerObj) => {
                 if (answerObj.tipetest === currentTipeTest) {
-                    const updatedAnswers = [...answerObj.answer];
-                    updatedAnswers[currentQuestion] = choice;
-                    return { ...answerObj, answer: updatedAnswers };
+                    const question = currentQuestionGroup[currentQuestion]; // Direct reference to the question
+
+                    if (!question) {
+                        console.error("Question is undefined.");
+                        return answerObj;
+                    }
+
+                    // Update the answer for the specific question
+                    const updatedQuestions = answerObj.questions.map((q) =>
+                        q.id === question.id ? { ...q, answer: choice } : q
+                    );
+
+                    return { ...answerObj, questions: updatedQuestions };
                 }
                 return answerObj;
             });
 
-            // Call saveAnswer after the state is updated
+            console.log("Updated Answers:", newAnswers);
+
             saveAnswer(newAnswers, option_id);
-            return newAnswers; // Ensure the new state is returned
+            return newAnswers;
         });
     };
 
-    // Modify saveAnswer to accept the updated answers as a parameter
     const saveAnswer = async (updatedAnswers, option_id) => {
-        const selectedoption = updatedAnswers.find(
+        // Find the answer object for the current tipetest
+        const currentAnswerObj = updatedAnswers.find(
             (answerObj) => answerObj.tipetest === currentTipeTest
-        ).answer[currentQuestion];
-        console.log("percobaanujian:", percobaanujian); // Log percobaanujian object
-        console.log("percobaan_id:", percobaanujian?.id); // Log percobaan_id
-        if (selectedoption != null) {
+        );
+
+        // Find the selected option for the current question
+        const selectedQuestion = currentAnswerObj.questions.find(
+            (q) => q.id === currentQuestionGroup[currentQuestion].id
+        );
+
+        if (selectedQuestion && selectedQuestion.answer != null) {
             try {
-                let tipesoal = currentQuestionGroup[currentQuestion].tipe_soal;
-                console.log(tipesoal);
+                const tipesoal =
+                    currentQuestionGroup[currentQuestion].tipe_soal;
+                console.log("Tipe Soal:", tipesoal);
+
                 const response = await axios.post("/api/save-answer", {
                     tipesoal: tipesoal,
                     question_id: currentQuestionGroup[currentQuestion].id,
-                    answer: selectedoption,
+                    answer: selectedQuestion.answer,
                     option_id: option_id,
                     percobaan_id: percobaanujian[0].id,
                 });
+
                 console.log("Jawaban disimpan", response.data);
             } catch (error) {
                 console.error("Error menyimpan jawaban", error);
             }
+        } else {
+            console.error("Selected question or answer is undefined.");
         }
     };
 
@@ -105,6 +148,18 @@ const ExamRoom = ({
         console.log(answers);
     }, [answers]);
 
+    const findcurrentanswer = () => {
+        let jawaban;
+        jawaban = answers
+            .filter((answerObj) => answerObj.tipetest === currentTipeTest)[0]
+            .questions.filter(
+                (ans) => ans.id === currentQuestionGroup[currentQuestion].id
+            )[0].answer;
+
+        return jawaban;
+    };
+
+
     return (
         <div className="relative">
             <div className="flex w-full absolute h-32 bg-secondary rounded-b-[100px]"></div>
@@ -127,12 +182,7 @@ const ExamRoom = ({
                                     <li
                                         key={choice.Alias}
                                         className={`h-auto w-full p-2 rounded-lg cursor-pointer flex items-center gap-x-3 ${
-                                            answers.find(
-                                                (answerObj) =>
-                                                    answerObj.tipetest ===
-                                                    currentTipeTest
-                                            ).answer[currentQuestion] ===
-                                            choice.Alias
+                                            findcurrentanswer() === choice.Alias
                                                 ? "bg-secondary text-white"
                                                 : "bg-blue-gray-200/30"
                                         }`}
@@ -236,15 +286,28 @@ const ExamRoom = ({
                                             answerObj.tipetest ===
                                             currentTipeTest
                                     );
-                                    const isAnswered =
-                                        currentAnswerObj &&
-                                        currentAnswerObj.answer[i] !== null;
+
+                                    const isAnswered = () => {
+                                        if (!currentAnswerObj) return false;
+
+                                        const currentjwb =
+                                            currentAnswerObj.questions.find(
+                                                (ans) =>
+                                                    ans.id ===
+                                                    currentQuestionGroup[i].id
+                                            );
+
+                                        return (
+                                            currentjwb &&
+                                            currentjwb.answer !== null
+                                        );
+                                    };
 
                                     return (
                                         <button
                                             key={i + 1}
                                             className={`number-div p-2 hover:scale-110 ${
-                                                isAnswered
+                                                isAnswered()
                                                     ? "bg-green-500"
                                                     : "bg-red-500"
                                             } text-center rounded-md`}

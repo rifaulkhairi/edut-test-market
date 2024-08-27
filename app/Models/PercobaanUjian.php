@@ -20,6 +20,6 @@ class PercobaanUjian extends Model
 
     public function useranswer()
     {
-        return $this->hasMany(UserAnswer::class);
+        return $this->hasMany(UserAnswer::class, 'percobaan_id');
     }
 }

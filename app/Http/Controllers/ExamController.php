@@ -24,9 +24,19 @@ class ExamController extends Controller
         $percobaanujian = PercobaanUjian::where('percobaan_ujian_tbl.email_user', '=', Auth::user()->email)
             ->where('percobaan_ujian_tbl.paketsoal_id', $request->paketsoal_id)
             ->get();
-        // dd($percobaanujian);
 
-        // dd($percobaanujian);
+        $datainprogressujian = PercobaanUjian::where('percobaan_ujian_tbl.email_user', '=', Auth::user()->email)
+            ->where('percobaan_ujian_tbl.paketsoal_id', $request->paketsoal_id)
+            ->where('percobaan_ujian_tbl.status', 'pending')
+            ->with(['useranswer.soal'])
+            ->first();
+
+        $groupedAnswers = collect($datainprogressujian->useranswer)->groupBy(function ($item) {
+            return $item['soal']['tipetest_id'];
+        });
+
+
+
 
         if ($percobaanujian->isEmpty()) {
             $datapercobaanujian = [
@@ -46,7 +56,14 @@ class ExamController extends Controller
             $difwaktu = $timer - $detikBerjalan;
             // dd($difwaktu);
         }
-        return Inertia::render('frontpage/exam/ExamRoom', ['paketsoal' => $paketSoal, 'groupedQuestions' => $groupedQuestions, 'tipetestData' => $tipetestData, 'percobaanujian' => $percobaanujian]);
+        return Inertia::render('frontpage/exam/ExamRoom', [
+            'paketsoal' => $paketSoal,
+            'groupedQuestions' => $groupedQuestions,
+            'tipetestData' => $tipetestData,
+            'percobaanujian' => $percobaanujian,
+            // 'datainprogressujian' => $datainprogressujian,
+            'groupedAnswers' => $groupedAnswers,
+        ]);
     }
     public function dashboard(Request $request)
     {
