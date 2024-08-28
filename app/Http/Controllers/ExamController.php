@@ -201,9 +201,7 @@ class ExamController extends Controller
             ->orderBy('created_at', 'asc')
             ->first();
 
-
         // dd($userRank);
-
         return Inertia::render('frontpage/HasilUjian', [
             'percobaanujian' => $percobaanujian,
             'paketsoal' => $paketsoal,
