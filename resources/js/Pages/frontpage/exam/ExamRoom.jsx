@@ -4,6 +4,7 @@ import Timer from "@/Components/Timer";
 import { useEffect } from "react";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { router } from "@inertiajs/react";
 
 const ExamRoom = ({
     paketsoal,
@@ -132,6 +133,11 @@ const ExamRoom = ({
 
     const handleConfirmEndExam = () => {
         setIsModalOpen(false);
+
+        router.post("/endexam", {
+            percobaan_id: percobaanujian.id,
+            paketsoal_id: percobaanujian.paketsoal_id,
+        });
     };
 
     const goToQuestion = (index) => {

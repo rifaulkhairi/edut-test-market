@@ -21,8 +21,9 @@ class PaketSoalKuController extends Controller
         $orders = Order::where('order_tbl.email_user', '=', Auth::user()->email)
             ->with(['order_items', 'order_items.paketsoal'])
             ->get();
+        // dd(Auth::user()->email);
         $paidOrder = Order::where('order_tbl.email_user', '=', Auth::user()->email)
-            ->orwhere('order_tbl.status', '=', 'paid')
+            ->where('order_tbl.status', '=', 'paid')
             ->with(['order_items', 'order_items.paketsoal'])
             ->get();
 
