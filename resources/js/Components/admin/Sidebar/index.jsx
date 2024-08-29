@@ -173,32 +173,10 @@ const Sidebar = ({ tab }) => {
                                         className="w-full"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            // router.visit(
-                                            //     "/admin/daftarpaketsoal"
-                                            // );
+                                            router.visit("/admin/listpengguna");
                                         }}
                                     >
-                                        Admin
-                                    </Button>
-                                    <Button
-                                        className="w-full"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            // router.visit(
-                                            //     "/admin/daftartipetest"
-                                            // );
-                                        }}
-                                    >
-                                        Author
-                                    </Button>
-                                    <Button
-                                        className="w-full"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            // router.visit("/admin/daftarsoal");
-                                        }}
-                                    >
-                                        Pelanggan
+                                        Daftar Pengguna
                                     </Button>
                                 </div>
                             </div>

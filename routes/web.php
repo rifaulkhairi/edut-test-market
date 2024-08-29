@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Editor;
@@ -33,7 +34,6 @@ Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->
 Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth');
 Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
-
 
 
 
@@ -73,6 +73,11 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::delete('/admin/deletesoal/{id}', [AdminSoalController::class, 'delete'])->name('admin.delete.soal');
     Route::delete('/admin/deletepenilaian/{id}', [PenilaianController::class, 'delete'])->name('admin.delete.penilaian');
     Route::post('/admin/storereply/{id}', [PenilaianController::class, 'reply'])->name('admin.reply.penilaian');
+
+    // pengguna
+    Route::get('/admin/listpengguna', [PenggunaController::class, 'list'])->name('pengguna.list');
+    Route::post('/admin/save/pengguna', [PenggunaController::class, 'save'])->name('pengguna.save');
+    Route::delete('/admin/delete/pengguna/{id}', [PenggunaController::class, 'delete'])->name('pengguna.delete');
 });
 
 Route::get('/editor/dashboard', [Editor::class, 'index'])->middleware('auth', 'editor');

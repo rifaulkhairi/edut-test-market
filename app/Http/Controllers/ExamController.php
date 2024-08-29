@@ -317,8 +317,6 @@ class ExamController extends Controller
         $data['jumlahbetul'] = $jumlahbetul;
         $data['jumlahsoal'] = $jumlahsoal;
         $data['nilai'] = $nilai;
-
-
         return $data;
     }
 }

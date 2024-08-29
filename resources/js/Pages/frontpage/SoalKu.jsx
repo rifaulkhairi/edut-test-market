@@ -20,7 +20,7 @@ const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
                 <h1 className="mt-4 font-bold text-secondary text-xl">
                     Soal Ku
                 </h1>
-                <div className="flex flex-row w-full gap-x-3 gap-y-3 mt-3">
+                <div className="flex flex-col w-full gap-x-3 gap-y-3 mt-3">
                     {paketsoaluser.length > 0 ? (
                         paketsoaluser.map((soal, index) => (
                             <div className="flex w-full bg-white p-4 rounded-md">
@@ -51,31 +51,6 @@ const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
                     ) : (
                         <p>Kamu belum ada paket soal yang sudah dibeli</p>
                     )}
-                    {/* {paketsoaluser.map((soal, index) => (
-                        <div className="flex w-full bg-white p-4 rounded-md">
-                            <div className="flex w-full gap-x-2">
-                                <Image
-                                    className="h-24 w-24 rounded-md"
-                                    src={`${base_url}/storage/${soal.paketsoal.link_cover}`}
-                                ></Image>
-                                <p>{soal.paketsoal.name}</p>
-                            </div>
-                            <ul className="flex w-full justify-between">
-                                <li>Status</li>
-                                <li className="place-content-end content-center">
-                                    <Button
-                                        title="Lihat"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.get("/examdashboard", {
-                                                paketsoal_id: soal.paketsoal_id,
-                                            });
-                                        }}
-                                    ></Button>
-                                </li>
-                            </ul>
-                        </div>
-                    ))} */}
                 </div>
             </div>
         </FrontpageLayout>
