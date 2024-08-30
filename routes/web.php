@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\CartController;
@@ -78,6 +79,9 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/listpengguna', [PenggunaController::class, 'list'])->name('pengguna.list');
     Route::post('/admin/save/pengguna', [PenggunaController::class, 'save'])->name('pengguna.save');
     Route::delete('/admin/delete/pengguna/{id}', [PenggunaController::class, 'delete'])->name('pengguna.delete');
+
+    // Order
+    Route::get('/admin/order/list', [AdminOrderController::class, 'index'])->name('order.list');
 });
 
 Route::get('/editor/dashboard', [Editor::class, 'index'])->middleware('auth', 'editor');

@@ -72,10 +72,7 @@ const Sidebar = ({ tab }) => {
                                 Products
                                 <span
                                     className={`arrow ml-auto w-[25px]  h-[25px] flex items-center justify-center ${
-                                        activeTab === 1 &&
-                                        isToggleSubmenu === true
-                                            ? "rotate"
-                                            : ""
+                                        activeTab === 1 ? "rotate" : ""
                                     }`}
                                 >
                                     <FaAngleRight />
@@ -83,10 +80,13 @@ const Sidebar = ({ tab }) => {
                             </Button>
                             <div
                                 className={`submenuWrapper ${
-                                    activeTab === 1 && isToggleSubmenu === true
-                                        ? "colapse"
-                                        : "colapsed"
+                                    activeTab === 1 ? "colapse" : "colapsed"
                                 }`}
+                                // className={`submenuWrapper ${
+                                //     activeTab === 1 && isToggleSubmenu === true
+                                //         ? "colapse"
+                                //         : "colapsed"
+                                // }`}
                             >
                                 <div className="submenu">
                                     <Button
@@ -138,6 +138,23 @@ const Sidebar = ({ tab }) => {
                                     <FaAngleRight />
                                 </span>
                             </Button>
+                            <div
+                                className={`submenuWrapper ${
+                                    activeTab === 2 ? "colapse" : "colapsed"
+                                }`}
+                            >
+                                <div className="submenu">
+                                    <Button
+                                        className="w-full"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.visit("/admin/order/list");
+                                        }}
+                                    >
+                                        Daftar Order
+                                    </Button>
+                                </div>
+                            </div>
                         </li>
                         <li>
                             <Button
@@ -152,10 +169,7 @@ const Sidebar = ({ tab }) => {
                                 Pengguna
                                 <span
                                     className={`arrow ml-auto w-[25px]  h-[25px] flex items-center justify-center ${
-                                        activeTab === 3 &&
-                                        isToggleSubmenu === true
-                                            ? "rotate"
-                                            : ""
+                                        activeTab === 3 ? "rotate" : ""
                                     }`}
                                 >
                                     <FaAngleRight />
@@ -163,9 +177,7 @@ const Sidebar = ({ tab }) => {
                             </Button>
                             <div
                                 className={`submenuWrapper ${
-                                    activeTab === 3 && isToggleSubmenu === true
-                                        ? "colapse"
-                                        : "colapsed"
+                                    activeTab === 3 ? "colapse" : "colapsed"
                                 }`}
                             >
                                 <div className="submenu">
