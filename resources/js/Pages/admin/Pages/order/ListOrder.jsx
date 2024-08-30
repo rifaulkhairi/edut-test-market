@@ -92,55 +92,16 @@ const ListOrder = ({ orders, flash }) => {
                 ),
             },
         },
-
-        // {
-        //     name: "id",
-        //     label: "Action",
-        //     options: {
-        //         customBodyRender: (value) => (
-        //             <div className="flex flex-row">
-        //                 <IconButton
-        //                     onClick={(e) => {
-        //                         e.preventDefault();
-        //                         router.get(`/admin/detailsoal/${value}`);
-        //                     }}
-        //                 >
-        //                     <MdOutlineOpenInNew className="" />
-        //                 </IconButton>
-        //                 <IconButton
-        //                     onClick={(e) => {
-        //                         e.preventDefault();
-        //                         router.get(`/admin/editsoal/${value}`);
-        //                     }}
-        //                 >
-        //                     <TbEdit className="text-md " />
-        //                 </IconButton>
-        //                 <IconButton
-        //                     onClick={(e) => {
-        //                         e.preventDefault();
-        //                         router.post(`/admin/deletesoal/${value}`, {
-        //                             _method: "delete",
-        //                         });
-        //                     }}
-        //                 >
-        //                     <MdDeleteForever className="text-md text-red-500" />
-        //                 </IconButton>
-        //             </div>
-        //         ),
-        //         filter: false,
-        //         sort: false,
-        //     },
-        // },
     ];
 
     const getColor = (status) => {
         switch (status) {
             case "paid":
-                return "success"; // Green color for success
+                return "success";
             case "pending":
-                return "warning"; // Yellow color for warning
+                return "warning";
             case "expire":
-                return "error"; // Red color for error
+                return "error";
         }
     };
 

@@ -35,6 +35,7 @@ Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->
 Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth');
 Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
+// Route::post('/user/lihatpembahasan', [])
 
 
 
