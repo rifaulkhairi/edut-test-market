@@ -38,7 +38,7 @@ Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initEx
 Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
 Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth');
-Route::post('/rating/save', [RatingController::class, 'store'])->name('rating.save');
+Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save');
 
 
 Route::middleware('auth')->group(function () {

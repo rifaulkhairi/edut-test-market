@@ -11,7 +11,7 @@ import { router } from "@inertiajs/react";
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export default function RatingDialog(props) {
-    const { onClose, open } = props;
+    const { onClose, open, paketsoal } = props;
     const [rating, setRating] = useState(null);
     const [comment, setComment] = useState(null);
 
@@ -36,7 +36,11 @@ export default function RatingDialog(props) {
 
     const submit = () => {
         handleClose();
-        router.post('')
+        router.post("/rating/save", {
+            rating: rating,
+            comment: comment,
+            paketsoal_id: paketsoal.id,
+        });
         console.log("rating :", rating, "comment:", comment);
     };
 

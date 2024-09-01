@@ -36,12 +36,12 @@ class PeketSoalController extends Controller
 
         $paketsoal['base_url'] = url("/");
 
-        $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
-        $paketsoal['rating'] = $averageRating;
+        // $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
+        // $paketsoal['rating'] = $averageRating;
 
         return Inertia::render('admin/Pages/paketsoal/ViewPaketSoal', ['paketsoal' => $paketsoal]);
     }
-   
+
 
     public function storePaketSoal(Request $request)
     {

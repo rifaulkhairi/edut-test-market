@@ -315,7 +315,11 @@ const HasilUjian = ({
                     </p>
                 )}
             </div>
-            <RatingDialog open={openRating} onClose={handleCloseRatingDialog} />
+            <RatingDialog
+                open={openRating}
+                onClose={handleCloseRatingDialog}
+                paketsoal={paketsoal}
+            />
         </SimpleFrontpageLayout>
     );
 };
