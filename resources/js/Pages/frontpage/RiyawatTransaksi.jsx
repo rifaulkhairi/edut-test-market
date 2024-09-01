@@ -13,6 +13,7 @@ import ChipMenggunguPembayaran from "@/Components/ChipMenggunguPembayaran";
 import ChipBerhasil from "@/Components/ChipBerhasil";
 import ChipGagal from "@/Components/ChipGagal";
 import Button from "@/Components/Button";
+import CS from "@/Components/CS";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -636,6 +637,7 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                             </div>
                         </CustomTabPanel>
                     </Box>
+                    <CS />
                 </div>
             </div>
         </FrontpageLayout>

@@ -13,6 +13,7 @@ import { useState } from "react";
 import { router } from "@inertiajs/react";
 import { Fab } from "@mui/material";
 import { IoLogoWhatsapp } from "react-icons/io";
+import CS from "@/Components/CS";
 
 export default function Frontpage({ auth, produks, base_url, cart }) {
     const [sortBy, setSortBy] = useState("terpopuler");
@@ -74,25 +75,8 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                             DIREKOMENDASIKAN
                         </div>
                     </div>
-                    {/* <div className="flex w-full h-12 bg-[#EDEDED] max-w-5xl rounded-md items-center">
-                        <div className="ml-5 flex flex-row gap-4">
-                            <RadioGroup
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value)}
-                            >
-                                <RadioCategory value="terpopuler">
-                                    Terpopuler
-                                </RadioCategory>
-                                <RadioCategory value="terbaru">
-                                    Terbaru
-                                </RadioCategory>
-                                <RadioCategory value="terlaris">
-                                    Terlaris
-                                </RadioCategory>
-                            </RadioGroup>
-                        </div>
-                    </div> */}
-                    <div className="w-full max-w-5xl grid grid-cols-6 min-w-5xl gap-2">
+                    
+                    <div className="w-full max-w-5xl flex flex-wrap min-w-5xl gap-2">
                         {produks.map((product) => (
                             <ProductCard
                                 base_url={base_url}
@@ -102,11 +86,7 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                         ))}
                     </div>
                 </section>
-                <div className="w-fit fixed bottom-5 right-5">
-                    <Fab variant="circular">
-                        <IoLogoWhatsapp className="text-green-600 text-4xl" />
-                    </Fab>
-                </div>
+                <CS />
 
                 <div></div>
             </FrontpageLayout>

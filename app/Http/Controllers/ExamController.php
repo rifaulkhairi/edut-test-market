@@ -202,7 +202,7 @@ class ExamController extends Controller
             ->first();
 
         // dd($userRank);
-        return Inertia::render('frontpage/HasilUjian', [
+        return Inertia::render('frontpage/exam/HasilUjian', [
             'percobaanujian' => $percobaanujian,
             'paketsoal' => $paketsoal,
             'statistik' => $items,

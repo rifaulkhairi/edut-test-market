@@ -21,6 +21,8 @@ import {
     YAxis,
 } from "recharts";
 import { useState } from "react";
+import RatingDialog from "@/Components/RatingDialog";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 const colors = ["#0075a3", "#009dad", "#00c29d", "#8be281", "#f9f871"];
 
@@ -36,12 +38,22 @@ const HasilUjian = ({
     const [percobaan, setPercobaan] = useState(
         statistik[statistik.length - 1] || null
     );
+    const [openRating, setOpenRating] = useState(false);
 
     const handlePercobaanChange = (event, value) => {
         setPercobaan(value);
         console.log("percobaan", percobaan);
         console.log("data percobaan", percobaan.data);
     };
+    const handleClickOpenRatingDialog = () => {
+        setOpenRating(true);
+    };
+
+    const handleCloseRatingDialog = (value) => {
+        setOpenRating(false);
+        console.log(openRating);
+    };
+
     // console.log(statistik.data);
     return (
         <SimpleFrontpageLayout user={auth}>
@@ -115,7 +127,31 @@ const HasilUjian = ({
                                         />
                                     </li>
                                     <li>
-                                        <Button title="Lihat Pembahasan" />
+                                        <Button
+                                            title="Lihat Pembahasan"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                router.get(
+                                                    "/user/view/pembahasan",
+                                                    {
+                                                        paketsoal_id:
+                                                            paketsoal.id,
+                                                        percobaan_id:
+                                                            percobaan.id,
+                                                    }
+                                                );
+                                            }}
+                                        />
+                                    </li>
+                                    <li>
+                                        <SecondaryButton
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleClickOpenRatingDialog();
+                                            }}
+                                        >
+                                            Berikan Rating
+                                        </SecondaryButton>
                                     </li>
                                 </>
                             )}
@@ -279,6 +315,7 @@ const HasilUjian = ({
                     </p>
                 )}
             </div>
+            <RatingDialog open={openRating} onClose={handleCloseRatingDialog} />
         </SimpleFrontpageLayout>
     );
 };

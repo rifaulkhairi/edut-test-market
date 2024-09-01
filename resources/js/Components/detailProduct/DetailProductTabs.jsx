@@ -31,6 +31,16 @@ const people = [
     { nama: "Khairi", score: 450 },
     { nama: "Airi", score: 420 },
     { nama: "Airi Rifa", score: 420 },
+    { nama: "Rifa Ulkhairi", score: 500 },
+    { nama: "Khairi Rifa", score: 450 },
+    { nama: "Khairi", score: 450 },
+    { nama: "Airi", score: 420 },
+    { nama: "Airi Rifa", score: 420 },
+    { nama: "Rifa Ulkhairi", score: 500 },
+    { nama: "Khairi Rifa", score: 450 },
+    { nama: "Khairi", score: 450 },
+    { nama: "Airi", score: 420 },
+    { nama: "Airi Rifa", score: 420 },
 ];
 
 CustomTabPanel.propTypes = {
@@ -97,56 +107,22 @@ export default function BasicTabs({ auth, paketsoal }) {
                     onChange={handleChange}
                     aria-label="basic tabs example"
                 >
-                    <StyledTab label="Detail Product" {...a11yProps(0)} />
+                    <StyledTab label="Deskripsi" {...a11yProps(0)} />
                     <StyledTab label="Perangkingan" {...a11yProps(1)} />
                 </StyledTabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <h2 className="text-xl text-indigo-600 mb-4">
-                    <Harga
-                        nilai={paketsoal.price}
-                        className="text-md font-semibold text-secondary"
-                    ></Harga>
-                </h2>
-                <p className="text-md text-gray-600"> 1rb terjual</p>
-                <div className="flex gap-x-2">
-                    <p className="text-xl font-semibold text-secondary">
-                        {paketsoal.rating}
-                    </p>
-                    <Rating value={paketsoal.rating} readOnly />
-                </div>
-                <button
-                    className="mt-4 bg-secondary/15 border-secondary  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10"
-                    onClick={() => {
-                        router.post(
-                            `/addtocart/${paketsoal.id}`,
-                            {},
-                            {
-                                preserveState: true,
-                                preserveScroll: true,
-                                only: ["cart", "flash"],
-                                progressIndicator: false,
-                            }
-                        );
-                    }}
-                >
-                    Add to Cart
-                </button>
-                <Link
-                    href={route("kerjakansoal", {
-                        id: paketsoal.id,
-                    })}
-                >
-                    <button className="mt-4 mx-8 bg-secondary text-white px-4 py-2 rounded hover:bg-secondary/70">
-                        Kerjakan Soal
-                    </button>
-                </Link>
                 <div className="pr-20">
-                    <p className="mt-4">{paketsoal.description}</p>
+                    <p
+                        className="ql-container mt-4"
+                        dangerouslySetInnerHTML={{
+                            __html: paketsoal.description,
+                        }}
+                    ></p>
                 </div>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <div className="flex h-80 w-full overflow-y-scroll flex-col gap-y-3 px-7">
+                <div className="flex h-fit max-h-[1000px] w-full overflow-y-scroll flex-col gap-y-3 px-7">
                     {people.map((orang, index) => (
                         <PeopleCard orang={orang} index={index}></PeopleCard>
                     ))}

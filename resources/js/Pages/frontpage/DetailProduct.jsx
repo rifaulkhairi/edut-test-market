@@ -10,6 +10,12 @@ import { Toaster, toast } from "sonner";
 import { useEffect } from "react";
 import { Fab } from "@mui/material";
 import { IoLogoWhatsapp } from "react-icons/io";
+import Image from "@/Components/Image";
+import { Link, router } from "@inertiajs/react";
+import Harga from "@/Components/Harga";
+import SecondaryButton from "@/Components/SecondaryButton";
+import PrimaryButton from "@/Components/PrimaryButton";
+import CS from "@/Components/CS";
 
 const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
     const [sortBy, setSortBy] = useState("semua");
@@ -76,18 +82,13 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
         <FrontpageLayout user={auth} base_url={base_url} cart={cart}>
             <Toaster position="top-right" richColors />
             <div className="container px-20 pt-2 max-w-6xl">
-                <div className="grid grid-flow-col gap-4 bg-white shadow-md p-5 rounded-md">
+                <div className="flex gap-x-3 bg-white shadow-md p-5 rounded-md">
                     {/* Bagian Gambar Produk */}
-                    <div className="text-center">
-                        {!imageLoaded && (
-                            <div className="w-52 h-52 bg-gray-100 rounded-md animate-pulse"></div>
-                        )}
-                        <img
-                            className={`w-52 h-52  rounded-md ${
-                                imageLoaded ? "" : "hidden"
-                            }`}
+
+                    <div className="flex w-40 h-40 text-center">
+                        <Image
                             src={`${base_url}/storage/${paketsoal.link_cover}`}
-                            onLoad={handleImageLoad}
+                            className="w-40 h-40 rounded-md"
                         />
                     </div>
 
@@ -96,12 +97,59 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                         <h1 className="text-2xl font-bold mb-2">
                             {paketsoal.name}
                         </h1>
-                        <div>
-                            <BasicTabs
-                                auth={auth}
-                                detail={detail}
-                                paketsoal={paketsoal}
-                            />
+                        <h2 className="text-xl text-indigo-600 mb-4">
+                            <Harga
+                                nilai={paketsoal.price}
+                                className="text-md font-semibold text-secondary"
+                            ></Harga>
+                        </h2>
+                        <p className="text-md text-gray-600"> 1rb terjual</p>
+                        <div className="flex gap-x-2">
+                            <p className="text-xl font-semibold text-secondary">
+                                {paketsoal.rating}
+                            </p>
+                            <Rating value={paketsoal.rating} readOnly />
+                        </div>
+                        <div className="gap-x-4 mt-4 flex flex-row justify-center items-center">
+                            <SecondaryButton
+                                className="bg-secondary/5  border-2 text-secondary px-4 py-2 rounded hover:bg-secondary/10"
+                                onClick={() => {
+                                    router.post(
+                                        `/addtocart/${paketsoal.id}`,
+                                        {},
+                                        {
+                                            preserveState: true,
+                                            preserveScroll: true,
+                                            only: ["cart", "flash"],
+                                            progressIndicator: false,
+                                        }
+                                    );
+                                }}
+                            >
+                                Tambahkan ke keranjang
+                            </SecondaryButton>
+                            <PrimaryButton
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    router.visit(`/preview/${paketsoal.id}`);
+                                }}
+                            >
+                                Preview Soal
+                            </PrimaryButton>
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white mt-5 rounded-md p-5 shadow-md">
+                    <div className="grid grid-flow-col-dense bg-white p-3 rounded-md">
+                        {/* Bagian Detail Produk */}
+                        <div className="">
+                            <div>
+                                <BasicTabs
+                                    auth={auth}
+                                    detail={detail}
+                                    paketsoal={paketsoal}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -201,28 +249,7 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                         {/* Tambahkan ulasan lainnya di sini */}
                     </div>
                 </div>
-                <div className="w-fit fixed bottom-5 right-5">
-                    <Fab variant="circular">
-                        <IoLogoWhatsapp className="text-green-600 text-4xl" />
-                    </Fab>
-                </div>
-
-                {/* Bagian Produk Terkait */}
-                {/* <div className="mt-5">
-                    <h3 className="text-xl font-semibold mb-4">
-                        Produk Serupa
-                    </h3>
-                    <div className="relative">
-                        <Slider ref={sliderRef} {...settings}>
-                            {products.map((product) => (
-                                <ProductCard
-                                    product={product}
-                                    key={product.id}
-                                ></ProductCard>
-                            ))}
-                        </Slider>
-                    </div>
-                </div> */}
+                <CS />
             </div>
         </FrontpageLayout>
     );

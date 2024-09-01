@@ -19,6 +19,7 @@ import Harga from "@/Components/Harga";
 import { TbTrash } from "react-icons/tb";
 import Image from "@/Components/Image";
 import RadioCategoryCustom, { RadioGroupCustom } from "@/Components/Radio";
+import qrislogo from "../../../../public/images/QRIS_logo.svg";
 
 const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
     const [pymentMethod, setPymentMethod] = useState("gopay");
@@ -109,9 +110,15 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                                 }
                             >
                                 <RadioCategoryCustom value="gopay">
-                                    Gopay
+                                    <img
+                                        src={qrislogo}
+                                        className="w-36 text-white"
+                                    />
                                 </RadioCategoryCustom>
-                                <RadioCategoryCustom value="transferbank">
+                                <RadioCategoryCustom
+                                    value="transferbank"
+                                    disabled
+                                >
                                     Transfer Bank
                                 </RadioCategoryCustom>
                             </RadioGroupCustom>

@@ -9,9 +9,11 @@ use App\Http\Controllers\Editor;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PeketSoalController;
+use App\Http\Controllers\PembahasanController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\RiwayatTransaksiController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\TipeTestController;
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ProdukController::class, 'index'])->name('frontpage');
 Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
-Route::get('/kerjakansoal/{id}', [SoalController::class, 'index'])->name('kerjakansoal');
+Route::get('/preview/{id}', [SoalController::class, 'index'])->name('kerjakansoal');
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
 Route::delete('/cartitem/delete/{id}', [CartController::class, 'delete'])->middleware('auth')->name('delete.cartitem');
 Route::post('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart')->middleware('auth');
@@ -35,8 +37,8 @@ Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->
 Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth');
 Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
-// Route::post('/user/lihatpembahasan', [])
-
+Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth');
+Route::post('/rating/save', [RatingController::class, 'store'])->name('rating.save');
 
 
 Route::middleware('auth')->group(function () {

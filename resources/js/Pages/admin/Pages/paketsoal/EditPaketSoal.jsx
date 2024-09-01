@@ -5,6 +5,7 @@ import { Button, InputLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
 import { textTransform } from "@mui/system";
 import { router } from "@inertiajs/react";
+import Editor from "@/Components/Editor/Editor";
 
 const EditPaketSoal = ({ paketsoal }) => {
     const { data, setData, post, progress, errors } = useForm({
@@ -77,7 +78,7 @@ const EditPaketSoal = ({ paketsoal }) => {
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
-                    <TextField
+                    {/* <TextField
                         id="description"
                         label="Description"
                         required
@@ -88,7 +89,14 @@ const EditPaketSoal = ({ paketsoal }) => {
                             setData("description", description);
                         }}
                         sx={{ width: "100%" }}
-                    ></TextField>
+                    ></TextField> */}
+                    <Editor
+                        value={description}
+                        onChange={(value) => {
+                            setDescription(value);
+                            setData("description", value);
+                        }}
+                    />
                     <div className="flex gap-x-2 max-w-[300px]">
                         <TextField
                             type="number"

@@ -1,4 +1,5 @@
 import Button from "@/Components/Button";
+import CS from "@/Components/CS";
 import Image from "@/Components/Image";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
 import { Link, router } from "@inertiajs/react";
@@ -31,8 +32,8 @@ const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
                                     ></Image>
                                     <p>{soal.paketsoal.name}</p>
                                 </div>
-                                <ul className="flex w-full justify-between">
-                                    <li>Status</li>
+                                <ul className="flex w-full justify-end mr-24">
+                                    {/* <li>Status</li> */}
                                     <li className="place-content-end content-center">
                                         <Button
                                             title="Lihat"
@@ -52,6 +53,7 @@ const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
                         <p>Kamu belum ada paket soal yang sudah dibeli</p>
                     )}
                 </div>
+                <CS />
             </div>
         </FrontpageLayout>
     );

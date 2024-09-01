@@ -76,6 +76,7 @@ class OrderController extends Controller
                 }
                 $order->update(['qr_code_link' => $actionmap['generate-qr-code']]);
 
+
                 return redirect(url('/pembayaran/' . $order->id));
             }
             return response()->json(['message' => $resp['status_message'], 500]);

@@ -19,6 +19,8 @@ import { IoMdSend } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 import { RxLapTimer } from "react-icons/rx";
 import Header from "@/Components/admin/Header";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css"; // or 'quill.bubble.css'
 
 const DetailProduct = ({ auth, detail, products, paketsoal }) => {
     const [sortBy, setSortBy] = useState("semua");
@@ -148,9 +150,12 @@ const DetailProduct = ({ auth, detail, products, paketsoal }) => {
                                 })}
                             ></Link> */}
                                 <div className="pr-20">
-                                    <p className="mt-4">
-                                        {paketsoal.description}
-                                    </p>
+                                    <p
+                                        className="ql-container mt-4"
+                                        dangerouslySetInnerHTML={{
+                                            __html: paketsoal.description,
+                                        }}
+                                    ></p>
                                 </div>
                             </div>
                         </div>

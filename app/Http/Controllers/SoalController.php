@@ -22,7 +22,7 @@ class SoalController extends Controller
         $groupedQuestions = $paketSoal->questions->groupBy('tipetest_id');
 
 
-        return Inertia::render('frontpage/DetailSoal', ['paketsoal' => $paketSoal, 'groupedQuestions' => $groupedQuestions, 'tipetestData' => $tipetestData]);
+        return Inertia::render('frontpage/PreviewSoal', ['paketsoal' => $paketSoal, 'groupedQuestions' => $groupedQuestions, 'tipetestData' => $tipetestData]);
     }
 
 
