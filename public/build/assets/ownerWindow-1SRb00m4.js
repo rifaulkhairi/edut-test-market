@@ -1,0 +1,1 @@
+function i(...n){return n.reduce((t,e)=>e==null?t:function(...o){t.apply(this,o),e.apply(this,o)},()=>{})}function u(n){return n&&n.ownerDocument||document}function c(n){return u(n).defaultView||window}export{c as a,i as c,u as o};
