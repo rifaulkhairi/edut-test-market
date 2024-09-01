@@ -46,10 +46,6 @@ class ProdukController extends Controller
 
         $paketsoal['base_url'] = url("/");
 
-        // $averageRating = Penilaian::where('id_paket_soal', $id)->avg('rating');
-        // $paketsoal['rating'] = $averageRating;
-
-
 
         if (Auth::user()) {
             // dd("test");

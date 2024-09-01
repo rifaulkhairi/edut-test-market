@@ -20,6 +20,17 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorAccountMenu, setAnchorAccountMenu] = React.useState(null);
     const openAccountMenu = Boolean(anchorAccountMenu);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const handleSearch = () => {
+        router.get("/paketsoal/search", { search_query: searchTerm });
+        console.log("Searching for:", searchTerm);
+    };
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
+    };
 
     const handleClickAccountMenu = (event) => {
         setAnchorAccountMenu(event.currentTarget);
@@ -82,7 +93,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                             </div>
                         </div>
                         <div className="flex-1 flex justify-end gap-2 mr-3">
-                            <div className="flex h-full justify-center">
+                            {/* <div className="flex h-full justify-center">
                                 <Button className="text-white text-xs">
                                     <div className="gap-2 w-full flex">
                                         <Badge color="warning" variant="dot">
@@ -93,7 +104,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                         </span>
                                     </div>
                                 </Button>
-                            </div>
+                            </div> */}
                             <Button
                                 className="flex h-full items-center text-sm text-white p-2 gap-x-1"
                                 onClick={handleClickAccountMenu}
@@ -159,12 +170,19 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                             <div className="relative w-full max-w-[500px]">
                                 <input
                                     type="text"
-                                    className="border-secondary focus:ring-2 focus:ring-secondary focus:border-secondary bg-[#f2f3f5] px-6 py-2 rounded-sm w-full text-sm"
-                                    placeholder="Search Product"
+                                    className="border-secondary focus:ring-2 focus:ring-secondary focus:border-secondary bg-[#f2f3f5] px-3 py-2 rounded-sm w-full text-sm"
+                                    placeholder="Cari Paket Soal"
+                                    onChange={(e) =>
+                                        setSearchTerm(e.target.value)
+                                    }
+                                    onKeyDown={handleKeyDown}
                                 />
-                                <div className="bg-secondary cursor-pointer hover:bg-secondary/80 top-[3px] px-3 rounded-sm py-[6px] absolute right-0  mr-1 text-white">
+                                <button
+                                    className="bg-secondary cursor-pointer hover:bg-secondary/80 top-[3px] px-3 rounded-sm py-[6px] absolute right-0  mr-1 text-white"
+                                    onClick={handleSearch}
+                                >
                                     <BsSearch className="" size={20} />
-                                </div>
+                                </button>
                             </div>
                             {/* icons */}
                             <React.Fragment>

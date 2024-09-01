@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\RiwayatTransaksiController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\TipeTestController;
 use App\Http\Controllers\User\PaketSoalKuController;
@@ -39,6 +40,7 @@ Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('us
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
 Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth');
 Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save');
+Route::get('/paketsoal/search', [SearchController::class, 'search'])->name('paketsoal.search');
 
 
 Route::middleware('auth')->group(function () {
