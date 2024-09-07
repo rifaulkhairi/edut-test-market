@@ -21,7 +21,7 @@ class RiwayatTransaksiController extends Controller
             ->with(['order_items', 'order_items.paketsoal'])
             ->get();
 
-        return Inertia::render('frontpage/RiyawatTransaksi', [
+        return Inertia::render('frontpage/PesananSaya', [
             'base_url' => $base_url,
             'cartitem' => $cartitem,
             'orders' => $orders

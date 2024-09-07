@@ -122,10 +122,34 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                     onClose={handleCloseAccountMenu}
                                     onClick={handleCloseAccountMenu}
                                 >
-                                    <MenuItem>
+                                    <MenuItem
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "flex-start",
+                                        }}
+                                    >
+                                        <MenuItem
+                                            className="font-semibold"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                router.get("/user/info");
+                                            }}
+                                        >
+                                            Profil
+                                        </MenuItem>
+                                        <MenuItem
+                                            className="font-semibold"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                router.get("/riwayattransaksi");
+                                            }}
+                                        >
+                                            Riwayat Pesanan
+                                        </MenuItem>
                                         {user.user ? (
                                             <MenuItem
-                                                className="text-secon font-semibold"
+                                                className="font-semibold"
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     router.post("/logout");
@@ -135,7 +159,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                             </MenuItem>
                                         ) : (
                                             <MenuItem
-                                                className="text-secon font-semibold"
+                                                className="font-semibold"
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     router.get("/login");
@@ -169,9 +193,17 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                             {/* search */}
                             <div className="relative w-full max-w-[500px]">
                                 <input
-                                    type="text"
+                                    type="search"
+                                    id="search"
+                                    name="query_search"
                                     className="border-secondary focus:ring-2 focus:ring-secondary focus:border-secondary bg-[#f2f3f5] px-3 py-2 rounded-sm w-full text-sm"
                                     placeholder="Cari Paket Soal"
+                                    onFocus={(e) =>
+                                        e.target.setAttribute(
+                                            "autocomplete",
+                                            "off"
+                                        )
+                                    }
                                     onChange={(e) =>
                                         setSearchTerm(e.target.value)
                                     }

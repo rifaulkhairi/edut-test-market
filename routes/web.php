@@ -19,9 +19,9 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\TipeTestController;
 use App\Http\Controllers\User\PaketSoalKuController;
+use App\Http\Controllers\User\ProfileController as UserProfileController;
 use Illuminate\Support\Facades\Route;
-
-
+use Inertia\Inertia;
 
 Route::get('/', [ProdukController::class, 'index'])->name('frontpage');
 Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
@@ -41,12 +41,19 @@ Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->m
 Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth');
 Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save');
 Route::get('/paketsoal/search', [SearchController::class, 'search'])->name('paketsoal.search');
+Route::get('/user/info', [UserProfileController::class, 'index'])->name('user.info')->middleware('auth');
+Route::patch('/user/info', [UserProfileController::class, 'update'])->name('user.info.update')->middleware('auth');
+Route::get('/user/info/password', [UserProfileController::class, 'password'])->name('user.info');
+
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 });
 
 Route::middleware('auth', 'admin')->group(function () {

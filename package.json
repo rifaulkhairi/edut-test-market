@@ -38,6 +38,7 @@
         "@nivo/geo": "^0.87.0",
         "@nivo/line": "^0.87.0",
         "@nivo/pie": "^0.87.0",
+        "daftar-wilayah-indonesia": "^4.0.3",
         "formik": "^2.4.6",
         "katex": "^0.16.11",
         "mui-datatables": "^4.3.0",

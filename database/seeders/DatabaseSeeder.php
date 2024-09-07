@@ -8,6 +8,7 @@ use App\Models\Penilaian;
 use App\Models\Question;
 use App\Models\TipeTest;
 use App\Models\User;
+use App\Models\UserData;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($users as $user) {
             User::factory()->create($user);
+            UserData::create(['email' => $user['email']]);
         }
 
         $typeTests = [
