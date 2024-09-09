@@ -14,6 +14,7 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import Harga from "@/Components/Harga";
 import { TbTrash } from "react-icons/tb";
 import Image from "@/Components/Image";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 const Cart = ({ auth, cartitem, base_url }) => {
     let paketsal = cartitem;
@@ -42,7 +43,12 @@ const Cart = ({ auth, cartitem, base_url }) => {
 
     const totalItems = selectedProduct.length;
     const totalPrice = selectedProduct.reduce(
-        (total, item) => total + Number(item.paketsoal.price),
+        (total, item) =>
+            total +
+            Number(
+                item.paketsoal.price -
+                    item.paketsoal.price * item.paketsoal.discount
+            ),
         0
     );
 
@@ -93,7 +99,16 @@ const Cart = ({ auth, cartitem, base_url }) => {
                                 <ul className="flex gap-7 justify-center items-center">
                                     <li>
                                         <Harga
+                                            className="line-through text-sm text-center"
                                             nilai={item.paketsoal.price}
+                                        ></Harga>
+                                        <Harga
+                                            className="text-center"
+                                            nilai={
+                                                item.paketsoal.price -
+                                                item.paketsoal.price *
+                                                    item.paketsoal.discount
+                                            }
                                         ></Harga>
                                     </li>
                                     <li>
@@ -125,7 +140,11 @@ const Cart = ({ auth, cartitem, base_url }) => {
                                         <li>{item.paketsoal.name}</li>
                                         <li>
                                             <Harga
-                                                nilai={item.paketsoal.price}
+                                                nilai={
+                                                    item.paketsoal.price -
+                                                    item.paketsoal.price *
+                                                        item.paketsoal.discount
+                                                }
                                             />
                                         </li>
                                     </ul>
@@ -153,7 +172,7 @@ const Cart = ({ auth, cartitem, base_url }) => {
                                 </ul>
                             </div>
                             <div className="flex items-center w-full justify-center mt-4">
-                                <Button
+                                <PrimaryButton
                                     variant="contained"
                                     sx={{ textTransform: "capitalize" }}
                                     onClick={(e) => {
@@ -165,7 +184,7 @@ const Cart = ({ auth, cartitem, base_url }) => {
                                     }}
                                 >
                                     Checkout
-                                </Button>
+                                </PrimaryButton>
                             </div>
                         </div>
                     </div>

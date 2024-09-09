@@ -16,7 +16,7 @@ const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
             <div className="container max-w-5xl mt-9">
                 <Breadcrumbs separator={<MdOutlineNavigateNext />}>
                     <Link href="/">Home</Link>
-                    <Link>Riwayat Transaksi</Link>
+                    <Link>Soalku</Link>
                 </Breadcrumbs>
                 <h1 className="mt-4 font-bold text-secondary text-xl">
                     Soal Ku

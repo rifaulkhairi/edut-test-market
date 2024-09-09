@@ -12,9 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PeketSoalController;
 use App\Http\Controllers\PembahasanController;
 use App\Http\Controllers\PenilaianController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\RatingController;
 use App\Http\Controllers\RiwayatTransaksiController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SoalController;
@@ -22,40 +20,30 @@ use App\Http\Controllers\TipeTestController;
 use App\Http\Controllers\User\PaketSoalKuController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [ProdukController::class, 'index'])->name('frontpage');
 Route::get('/produks/{id}', [ProdukController::class, 'detail'])->name('detailproduct');
 Route::get('/preview/{id}', [SoalController::class, 'index'])->name('kerjakansoal');
-Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
-Route::delete('/cartitem/delete/{id}', [CartController::class, 'delete'])->middleware('auth')->name('delete.cartitem');
-Route::post('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart')->middleware('auth');
-Route::get('/riwayattransaksi', [RiwayatTransaksiController::class, 'index'])->name('riwayattransaksi')->middleware('auth');
-Route::get('/checkout', [OrderController::class, 'index'])->name('checkout')->middleware('auth');
-Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesanan')->middleware('auth');
-Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware('auth');
-Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware('auth');
-Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth', 'ordered');
-Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth', 'ordered');
-Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
-Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
-Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth', 'ordered');
-Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save')->middleware('auth', 'ordered');
+Route::get('/cart', [CartController::class, 'index'])->middleware(['auth', 'verified'])->name('cart');
+Route::delete('/cartitem/delete/{id}', [CartController::class, 'delete'])->middleware(['auth', 'verified'])->name('delete.cartitem');
+Route::post('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart')->middleware(['auth', 'verified']);
+Route::get('/riwayattransaksi', [RiwayatTransaksiController::class, 'index'])->middleware(['auth', 'verified']);
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout')->middleware(['auth', 'verified']);
+Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesanan')->middleware(['auth', 'verified']);
+Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware(['auth', 'verified']);
+Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware(['auth', 'verified']);
+Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware(['auth', 'ordered', 'verified']);
+Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware(['auth', 'ordered', 'verified']);
+Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware(['auth', 'verified']);
+Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware(['auth', 'verified']);
+Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware(['auth', 'ordered', 'verified']);
+Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save')->middleware(['auth', 'ordered', 'verified']);
 Route::get('/paketsoal/search', [SearchController::class, 'search'])->name('paketsoal.search');
-Route::get('/user/info', [UserProfileController::class, 'index'])->name('user.info')->middleware('auth');
-Route::patch('/user/info', [UserProfileController::class, 'update'])->name('user.info.update')->middleware('auth');
-Route::get('/user/info/password', [UserProfileController::class, 'password'])->name('user.info');
-Route::put('/user/info/password', [UserProfileController::class, 'updatePassoword'])->name('user.passoword.update')->middleware('auth');
+Route::get('/user/info', [UserProfileController::class, 'index'])->name('user.info')->middleware(['auth', 'verified']);
+Route::patch('/user/info', [UserProfileController::class, 'update'])->name('user.info.update')->middleware(['auth', 'verified']);
+Route::get('/user/info/password', [UserProfileController::class, 'password'])->name('user.info')->middleware(['auth', 'verified']);
+Route::put('/user/info/password', [UserProfileController::class, 'updatePassoword'])->name('user.passoword.update')->middleware(['auth', 'verified']);
 
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
 
 Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/dashboard', [Admin::class, 'index']);

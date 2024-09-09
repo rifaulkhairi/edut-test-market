@@ -85,15 +85,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 
 const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
     const [selectedMenu, setSelectedMenu] = useState(1);
-    const [selectedSubMenu, setSelectedSubMenu] = useState(1);
-    const dataprovinsi = provinsi();
 
-    const [dataKabupaten, setDataKabupaten] = useState(null);
-    const [selectedProv, setSelectedProv] = useState(null);
-
-    const [selectedKab, setSelectedKab] = useState(null);
-
-    const [selectedIdProv, setSelectedIdProv] = useState(null);
     const [value, setValue] = React.useState(0);
     const [filter, setFilter] = useState("all");
     const [filteredOrders, setFilteredOrders] = useState([]);
@@ -132,16 +124,6 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
 
     const handleMenuClick = (menuIndex) => {
         setSelectedMenu(menuIndex);
-    };
-
-    const handleProvinsiChange = (e, value) => {
-        setSelectedProv(value);
-        setDataKabupaten(kabupaten(value.kode));
-        setSelectedKab(null);
-        console.log("data kabupaten", dataKabupaten);
-    };
-    const handleKabupatenChange = (e, value) => {
-        setSelectedKab(value);
     };
 
     return (

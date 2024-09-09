@@ -29,7 +29,7 @@ class OrderController extends Controller
         $grossamont = 0;
         $orderitems = $request->orderitem;
         foreach ($orderitems as $item) {
-            $grossamont += $item["paketsoal"]["price"];
+            $grossamont += $item["paketsoal"]["price"] - $item["paketsoal"]["price"] * $item["paketsoal"]["discount"];
         }
         $data = [];
         $data["payment_type"] = $request->pymentMethod;

@@ -13,12 +13,9 @@ class SoalController extends Controller
 {
     public function index($id)
     {
-
-
-
         $paketSoal = PaketSoal::where('paket_soal_tbl.id', '=', $id)
             ->with(['questions' => function ($query) {
-                $query->where('preview', 1);  // Filter questions where preview is 1
+                $query->where('preview', 1);
             }, 'questions.options', 'questions.tipetest'])
             ->first();
 

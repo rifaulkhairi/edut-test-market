@@ -47,14 +47,23 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                         <h1 className="text-2xl font-bold mb-2">
                             {paketsoal.name}
                         </h1>
-                        <h2 className="text-xl text-indigo-600 mb-4">
+                        <div className="flex gap-x-3 mb-4 items-center">
                             <Harga
                                 nilai={paketsoal.price}
-                                className="text-md font-semibold text-secondary"
+                                className="text-md font-semibold line-through text-gray-500"
                             ></Harga>
-                        </h2>
+                            <Harga
+                                nilai={
+                                    paketsoal.price -
+                                    paketsoal.price * paketsoal.discount
+                                }
+                                className="text-lg font-semibold text-secondary"
+                            ></Harga>
+                            <p className="flex px-1 rounded-sm text-white bg-secondary">{`-${Math.floor(
+                                paketsoal.discount * 100
+                            )}%`}</p>
+                        </div>
                         <p className="text-md text-gray-600">
-                            {" "}
                             {paketsoal.terjual} terjual
                         </p>
                         <div className="flex gap-x-2">

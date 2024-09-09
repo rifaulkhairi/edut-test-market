@@ -304,15 +304,28 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                                                     .name
                                                             }
                                                         </p>
-                                                        <p className="text-sm">
-                                                            <Harga
-                                                                nilai={
+                                                        <Harga
+                                                            className="line-through text-sm"
+                                                            nilai={
+                                                                cartitem
+                                                                    .paketsoal
+                                                                    .price
+                                                            }
+                                                        />
+                                                        <Harga
+                                                            className="text-sm font-semibold"
+                                                            nilai={
+                                                                cartitem
+                                                                    .paketsoal
+                                                                    .price -
+                                                                cartitem
+                                                                    .paketsoal
+                                                                    .price *
                                                                     cartitem
                                                                         .paketsoal
-                                                                        .price
-                                                                }
-                                                            />
-                                                        </p>
+                                                                        .discount
+                                                            }
+                                                        />
                                                     </div>
                                                 </div>
                                             ))}

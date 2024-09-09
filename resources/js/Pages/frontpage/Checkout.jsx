@@ -37,7 +37,10 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
     useEffect(() => {
         if (selecteditem && selecteditem.length > 0) {
             const total = selecteditem.reduce(
-                (acc, item) => acc + (item.paketsoal.price || 0),
+                (acc, item) =>
+                    acc +
+                    (item.paketsoal.price -
+                        item.paketsoal.price * item.paketsoal.discount || 0),
                 0
             );
             setTotalPembayaran(total);
@@ -89,7 +92,16 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                                             </p>
                                             <p className=" text-center">
                                                 <Harga
+                                                    className="line-through text-sm text-center text-gray-500"
                                                     nilai={item.paketsoal.price}
+                                                ></Harga>
+                                                <Harga
+                                                    nilai={
+                                                        item.paketsoal.price -
+                                                        item.paketsoal.price *
+                                                            item.paketsoal
+                                                                .discount
+                                                    }
                                                 ></Harga>
                                             </p>
                                         </div>
