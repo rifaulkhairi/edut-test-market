@@ -9,8 +9,9 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { provinsi, kabupaten } from "daftar-wilayah-indonesia";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { Toaster, toast } from "sonner";
 
-const UserInfo = ({ auth, base_url, cart, user_data }) => {
+const UserInfo = ({ auth, base_url, cart, user_data, flash }) => {
     const [selectedMenu, setSelectedMenu] = useState(0);
     const [selectedSubMenu, setSelectedSubMenu] = useState(0);
     const dataprovinsi = provinsi();
@@ -60,9 +61,20 @@ const UserInfo = ({ auth, base_url, cart, user_data }) => {
             nohp: nohp,
         });
     };
+    useEffect(() => {
+        if (flash.message != null) {
+            if (flash.message.success) {
+                toast.success(flash.message.success);
+            } else if (flash.message.error) {
+                toast.error(flash.message.error);
+            }
+        }
+    }, [flash]);
 
     return (
         <FrontpageLayout user={auth} cart={cart} base_url={base_url}>
+            <Toaster position="top-right" richColors />
+
             <div className="container max-w-5xl mt-9">
                 <div className="flex flex-col w-full gap-x-3 gap-y-3 mt-3">
                     <ul className="flex gap-x-2">

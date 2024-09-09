@@ -369,11 +369,7 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                                         "press"
                                                                                     );
                                                                                     router.get(
-                                                                                        "/examdashboard",
-                                                                                        {
-                                                                                            paketsoal_id:
-                                                                                                order.id,
-                                                                                        }
+                                                                                        "/user/paketsoal"
                                                                                     );
                                                                                 }}
                                                                             />
@@ -511,11 +507,7 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                                         "press"
                                                                                     );
                                                                                     router.get(
-                                                                                        "/examdashboard",
-                                                                                        {
-                                                                                            paketsoal_id:
-                                                                                                order.id,
-                                                                                        }
+                                                                                        "/user/paketsoal"
                                                                                     );
                                                                                 }}
                                                                             />
@@ -775,11 +767,7 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                                 ) => {
                                                                                     e.preventDefault();
                                                                                     router.get(
-                                                                                        "/examdashboard",
-                                                                                        {
-                                                                                            paketsoal_id:
-                                                                                                order.id,
-                                                                                        }
+                                                                                        "/user/paketsoal"
                                                                                     );
                                                                                 }}
                                                                             />

@@ -14,6 +14,8 @@ class SoalController extends Controller
     public function index($id)
     {
 
+        
+
         $paketSoal = PaketSoal::where('paket_soal_tbl.id', '=', $id)
             ->with('questions.options', 'questions.tipetest')
             ->first();

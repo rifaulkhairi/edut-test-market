@@ -5,8 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\UserData;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rules\Password;
+
 use Inertia\Inertia;
 
 class ProfileController extends Controller
@@ -59,5 +64,17 @@ class ProfileController extends Controller
                 ->with(['paketsoal'])->get();
         }
         return Inertia::render('frontpage/UpdatePassword', ['base_url' => url('/'), 'cart' => $cart]);
+    }
+
+    public function updatePassoword(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+        return back();
     }
 }

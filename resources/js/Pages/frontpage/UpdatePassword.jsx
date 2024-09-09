@@ -1,6 +1,6 @@
 import CS from "@/Components/CS";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import { Autocomplete, TextField } from "@mui/material";
 import { LuUser2 } from "react-icons/lu";
 import { LuClipboardList } from "react-icons/lu";
@@ -9,31 +9,51 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { provinsi, kabupaten } from "daftar-wilayah-indonesia";
 import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
+import { Transition } from "@headlessui/react";
+import { useRef } from "react";
 
 const UpdatePassword = ({ auth, base_url, cart }) => {
     const [selectedMenu, setSelectedMenu] = useState(0);
-    const [selectedSubMenu, setSelectedSubMenu] = useState(0);
-    const dataprovinsi = provinsi();
+    const passwordInput = useRef();
+    const currentPasswordInput = useRef();
 
-    const [dataKabupaten, setDataKabupaten] = useState(null);
-    const [selectedProv, setSelectedProv] = useState(null);
-
-    const [selectedKab, setSelectedKab] = useState(null);
-
-    const [selectedIdProv, setSelectedIdProv] = useState(null);
+    const {
+        data,
+        setData,
+        errors,
+        put,
+        reset,
+        processing,
+        recentlySuccessful,
+    } = useForm({
+        current_password: "",
+        password: "",
+        password_confirmation: "",
+    });
 
     const handleMenuClick = (menuIndex) => {
         setSelectedMenu(menuIndex);
     };
 
-    const handleProvinsiChange = (e, value) => {
-        setSelectedProv(value);
-        setDataKabupaten(kabupaten(value.kode));
-        setSelectedKab(null);
-        console.log("data kabupaten", dataKabupaten);
-    };
-    const handleKabupatenChange = (e, value) => {
-        setSelectedKab(value);
+    const updatePassword = (e) => {
+        e.preventDefault();
+
+        put(route("user.passoword.update"), {
+            preserveScroll: true,
+            onSuccess: () => reset(),
+            onError: (errors) => {
+                if (errors.password) {
+                    reset("password", "password_confirmation");
+                    passwordInput.current.focus();
+                }
+
+                if (errors.current_password) {
+                    reset("current_password");
+                    currentPasswordInput.current.focus();
+                }
+            },
+        });
     };
 
     return (
@@ -131,68 +151,127 @@ const UpdatePassword = ({ auth, base_url, cart }) => {
                                     autoComplete="off"
                                     className="flex flex-col gap-y-3"
                                 >
-                                    <TextField
-                                        type="password"
-                                        id="current-password"
-                                        autoComplete="off"
-                                        label="Password Sekarang"
-                                        sx={{
-                                            width: "100%",
+                                    <div>
+                                        <TextField
+                                            type="password"
+                                            id="current-password"
+                                            ref={currentPasswordInput}
+                                            value={data.current_password}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "current_password",
+                                                    e.target.value
+                                                )
+                                            }
+                                            autoComplete="off"
+                                            label="Password Sekarang"
+                                            sx={{
+                                                width: "100%",
 
-                                            "& .MuiOutlinedInput-root.Mui-focused":
-                                                {
+                                                "& .MuiOutlinedInput-root.Mui-focused":
+                                                    {
+                                                        outline: "none",
+                                                        boxShadow: "none",
+                                                    },
+                                                "& .MuiInputBase-input:focus": {
                                                     outline: "none",
                                                     boxShadow: "none",
                                                 },
-                                            "& .MuiInputBase-input:focus": {
-                                                outline: "none",
-                                                boxShadow: "none",
-                                            },
-                                        }}
-                                    />
-                                    <TextField
-                                        type="password"
-                                        id="new-password"
-                                        autoComplete="off"
-                                        label="Password Baru"
-                                        sx={{
-                                            width: "100%",
+                                            }}
+                                        />
+                                        <InputError
+                                            message={errors.current_password}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div>
+                                        <TextField
+                                            type="password"
+                                            id="new-password"
+                                            ref={passwordInput}
+                                            value={data.password}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "password",
+                                                    e.target.value
+                                                )
+                                            }
+                                            autoComplete="off"
+                                            label="Password Baru"
+                                            sx={{
+                                                width: "100%",
 
-                                            "& .MuiOutlinedInput-root.Mui-focused":
-                                                {
+                                                "& .MuiOutlinedInput-root.Mui-focused":
+                                                    {
+                                                        outline: "none",
+                                                        boxShadow: "none",
+                                                    },
+                                                "& .MuiInputBase-input:focus": {
                                                     outline: "none",
                                                     boxShadow: "none",
                                                 },
-                                            "& .MuiInputBase-input:focus": {
-                                                outline: "none",
-                                                boxShadow: "none",
-                                            },
-                                        }}
-                                    />
-                                    <TextField
-                                        type="password"
-                                        id="confirm-password"
-                                        label="Konfirmasi Password"
-                                        autoComplete="off"
-                                        sx={{
-                                            width: "100%",
+                                            }}
+                                        />
+                                        <InputError
+                                            message={errors.password}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div>
+                                        <TextField
+                                            type="password"
+                                            value={data.password_confirmation}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "password_confirmation",
+                                                    e.target.value
+                                                )
+                                            }
+                                            id="confirm-password"
+                                            label="Konfirmasi Password"
+                                            autoComplete="off"
+                                            sx={{
+                                                width: "100%",
 
-                                            "& .MuiOutlinedInput-root.Mui-focused":
-                                                {
+                                                "& .MuiOutlinedInput-root.Mui-focused":
+                                                    {
+                                                        outline: "none",
+                                                        boxShadow: "none",
+                                                    },
+                                                "& .MuiInputBase-input:focus": {
                                                     outline: "none",
                                                     boxShadow: "none",
                                                 },
-                                            "& .MuiInputBase-input:focus": {
-                                                outline: "none",
-                                                boxShadow: "none",
-                                            },
-                                        }}
-                                    />
+                                            }}
+                                        />
+                                        <InputError
+                                            message={
+                                                errors.password_confirmation
+                                            }
+                                            className="mt-2"
+                                        />
+                                    </div>
                                 </form>
                             </ul>
 
                             <ul>
-                                <PrimaryButton>Simpan</PrimaryButton>
+                                <PrimaryButton
+                                    disabled={processing}
+                                    onClick={updatePassword}
+                                >
+                                    Simpan
+                                </PrimaryButton>
+                                <Transition
+                                    show={recentlySuccessful}
+                                    enter="transition ease-in-out"
+                                    enterFrom="opacity-0"
+                                    leave="transition ease-in-out"
+                                    leaveTo="opacity-0"
+                                >
+                                    <p className="text-sm text-gren-600">
+                                        Berhasil Disimpan
+                                    </p>
+                                </Transition>
                             </ul>
                         </li>
                     </ul>

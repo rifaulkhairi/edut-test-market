@@ -49,7 +49,7 @@ const Sidebar = ({ tab }) => {
                                     isOpenSubmenu(0);
                                     e.preventDefault();
 
-                                    router.visit("/admin/dashboard");
+                                    router.visit("/editor/dashboard");
                                 }}
                             >
                                 <span className="icon w-[30px] h-[30px] flex items-center justify-center rounded-md">
@@ -92,102 +92,10 @@ const Sidebar = ({ tab }) => {
                                         className="w-full"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            router.visit(
-                                                "/admin/daftarpaketsoal"
-                                            );
-                                        }}
-                                    >
-                                        Paket Soal
-                                    </Button>
-                                    <Button
-                                        className="w-full"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.visit(
-                                                "/admin/daftartipetest"
-                                            );
-                                        }}
-                                    >
-                                        Tipe Test
-                                    </Button>
-                                    <Button
-                                        className="w-full"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.visit("/admin/daftarsoal");
+                                            router.visit("/editor/daftarsoal");
                                         }}
                                     >
                                         Soal
-                                    </Button>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <Button
-                                className={`w-full ${
-                                    activeTab === 2 ? "active" : ""
-                                }`}
-                                onClick={() => isOpenSubmenu(2)}
-                            >
-                                <span className="icon w-[30px] h-[30px] flex items-center justify-center rounded-md">
-                                    <HiOutlineShoppingCart />
-                                </span>
-                                orders
-                                <span className="arrow ml-auto w-[25px]  h-[25px] flex items-center justify-center">
-                                    <FaAngleRight />
-                                </span>
-                            </Button>
-                            <div
-                                className={`submenuWrapper ${
-                                    activeTab === 2 ? "colapse" : "colapsed"
-                                }`}
-                            >
-                                <div className="submenu">
-                                    <Button
-                                        className="w-full"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.visit("/admin/order/list");
-                                        }}
-                                    >
-                                        Daftar Order
-                                    </Button>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <Button
-                                className={`w-full flex items-center justify-center ${
-                                    activeTab === 3 ? "active" : ""
-                                }`}
-                                onClick={() => isOpenSubmenu(3)}
-                            >
-                                <span className="icon w-[30px] h-[30px] flex items-center justify-center rounded-md">
-                                    <IoPeopleOutline />
-                                </span>
-                                Pengguna
-                                <span
-                                    className={`arrow ml-auto w-[25px]  h-[25px] flex items-center justify-center ${
-                                        activeTab === 3 ? "rotate" : ""
-                                    }`}
-                                >
-                                    <FaAngleRight />
-                                </span>
-                            </Button>
-                            <div
-                                className={`submenuWrapper ${
-                                    activeTab === 3 ? "colapse" : "colapsed"
-                                }`}
-                            >
-                                <div className="submenu">
-                                    <Button
-                                        className="w-full"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.visit("/admin/listpengguna");
-                                        }}
-                                    >
-                                        Daftar Pengguna
                                     </Button>
                                 </div>
                             </div>

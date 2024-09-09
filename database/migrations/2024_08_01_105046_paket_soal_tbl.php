@@ -19,6 +19,8 @@ return new class extends Migration
             $table->double('price');
             $table->float('discount');
             $table->integer('terjual')->default(0);
+            $table->integer('suka')->default(0);
+            $table->string('status')->default('pending'); //pending, publish
             $table->float('rating')->nullable();
             $table->integer('jam')->default(0);
             $table->integer('menit')->default(0);

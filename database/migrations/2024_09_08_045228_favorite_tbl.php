@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_data_tbl', function (Blueprint $table) {
+        Schema::create('favorite_tbl', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->string('provinsi')->nullable();
-            $table->string('kabupaten')->nullable();
-            $table->string('nohp')->nullable();
+            $table->foreignId('id_paketsoal')->constrained('paket_soal_tbl')->cascadeOnDelete();
             $table->timestamps();
-            $table->foreign('email')->references('email')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_data_tbl');
+        Schema::dropIfExists('favorite_tbl');
     }
 };

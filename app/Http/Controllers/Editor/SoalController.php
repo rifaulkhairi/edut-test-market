@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Editor;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Option;
 use App\Models\PaketSoal;
 use App\Models\Question;
 use App\Models\TipeTest;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +23,7 @@ class SoalController extends Controller
 
         $paketsoal = PaketSoal::select('paket_soal_tbl.id', 'paket_soal_tbl.name')->get();
 
-        return Inertia::render('admin/Pages/soal/addSoalPG', ['tipetest' => $tipetest, 'paketsoal' => $paketsoal]);
+        return Inertia::render('editor/Pages/soal/addSoalPG', ['tipetest' => $tipetest, 'paketsoal' => $paketsoal]);
     }
     public function show()
     {
@@ -32,7 +32,7 @@ class SoalController extends Controller
 
 
 
-        return Inertia::render('admin/Pages/soal/ListSoal', ['question' => $questions]);
+        return Inertia::render('editor/Pages/soal/ListSoal', ['question' => $questions]);
     }
     public function store(Request $request)
     {
@@ -78,7 +78,7 @@ class SoalController extends Controller
             }
 
             DB::commit();
-            return to_route('daftarsoal')->with('message', ['success' => 'Soal Berhasil Ditambahkan']);
+            return to_route('editor.daftarsoal')->with('message', ['success' => 'Soal Berhasil Ditambahkan']);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Error while storing question and choices: ' . $e->getMessage());
@@ -91,7 +91,7 @@ class SoalController extends Controller
         $question = Question::where('questions_tbl.id', '=', $id)->with('options', 'author', 'paketsoal', 'tipetest')->first();
 
 
-        return Inertia::render('admin/Pages/soal/DetailSoal', ['question' => $question]);
+        return Inertia::render('editor/Pages/soal/DetailSoal', ['question' => $question]);
     }
 
     public function edit(Request $request, $id)
@@ -102,7 +102,7 @@ class SoalController extends Controller
 
         $tipetest = TipeTest::all();
         $paketsoal = PaketSoal::all();
-        return Inertia::render('admin/Pages/soal/EditSoalPG', ['tipetest' => $tipetest, 'paketsoal' => $paketsoal, 'question' => $question]);
+        return Inertia::render('editor/Pages/soal/EditSoalPG', ['tipetest' => $tipetest, 'paketsoal' => $paketsoal, 'question' => $question]);
     }
 
     public function update(Request $request, $id)
@@ -154,7 +154,7 @@ class SoalController extends Controller
             }
 
             DB::commit();
-            return to_route('daftarsoal')->with('message', ['success' => 'Soal Berhasil di Perbaharui']);
+            return to_route('editor.daftarsoal')->with('message', ['success' => 'Soal Berhasil di Perbaharui']);
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('message', ['error' => 'Something went wrong']);

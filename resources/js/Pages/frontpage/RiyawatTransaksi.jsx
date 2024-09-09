@@ -249,11 +249,7 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                         "press"
                                                                     );
                                                                     router.get(
-                                                                        "/examdashboard",
-                                                                        {
-                                                                            paketsoal_id:
-                                                                                order.id,
-                                                                        }
+                                                                        "/user/paketsoal"
                                                                     );
                                                                 }}
                                                             />
@@ -377,11 +373,7 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                         "press"
                                                                     );
                                                                     router.get(
-                                                                        "/examdashboard",
-                                                                        {
-                                                                            paketsoal_id:
-                                                                                order.id,
-                                                                        }
+                                                                        "/user/paketsoal"
                                                                     );
                                                                 }}
                                                             />
@@ -613,11 +605,7 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                 ) => {
                                                                     e.preventDefault();
                                                                     router.get(
-                                                                        "/examdashboard",
-                                                                        {
-                                                                            paketsoal_id:
-                                                                                order.id,
-                                                                        }
+                                                                        "/user/paketsoal"
                                                                     );
                                                                 }}
                                                             />

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\SoalController as AdminSoalController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Editor;
+use App\Http\Controllers\Editor\SoalController as EditorSoalController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PeketSoalController;
@@ -34,17 +35,17 @@ Route::get('/checkout', [OrderController::class, 'index'])->name('checkout')->mi
 Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesanan')->middleware('auth');
 Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware('auth');
 Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware('auth');
-Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth');
-Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth');
+Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware('auth', 'ordered');
+Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware('auth', 'ordered');
 Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware('auth');
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware('auth');
-Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth');
-Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save');
+Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware('auth', 'ordered');
+Route::post('/rating/save', [PenilaianController::class, 'store'])->name('rating.save')->middleware('auth', 'ordered');
 Route::get('/paketsoal/search', [SearchController::class, 'search'])->name('paketsoal.search');
 Route::get('/user/info', [UserProfileController::class, 'index'])->name('user.info')->middleware('auth');
 Route::patch('/user/info', [UserProfileController::class, 'update'])->name('user.info.update')->middleware('auth');
 Route::get('/user/info/password', [UserProfileController::class, 'password'])->name('user.info');
-
+Route::put('/user/info/password', [UserProfileController::class, 'updatePassoword'])->name('user.passoword.update')->middleware('auth');
 
 
 Route::middleware('auth')->group(function () {
@@ -96,6 +97,18 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/order/list', [AdminOrderController::class, 'index'])->name('order.list');
 });
 
-Route::get('/editor/dashboard', [Editor::class, 'index'])->middleware('auth', 'editor');
+
+Route::middleware('auth', 'editor')->group(function () {
+    Route::get('/editor/dashboard', [Editor::class, 'index'])->name('editor.dashboard');
+
+    // soal
+    Route::get('/editor/addsoalpg', [EditorSoalController::class, 'addsoalpg'])->name('editor.addsoalpg');
+    Route::get('/editor/daftarsoal', [EditorSoalController::class, 'show'])->name('editor.daftarsoal');
+    Route::post('/editor/storsoal', [EditorSoalController::class, 'store'])->name('editor.storesoal');
+    Route::get('/editor/detailsoal/{id}', [EditorSoalController::class, 'detail'])->name('admin.detailsoal');
+    Route::get('/editor/editsoal/{id}', [EditorSoalController::class, 'edit'])->name('admin.editsoal');
+    Route::patch('/editor/updatesoal/{id}', [EditorSoalController::class, 'update'])->name('admin.update.soal');
+    Route::delete('/editor/deletesoal/{id}', [EditorSoalController::class, 'delete'])->name('admin.delete.soal');
+});
 
 require __DIR__ . '/auth.php';

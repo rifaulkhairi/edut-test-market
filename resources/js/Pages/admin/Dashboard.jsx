@@ -56,7 +56,7 @@ const data = [
     },
 ];
 
-const Dashboard = () => {
+const Dashboard = ({ auth }) => {
     return (
         <section className="main flex">
             <div className="sidebarWrapper w-[15%]">
@@ -69,7 +69,7 @@ const Dashboard = () => {
                     <div className="flex w-full  h-full gap-y-2 flex-col">
                         <h1 className="font-semibold text-xl">Dashboard</h1>
                         <p className="text-xs text-gray-700 mb-4">
-                            Welcome back, Rifa! We've missed you. 🥰👋
+                            {`Welcome back, ${auth.user.name}! We've missed you. 🥰👋`}
                         </p>
                         <hr />
                         <div className="mt-6">
@@ -131,7 +131,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="flex gap-3 mt-6">
-                                <div className="flex w-full bg-white h-80 rounded-md shadow-sm p-4">
+                                <div className="flex w-full bg-white h-96 rounded-md shadow-sm p-4">
                                     <ResponsiveContainer>
                                         <AreaChart
                                             width={730}
@@ -204,7 +204,6 @@ const Dashboard = () => {
                                         </AreaChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <div className="flex w-full bg-white h-80 rounded-md shadow-sm"></div>
                             </div>
                         </div>
                     </div>

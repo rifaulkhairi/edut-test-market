@@ -6,6 +6,7 @@ use App\Models\PaketSoal;
 use App\Models\PercobaanUjian;
 use App\Models\Question;
 use App\Models\TipeTest;
+use App\Models\UserData;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,80 +17,88 @@ class ExamController extends Controller
 {
     public function initExam(Request $request)
     {
-        $paketSoal = PaketSoal::where('paket_soal_tbl.id', '=', $request->paketsoal_id)
-            ->with('questions.options', 'questions.tipetest')
-            ->first();
+        $userData = UserData::where('email', Auth::user()->email)->first();
+        if ($userData->provinsi !== null && $userData->kabupaten !== null) {
+            $paketSoal = PaketSoal::where('paket_soal_tbl.id', '=', $request->paketsoal_id)
+                ->with('questions.options', 'questions.tipetest')
+                ->first();
 
-        $tipetestData = TipeTest::all();
+            $tipetestData = TipeTest::all();
 
-        $groupedQuestions = $paketSoal->questions->groupBy('tipetest_id');
+            $groupedQuestions = $paketSoal->questions->groupBy('tipetest_id');
+            // dd($paketSoal);
 
-        $percobaanujian = PercobaanUjian::where('percobaan_ujian_tbl.email_user', '=', Auth::user()->email)
-            ->where('percobaan_ujian_tbl.paketsoal_id', $request->paketsoal_id)
-            ->get();
+            $percobaanujian = PercobaanUjian::where('percobaan_ujian_tbl.email_user', '=', Auth::user()->email)
+                ->where('percobaan_ujian_tbl.paketsoal_id', $request->paketsoal_id)
+                ->get();
 
-        $datainprogressujian = PercobaanUjian::where('percobaan_ujian_tbl.email_user', '=', Auth::user()->email)
-            ->where('percobaan_ujian_tbl.paketsoal_id', $request->paketsoal_id)
-            ->where('percobaan_ujian_tbl.status', 'pending')
-            ->with(['useranswer.soal'])
-            ->first();
+            $datainprogressujian = PercobaanUjian::where('percobaan_ujian_tbl.email_user', '=', Auth::user()->email)
+                ->where('percobaan_ujian_tbl.paketsoal_id', $request->paketsoal_id)
+                ->where('percobaan_ujian_tbl.status', 'pending')
+                ->with(['useranswer.soal'])
+                ->first();
 
-        $groupedAnswers = [];
-        if ($datainprogressujian) {
-            $groupedAnswers = collect($datainprogressujian->useranswer)->groupBy(function ($item) {
-                return $item['soal']['tipetest_id'];
-            });
-        }
-
-        if ($percobaanujian->isEmpty()) {
-            $datapercobaanujian = [
-                'paketsoal_id' => $request->paketsoal_id,
-                'email_user' => Auth::user()->email,
-
-            ];
-
-            $percobaanujian = PercobaanUjian::create($datapercobaanujian);
-        } else {
-
+            $groupedAnswers = [];
             if ($datainprogressujian) {
-                // $datainprogressujian->update(['created_at' => now()]);
+                $groupedAnswers = collect($datainprogressujian->useranswer)->groupBy(function ($item) {
+                    return $item['soal']['tipetest_id'];
+                });
+            }
 
-                $waktuujiandikerjakan = $datainprogressujian->created_at;
-                $detikBerjalan = $waktuujiandikerjakan->diffInSeconds(now());
+            // dd($request->paketsoal_id);
 
-                $timer = ($paketSoal->jam * 60 * 60) + ($paketSoal->menit * 60) + $paketSoal->detik;
+            if ($percobaanujian->isEmpty()) {
+                $datapercobaanujian = [
+                    'paketsoal_id' => $request->paketsoal_id,
+                    'email_user' => Auth::user()->email,
 
+                ];
 
-                $difwaktu = $timer - $detikBerjalan;
-                $seconds = $difwaktu;
-                $hours = floor($seconds / 3600);
-                $minutes = floor(($seconds % 3600) / 60);
-                $seconds = $seconds % 60;
-                $paketSoal['jam'] = $hours;
-                $paketSoal['menit'] = $minutes;
-                $paketSoal['detik'] = $seconds;
-
-                $percobaanujian = $datainprogressujian;
+                $percobaanujian = PercobaanUjian::create($datapercobaanujian);
             } else {
-                //batasi percobaan ujian hanya 5 kali
-                if (count($percobaanujian) < 5) {
-                    $datapercobaanujian = [
-                        'paketsoal_id' => $request->paketsoal_id,
-                        'email_user' => Auth::user()->email,
 
-                    ];
+                if ($datainprogressujian) {
+                    // $datainprogressujian->update(['created_at' => now()]);
 
-                    $percobaanujian = PercobaanUjian::create($datapercobaanujian);
+                    $waktuujiandikerjakan = $datainprogressujian->created_at;
+                    $detikBerjalan = $waktuujiandikerjakan->diffInSeconds(now());
+
+                    $timer = ($paketSoal->jam * 60 * 60) + ($paketSoal->menit * 60) + $paketSoal->detik;
+
+
+                    $difwaktu = $timer - $detikBerjalan;
+                    $seconds = $difwaktu;
+                    $hours = floor($seconds / 3600);
+                    $minutes = floor(($seconds % 3600) / 60);
+                    $seconds = $seconds % 60;
+                    $paketSoal['jam'] = $hours;
+                    $paketSoal['menit'] = $minutes;
+                    $paketSoal['detik'] = $seconds;
+
+                    $percobaanujian = $datainprogressujian;
+                } else {
+                    //batasi percobaan ujian hanya 5 kali
+                    if (count($percobaanujian) < 5) {
+                        $datapercobaanujian = [
+                            'paketsoal_id' => $request->paketsoal_id,
+                            'email_user' => Auth::user()->email,
+
+                        ];
+
+                        $percobaanujian = PercobaanUjian::create($datapercobaanujian);
+                    }
                 }
             }
+            return Inertia::render('frontpage/exam/ExamRoom', [
+                'paketsoal' => $paketSoal,
+                'groupedQuestions' => $groupedQuestions,
+                'tipetestData' => $tipetestData,
+                'percobaanujian' => $percobaanujian,
+                'groupedAnswers' => $groupedAnswers,
+            ]);
+        } else {
+            return redirect('/user/info')->with('message', ['error' => 'Lengkapi data terlebih dahulu']);
         }
-        return Inertia::render('frontpage/exam/ExamRoom', [
-            'paketsoal' => $paketSoal,
-            'groupedQuestions' => $groupedQuestions,
-            'tipetestData' => $tipetestData,
-            'percobaanujian' => $percobaanujian,
-            'groupedAnswers' => $groupedAnswers,
-        ]);
     }
     public function dashboard(Request $request)
     {

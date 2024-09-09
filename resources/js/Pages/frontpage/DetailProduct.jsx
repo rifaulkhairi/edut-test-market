@@ -1,17 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Avatar, Divider, Rating, Stack } from "@mui/material";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import BasicTabs from "@/Components/detailProduct/DetailProductTabs";
+import { Avatar, Divider, Rating } from "@mui/material";
+import DetailProductTab from "@/Components/detailProduct/DetailProductTabs";
 import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
-import { deepOrange, deepPurple } from "@mui/material/colors";
+import { deepOrange } from "@mui/material/colors";
 import { Toaster, toast } from "sonner";
 import { useEffect } from "react";
-import { Fab } from "@mui/material";
-import { IoLogoWhatsapp } from "react-icons/io";
 import Image from "@/Components/Image";
-import { Link, router } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import Harga from "@/Components/Harga";
 import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -20,53 +16,7 @@ import CS from "@/Components/CS";
 const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
     const [sortBy, setSortBy] = useState("semua");
 
-    const [imageLoaded, setImageLoaded] = useState(false);
-
-    const handleImageLoad = () => {
-        setImageLoaded(true);
-    };
-
-    const sliderRef = useRef(null);
-
-    const handleProductClick = (product) => {
-        setSelectedProduct(product);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    initialSlide: 2,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
+    const [rankData, setRankData] = useState([]);
 
     useEffect(() => {
         if (flash.message != null) {
@@ -103,7 +53,10 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                                 className="text-md font-semibold text-secondary"
                             ></Harga>
                         </h2>
-                        <p className="text-md text-gray-600"> 1rb terjual</p>
+                        <p className="text-md text-gray-600">
+                            {" "}
+                            {paketsoal.terjual} terjual
+                        </p>
                         <div className="flex gap-x-2">
                             <p className="text-xl font-semibold text-secondary">
                                 {paketsoal.rating}
@@ -139,12 +92,13 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                         </div>
                     </div>
                 </div>
+                {/* BAGIAN DESKRIPSI PRODUK DAN PERANGKINGAN */}
                 <div className="bg-white mt-5 rounded-md p-5 shadow-md">
                     <div className="grid grid-flow-col-dense bg-white p-3 rounded-md">
                         {/* Bagian Detail Produk */}
                         <div className="">
                             <div>
-                                <BasicTabs
+                                <DetailProductTab
                                     auth={auth}
                                     detail={detail}
                                     paketsoal={paketsoal}
@@ -159,7 +113,7 @@ const DetailProduct = ({ auth, detail, base_url, cart, paketsoal, flash }) => {
                     <h3 className="text-xl font-semibold mb-4">
                         Penilaian Produk
                     </h3>
-                    <div className="flex w-full  bg-secondary/5 px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
+                    <div className="flex w-full  bg-[#f5f9ff] px-5 py-3 border-2 border-secondary/15 items-center gap-x-5">
                         <div>
                             <div className="flex w-full text-secondary font-semibold text-4xl items-center justify-center gap-3">
                                 {paketsoal.rating}
