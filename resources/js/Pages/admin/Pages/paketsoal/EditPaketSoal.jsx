@@ -1,7 +1,14 @@
 import Sidebar from "@/Components/admin/Sidebar";
 import Header from "@/Components/admin/Header";
 import React, { useState } from "react";
-import { Button, InputLabel, TextField } from "@mui/material";
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+} from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
 import { textTransform } from "@mui/system";
 import { router } from "@inertiajs/react";
@@ -25,6 +32,7 @@ const EditPaketSoal = ({ paketsoal }) => {
     const [jam, setJam] = useState(paketsoal.jam ? paketsoal.jam : 0);
     const [menit, setMenit] = useState(paketsoal.menit ? paketsoal.menit : 0);
     const [detik, setDetik] = useState(paketsoal.detik ? paketsoal.detik : 0);
+    const [status, setStatus] = useState(paketsoal.status);
 
     const onsubmit = (e) => {
         e.preventDefault();
@@ -37,9 +45,13 @@ const EditPaketSoal = ({ paketsoal }) => {
             jam: jam,
             menit: menit,
             detik: detik,
+            status: status,
         });
+    };
 
-        console.log("submit");
+    const handleStatusChange = (e) => {
+        e.preventDefault();
+        setStatus(e.target.value);
     };
 
     return (
@@ -78,18 +90,7 @@ const EditPaketSoal = ({ paketsoal }) => {
                         }}
                         sx={{ width: "100%" }}
                     ></TextField>
-                    {/* <TextField
-                        id="description"
-                        label="Description"
-                        required
-                        multiline
-                        value={description}
-                        onChange={(event, value) => {
-                            setDescription(event.target.value);
-                            setData("description", description);
-                        }}
-                        sx={{ width: "100%" }}
-                    ></TextField> */}
+
                     <Editor
                         value={description}
                         onChange={(value) => {
@@ -126,32 +127,45 @@ const EditPaketSoal = ({ paketsoal }) => {
                             label="Detik"
                         ></TextField>
                     </div>
-                    <TextField
-                        id="price"
-                        type="number"
-                        label="Price"
-                        required
-                        value={price}
-                        onChange={(event, value) => {
-                            setPrice(event.target.value);
-                            setData("price", price);
-                        }}
-                        sx={{ width: "100%" }}
-                    ></TextField>
-                    <TextField
-                        id="discount"
-                        type="text"
-                        label="Discount"
-                        required
-                        onChange={(event, value) => {
-                            setDiscount(event.target.value);
-                            console.log(discount);
-                            setData("discount", discount);
-                        }}
-                        value={discount}
-                        inputMode="decimal"
-                        sx={{ width: "100%" }}
-                    ></TextField>
+                    <div className="flex flex-row gap-x-2">
+                        <TextField
+                            id="price"
+                            type="number"
+                            label="Price"
+                            required
+                            value={price}
+                            onChange={(event, value) => {
+                                setPrice(event.target.value);
+                                setData("price", price);
+                            }}
+                            sx={{ width: "100%" }}
+                        ></TextField>
+                        <TextField
+                            id="discount"
+                            type="text"
+                            label="Discount"
+                            required
+                            onChange={(event, value) => {
+                                setDiscount(event.target.value);
+                                console.log(discount);
+                                setData("discount", discount);
+                            }}
+                            value={discount}
+                            inputMode="decimal"
+                            sx={{ width: "100%" }}
+                        ></TextField>
+                        <FormControl fullWidth>
+                            <InputLabel labelId="Status">Status</InputLabel>
+                            <Select
+                                label="Status"
+                                value={status}
+                                onChange={(e) => handleStatusChange(e)}
+                            >
+                                <MenuItem value={"pending"}>Pending</MenuItem>
+                                <MenuItem value={"publish"}>Publish</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
                     <div>
                         <Button
                             type="submit"

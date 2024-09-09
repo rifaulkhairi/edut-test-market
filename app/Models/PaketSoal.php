@@ -21,6 +21,7 @@ class PaketSoal extends Model
         'jam',
         'menit',
         'detik',
+        'status',
         'created_by',
         'updated_by',
         'created_at',

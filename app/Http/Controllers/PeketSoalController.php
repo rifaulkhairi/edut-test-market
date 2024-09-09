@@ -19,7 +19,8 @@ class PeketSoalController extends Controller
             'description',
             'price',
             'link_cover',
-            'discount'
+            'discount',
+            'status',
         )->get();
         return Inertia::render('admin/Pages/paketsoal/ListPaketSoal', ['daftarpaketsoal' => $daftarpaketsoal]);
     }
@@ -88,6 +89,7 @@ class PeketSoalController extends Controller
             "jam" => $request->jam,
             "menit" => $request->menit,
             "detik" => $request->detik,
+            'status' => $request->status,
         ];
 
         $paketsoal->update($data);

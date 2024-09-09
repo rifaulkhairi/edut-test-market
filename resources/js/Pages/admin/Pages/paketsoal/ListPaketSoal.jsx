@@ -1,7 +1,7 @@
 import Sidebar from "@/Components/admin/Sidebar";
 import Header from "@/Components/admin/Header";
 import React, { useState } from "react";
-import { Button, InputLabel, TextField, IconButton } from "@mui/material";
+import { Button, InputLabel, TextField, IconButton, Chip } from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
 import MUIDataTable from "mui-datatables";
 import { Link, router } from "@inertiajs/react";
@@ -41,6 +41,21 @@ const columns = [
                         value * 100
                     } %`}</span>
                 </div>
+            ),
+        },
+    },
+    {
+        name: "status",
+        label: "Status",
+        options: {
+            customBodyRender: (value) => (
+                <>
+                    {value === "pending" ? (
+                        <Chip label={value} color="warning" />
+                    ) : (
+                        <Chip label={value} color="success" />
+                    )}
+                </>
             ),
         },
     },

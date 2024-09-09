@@ -254,10 +254,6 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                 }}
                                                             />
                                                         )}
-                                                        {order.status ===
-                                                            "expired" && (
-                                                            <Button title="Bayar Ulang" />
-                                                        )}
                                                     </div>
                                                 </li>
                                             </ul>
@@ -369,18 +365,12 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                     e
                                                                 ) => {
                                                                     e.preventDefault();
-                                                                    console.log(
-                                                                        "press"
-                                                                    );
+
                                                                     router.get(
                                                                         "/user/paketsoal"
                                                                     );
                                                                 }}
                                                             />
-                                                        )}
-                                                        {order.status ===
-                                                            "expired" && (
-                                                            <Button title="Bayar Ulang" />
                                                         )}
                                                     </div>
                                                 </li>
@@ -487,11 +477,17 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                         )}
                                                         {order.status ===
                                                             "paid" && (
-                                                            <Button title="Lihat" />
-                                                        )}
-                                                        {order.status ===
-                                                            "expired" && (
-                                                            <Button title="Bayar Ulang" />
+                                                            <Button
+                                                                title="Lihat"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.preventDefault();
+                                                                    router.get(
+                                                                        "/user/paketsoal"
+                                                                    );
+                                                                }}
+                                                            />
                                                         )}
                                                     </div>
                                                 </li>
@@ -609,10 +605,6 @@ const RiwayatTransaksi = ({ auth, base_url, cartitem, orders }) => {
                                                                     );
                                                                 }}
                                                             />
-                                                        )}
-                                                        {order.status ===
-                                                            "expired" && (
-                                                            <Button title="Bayar Ulang" />
                                                         )}
                                                     </div>
                                                 </li>
