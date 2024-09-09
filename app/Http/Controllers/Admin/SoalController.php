@@ -133,6 +133,7 @@ class SoalController extends Controller
                 'tipetest_id' => $request->idtipetest,
                 'tipe_soal' => $request->tipesoal,
                 'pembahasan' => $request->pembahasan,
+                'preview' => $request->preview,
             ];
 
             $question = Question::find($id);

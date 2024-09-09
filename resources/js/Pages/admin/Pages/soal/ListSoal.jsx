@@ -1,7 +1,7 @@
 import Sidebar from "@/Components/admin/Sidebar";
 import Header from "@/Components/admin/Header";
 import React, { useState } from "react";
-import { Button, InputLabel, TextField, IconButton } from "@mui/material";
+import { Button, InputLabel, TextField, IconButton, Chip } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import { Link, router } from "@inertiajs/react";
 import { MdOutlineOpenInNew } from "react-icons/md";
@@ -60,6 +60,21 @@ const columns = [
         options: {
             customBodyRender: (value) => (
                 <div className="flex">{value.name}</div>
+            ),
+        },
+    },
+    {
+        name: "preview",
+        label: "Preview",
+        options: {
+            customBodyRender: (value) => (
+                <>
+                    {value === 0 ? (
+                        <Chip label="false" color="error" />
+                    ) : (
+                        <Chip label="true" color="success" />
+                    )}
+                </>
             ),
         },
     },

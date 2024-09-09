@@ -4,8 +4,10 @@ import {
     Autocomplete,
     Breadcrumbs,
     Button,
-    IconButton,
+    FormControl,
+    InputLabel,
     MenuItem,
+    Select,
     TextField,
 } from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
@@ -40,6 +42,8 @@ const EditSoalPG = ({ datasoal, tipetest, paketsoal, question, errors }) => {
 
     const [pembahasan, setPembahasan] = useState(question.pembahasan);
 
+    const [previewStatus, setPreviewStatus] = useState(question.preview);
+
     const onsubmit = (e) => {
         e.preventDefault();
         router.post(`/admin/updatesoal/${question.id}`, {
@@ -50,6 +54,7 @@ const EditSoalPG = ({ datasoal, tipetest, paketsoal, question, errors }) => {
             idpaketsoal: selectedIdPaketSoal,
             idtipetest: selectedIdTipeTest,
             tipesoal: tipesoal,
+            preview: previewStatus,
         });
     };
 
@@ -57,6 +62,10 @@ const EditSoalPG = ({ datasoal, tipetest, paketsoal, question, errors }) => {
         const newChoices = [...choices];
         newChoices[index][field] = value;
         setChoices(newChoices);
+    };
+
+    const handlePreviewStatus = (e) => {
+        setPreviewStatus(e.target.value);
     };
 
     return (
@@ -132,6 +141,19 @@ const EditSoalPG = ({ datasoal, tipetest, paketsoal, question, errors }) => {
                             <MenuItem value="bs">Benar Salah</MenuItem>
                         </TextField>
                         <InputError message={errors.tipesoal} />
+                        <FormControl fullWidth>
+                            <InputLabel labelId="Status">
+                                Preview Status
+                            </InputLabel>
+                            <Select
+                                label="Preview Status"
+                                value={previewStatus}
+                                onChange={(e) => handlePreviewStatus(e)}
+                            >
+                                <MenuItem value={1}>Preview</MenuItem>
+                                <MenuItem value={0}>Not Preview</MenuItem>
+                            </Select>
+                        </FormControl>
                     </div>
                     <div className="flex w-full bg-white h-fit flex-col p-6 rounded-md shadow-md">
                         <h2 className="text-secondary font-bold text-xl mb-3 ">
@@ -152,14 +174,6 @@ const EditSoalPG = ({ datasoal, tipetest, paketsoal, question, errors }) => {
                                             97 + index
                                         )}`}
                                     </h2>
-
-                                    {/* <IconButton
-                                        onClick={() =>
-                                            handleRemoveChoice(index)
-                                        }
-                                    >
-                                        <TiDeleteOutline className="text-red-400" />
-                                    </IconButton> */}
                                 </div>
 
                                 <div className="flex flex-col gap-y-3">

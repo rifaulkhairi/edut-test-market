@@ -14,7 +14,7 @@ class ProdukController extends Controller
 {
     public function index()
     {
-        $produks = PaketSoal::all();
+        $produks = PaketSoal::where('paket_soal_tbl.status', 'publish')->get();
         $baseurl = url("/");
 
         $cart = null;
