@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\PaketSoal;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,12 +31,14 @@ class OrderController extends Controller
         $grossamont = 0;
         $orderitems = $request->orderitem;
         foreach ($orderitems as $item) {
-            $grossamont += $item["paketsoal"]["price"] - $item["paketsoal"]["price"] * $item["paketsoal"]["discount"];
+            $grossamont += ($item["paketsoal"]["price"] - round($item["paketsoal"]["price"] * $item["paketsoal"]["discount"]));
         }
+        // dd($grossamont);
         $data = [];
         $data["payment_type"] = $request->pymentMethod;
         $data['email_user'] = Auth::user()->email;
         $data['gross_amount'] = $grossamont;
+
         DB::beginTransaction();
         try {
             $order = Order::create([
@@ -64,9 +68,14 @@ class OrderController extends Controller
                         'gross_amount' => $order->gross_amount,
                     ]
                 ]);
+            // dd($order->gross_amount);
 
             if ($resp->status() == 201 || $resp->status() == 200) {
                 $actions = $resp->json('actions');
+                $transactiontime = $resp->json('transaction_time');
+                $expiry_time = new DateTime($transactiontime);
+                $expiry_time = $expiry_time->modify('+15 minutes')->format('Y-m-d H:i:s');
+                dd($expiry_time);
                 if (empty($actions)) {
                     return response()->json(['message' => $resp['status_message'], 500]);
                 }
@@ -98,13 +107,21 @@ class OrderController extends Controller
             return response()->json(['message' => 'invalid Signature'], 400);
         }
 
-        $order = Order::find($request->order_id);
+        $order = $order = Order::with('order_items')->find($request->order_id);
 
         if ($order) {
             $status = 'pending';
 
             if ($request->transaction_status == 'settlement') {
                 $status = 'paid';
+                foreach ($order->order_items as $item) {
+                    $paketsoal = PaketSoal::find($item->paketsoal_id);
+                    if ($paketsoal) {
+                        $paketsoal->update([
+                            'terjual' => $paketsoal->terjual + 1
+                        ]);
+                    }
+                }
             } else if ($request->transaction_status == 'expire') {
                 $status = 'expired';
             }

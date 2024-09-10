@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Link, Head, router } from "@inertiajs/react";
 import logo from "../../../public/images/logo-EduShop.svg";
 import { BsSearch } from "react-icons/bs";
-import {
-    ShoppingCartIcon,
-    UserIcon,
-    ClipboardDocumentIcon,
-} from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Badge, Paper, IconButton } from "@mui/material";
 import { Menu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
@@ -83,14 +79,14 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                 </a>
                             </div>
 
-                            <div className="flex gap-2 items-center">
+                            {/* <div className="flex gap-2 items-center">
                                 <a href="#">
                                     <i className="fa-solid fa-phone text-xs"></i>
                                 </a>
                                 <label className="text-xs">
                                     +62 111-1111-1111
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex-1 flex justify-end gap-2 mr-3">
                             {/* <div className="flex h-full justify-center">

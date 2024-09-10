@@ -1,15 +1,8 @@
-import Button from "@/Components/Button";
 import CS from "@/Components/CS";
-import Image from "@/Components/Image";
 import ProductCard from "@/Components/ProductCard";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Link, router } from "@inertiajs/react";
-import { Box, Breadcrumbs, Tab, Tabs } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import PropTypes from "prop-types";
 
-import React, { useEffect, useState } from "react";
-import { MdOutlineNavigateNext } from "react-icons/md";
+import React from "react";
 
 const SearchResult = ({ auth, base_url, cart, products, searchkey }) => {
     return (

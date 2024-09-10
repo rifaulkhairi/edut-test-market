@@ -20,6 +20,7 @@ class orderMiddleware
     {
 
         $orders = Order::where('order_tbl.email_user', Auth::user()->email)
+            ->where("order_tbl.status", 'paid')
             ->with('order_items')
             ->get();
         $orderItem = [];
@@ -29,13 +30,14 @@ class orderMiddleware
                     return (string)$item->paketsoal_id === $request->paketsoal_id;
                 })->first();
             }
+            // dd($orderItem);
             if ($orderItem) {
                 return $next($request);
             } else {
-                return redirect()->back();
+                return redirect()->back()->with('message', ['error' => 'Anda belum membeli paket soal ini']);
             }
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('message', ['error' => 'Anda belum membeli paket soal ini']);
         }
     }
 }

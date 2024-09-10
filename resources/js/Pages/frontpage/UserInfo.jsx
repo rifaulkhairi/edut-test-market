@@ -1,19 +1,17 @@
 import CS from "@/Components/CS";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
-import { Link, router } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { Autocomplete, TextField } from "@mui/material";
 import { LuUser2 } from "react-icons/lu";
 import { LuClipboardList } from "react-icons/lu";
 
 import React, { useEffect, useState } from "react";
-import { MdOutlineNavigateNext } from "react-icons/md";
 import { provinsi, kabupaten } from "daftar-wilayah-indonesia";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Toaster, toast } from "sonner";
 
 const UserInfo = ({ auth, base_url, cart, user_data, flash }) => {
     const [selectedMenu, setSelectedMenu] = useState(0);
-    const [selectedSubMenu, setSelectedSubMenu] = useState(0);
     const dataprovinsi = provinsi();
     const [nama, setNama] = useState(auth?.user?.name || "");
     const [email, setEmail] = useState(auth?.user?.email || "");

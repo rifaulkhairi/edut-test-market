@@ -1,20 +1,13 @@
-import React, { useState } from "react";
-import { Link, Head, router } from "@inertiajs/react";
+import React from "react";
+import { Head, router } from "@inertiajs/react";
 import logo from "../../../public/images/logo-edu-test-market.svg";
-import { BsSearch } from "react-icons/bs";
-import {
-    ShoppingCartIcon,
-    UserIcon,
-    ClipboardDocumentIcon,
-} from "@heroicons/react/24/outline";
-import { Badge, Paper, IconButton } from "@mui/material";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { Badge } from "@mui/material";
 import { Menu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 
 import Footer from "@/Components/Footer";
-import Image from "@/Components/Image";
-import Harga from "@/Components/Harga";
 
 const SimpleFrontpageLayout = ({ children, user, base_url }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,14 +43,14 @@ const SimpleFrontpageLayout = ({ children, user, base_url }) => {
                                 </a>
                             </div>
 
-                            <div className="flex gap-2 items-center">
+                            {/* <div className="flex gap-2 items-center">
                                 <a href="#">
                                     <i className="fa-solid fa-phone text-xs"></i>
                                 </a>
                                 <label className="text-xs">
                                     +62 111-1111-1111
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex-1 flex justify-end gap-2 mr-3">
                             <div className="flex h-full justify-center">
@@ -90,6 +83,25 @@ const SimpleFrontpageLayout = ({ children, user, base_url }) => {
                                     onClick={handleCloseAccountMenu}
                                 >
                                     <MenuItem>
+                                        <MenuItem
+                                            className="font-semibold"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                router.get("/user/info");
+                                            }}
+                                        >
+                                            Profil
+                                        </MenuItem>
+                                        <MenuItem
+                                            className="font-semibold"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                router.get("/riwayattransaksi");
+                                            }}
+                                        >
+                                            Riwayat Pesanan
+                                        </MenuItem>
+
                                         {user.user ? (
                                             <MenuItem
                                                 className="text-secon font-semibold"

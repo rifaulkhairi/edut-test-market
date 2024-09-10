@@ -1,14 +1,6 @@
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
 import { Link, router } from "@inertiajs/react";
-import {
-    Breadcrumbs,
-    Button,
-    capitalize,
-    Checkbox,
-    FormControl,
-    IconButton,
-    RadioGroup,
-} from "@mui/material";
+import { Breadcrumbs, Checkbox, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Harga from "@/Components/Harga";

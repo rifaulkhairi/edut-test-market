@@ -12,7 +12,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Harga from "@/Components/Harga";
-import { TbTrash } from "react-icons/tb";
 import Image from "@/Components/Image";
 import SimpleFrontpageLayout from "@/Layouts/SimpleFrontpageLayout";
 

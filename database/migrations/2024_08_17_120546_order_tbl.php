@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('payment_type');
             $table->string('invoice')->nullable();
             $table->timestamps();
+            $table->timestamp('expiry_time')->nullable();
             $table->double('gross_amount');
             $table->text('qr_code_link')->nullable();
             $table->foreign('email_user')->references('email')->on('users')->onDelete('cascade');

@@ -5,14 +5,9 @@ import {
     WalletIcon,
     HeartIcon,
 } from "@heroicons/react/24/outline";
-// import { Link, Head } from "@inertiajs/react";
-import { Button, Card } from "@material-tailwind/react";
 import ProductCard from "@/Components/ProductCard";
-import RadioCategory, { RadioGroup } from "@/Components/RadioCategory";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
-import { Fab } from "@mui/material";
-import { IoLogoWhatsapp } from "react-icons/io";
 import CS from "@/Components/CS";
 
 export default function Frontpage({ auth, produks, base_url, cart }) {

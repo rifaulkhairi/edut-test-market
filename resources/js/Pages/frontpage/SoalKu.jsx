@@ -3,11 +3,9 @@ import CS from "@/Components/CS";
 import Image from "@/Components/Image";
 import FrontpageLayout from "@/Layouts/FrontpageLayout";
 import { Link, router } from "@inertiajs/react";
-import { Box, Breadcrumbs, Tab, Tabs } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import PropTypes from "prop-types";
+import { Breadcrumbs } from "@mui/material";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 
 const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
@@ -25,12 +23,19 @@ const SoalKu = ({ auth, base_url, cartitem, paketsoaluser }) => {
                     {paketsoaluser.length > 0 ? (
                         paketsoaluser.map((soal, index) => (
                             <div className="flex w-full bg-white p-4 rounded-md">
-                                <div className="flex w-full gap-x-2">
+                                <div className="flex w-full gap-x-4">
                                     <Image
                                         className="h-24 w-24 rounded-md"
                                         src={`${base_url}/storage/${soal.paketsoal.link_cover}`}
                                     ></Image>
-                                    <p>{soal.paketsoal.name}</p>
+                                    <div>
+                                        <p className="font-bold">
+                                            {soal.paketsoal.name}
+                                        </p>
+                                        <p className=" text-gray-500">
+                                            soal+pembahasan
+                                        </p>
+                                    </div>
                                 </div>
                                 <ul className="flex w-full justify-end mr-24">
                                     {/* <li>Status</li> */}

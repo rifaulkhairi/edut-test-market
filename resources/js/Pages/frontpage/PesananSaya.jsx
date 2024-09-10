@@ -2,12 +2,9 @@ import FrontpageLayout from "@/Layouts/FrontpageLayout";
 import { LuUser2 } from "react-icons/lu";
 import { LuClipboardList } from "react-icons/lu";
 
-import { MdOutlineNavigateNext } from "react-icons/md";
-import { provinsi, kabupaten } from "daftar-wilayah-indonesia";
-import PrimaryButton from "@/Components/PrimaryButton";
 import Image from "@/Components/Image";
-import { Link, router } from "@inertiajs/react";
-import { Box, Breadcrumbs, Tab, Tabs } from "@mui/material";
+import { router } from "@inertiajs/react";
+import { Box, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
@@ -298,12 +295,18 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                             </div>
                                                                             <div>
                                                                                 <Harga
+                                                                                    className="line-through"
                                                                                     nilai={
                                                                                         order_item
                                                                                             .paketsoal
                                                                                             .price
                                                                                     }
                                                                                 />
+                                                                                <Harga
+                                                                                    nilai={
+                                                                                        order.gross_amount
+                                                                                    }
+                                                                                ></Harga>
                                                                             </div>
                                                                         </li>
                                                                     )
@@ -355,10 +358,6 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                                     );
                                                                                 }}
                                                                             />
-                                                                        )}
-                                                                        {order.status ===
-                                                                            "expired" && (
-                                                                            <Button title="Bayar Ulang" />
                                                                         )}
                                                                     </div>
                                                                 </li>
@@ -436,12 +435,18 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                             </div>
                                                                             <div>
                                                                                 <Harga
+                                                                                    className="line-through"
                                                                                     nilai={
                                                                                         order_item
                                                                                             .paketsoal
                                                                                             .price
                                                                                     }
                                                                                 />
+                                                                                <Harga
+                                                                                    nilai={
+                                                                                        order.gross_amount
+                                                                                    }
+                                                                                ></Harga>
                                                                             </div>
                                                                         </li>
                                                                     )
@@ -493,10 +498,6 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                                     );
                                                                                 }}
                                                                             />
-                                                                        )}
-                                                                        {order.status ===
-                                                                            "expired" && (
-                                                                            <Button title="Bayar Ulang" />
                                                                         )}
                                                                     </div>
                                                                 </li>
@@ -574,12 +575,18 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                             </div>
                                                                             <div>
                                                                                 <Harga
+                                                                                    className="line-through"
                                                                                     nilai={
                                                                                         order_item
                                                                                             .paketsoal
                                                                                             .price
                                                                                     }
                                                                                 />
+                                                                                <Harga
+                                                                                    nilai={
+                                                                                        order.gross_amount
+                                                                                    }
+                                                                                ></Harga>
                                                                             </div>
                                                                         </li>
                                                                     )
@@ -618,10 +625,6 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                         {order.status ===
                                                                             "paid" && (
                                                                             <Button title="Lihat" />
-                                                                        )}
-                                                                        {order.status ===
-                                                                            "expired" && (
-                                                                            <Button title="Bayar Ulang" />
                                                                         )}
                                                                     </div>
                                                                 </li>
@@ -699,12 +702,18 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                             </div>
                                                                             <div>
                                                                                 <Harga
+                                                                                    className="line-through"
                                                                                     nilai={
                                                                                         order_item
                                                                                             .paketsoal
                                                                                             .price
                                                                                     }
                                                                                 />
+                                                                                <Harga
+                                                                                    nilai={
+                                                                                        order.gross_amount
+                                                                                    }
+                                                                                ></Harga>
                                                                             </div>
                                                                         </li>
                                                                     )
@@ -753,10 +762,6 @@ const UpdatePassword = ({ auth, base_url, cartitem, orders }) => {
                                                                                     );
                                                                                 }}
                                                                             />
-                                                                        )}
-                                                                        {order.status ===
-                                                                            "expired" && (
-                                                                            <Button title="Bayar Ulang" />
                                                                         )}
                                                                     </div>
                                                                 </li>

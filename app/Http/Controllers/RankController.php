@@ -37,6 +37,39 @@ class RankController extends Controller
                 'provinsi' => $request->provinsi,
                 'kabupaten' => $request->kabupaten,
             ]);
+            if ($request->email) {
+                $user = UserData::where('user_data_tbl.email', $request->email)->first();
+                if ($user->provinsi === $request->provinsi) {
+                    $userrank = DB::select("
+                        WITH RankedUsers AS (
+                            SELECT 
+                                ROW_NUMBER() OVER (ORDER BY MAX(p.total_nilai) DESC) AS ranking,
+                                u.name, 
+                                u.email, 
+                                ud.provinsi, 
+                                ud.kabupaten, 
+                                MAX(p.total_nilai) AS total_nilai
+                            FROM percobaan_ujian_tbl AS p
+                            JOIN user_data_tbl AS ud ON p.email_user = ud.email
+                            JOIN users AS u ON p.email_user = u.email
+                            WHERE p.paketsoal_id = :paketSoalId AND ud.provinsi = :provinsi AND ud.kabupaten = :kabupaten
+                            GROUP BY u.name, u.email, ud.provinsi, ud.kabupaten
+                        )
+                        SELECT * 
+                        FROM RankedUsers 
+                        WHERE email = :email
+                    ", [
+                        'paketSoalId' => $request->paketsoal_id,
+                        'email' => $request->email,
+                        'provinsi' => $request->provinsi,
+                        'kabupaten' => $request->kabupaten,
+                    ]);
+                }
+            }
+            return response()->json([
+                'ranked_users' => $rankedusers,
+                'user_rank' => $userrank
+            ]);
         } else if ($request->provinsi != null) {
             // Query with only provinsi
             $rankedusers = DB::select("

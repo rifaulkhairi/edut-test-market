@@ -33,7 +33,7 @@ Route::post('/buatpesanan', [OrderController::class, 'store'])->name('buatpesana
 Route::get('/pembayaran/{id}', [OrderController::class, 'bayar'])->name('pembayaran')->middleware(['auth', 'verified']);
 Route::get('/hasilujian/{id}', [SoalController::class, 'hasilujian'])->name('hasilujian')->middleware(['auth', 'verified']);
 Route::get('/examroom', [ExamController::class, 'initExam'])->name('initExam')->middleware(['auth', 'ordered', 'verified']);
-Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('initExam')->middleware(['auth', 'ordered', 'verified']);
+Route::get('/examdashboard', [ExamController::class, 'dashboard'])->name('dashboard.exam')->middleware(['auth', 'ordered', 'verified']);
 Route::get('/user/paketsoal', [PaketSoalKuController::class, 'index'])->name('user.paketsoal')->middleware(['auth', 'verified']);
 Route::post('/endexam', [ExamController::class, 'endExam'])->name('exam.end')->middleware(['auth', 'verified']);
 Route::get('/user/view/pembahasan', [PembahasanController::class, 'index'])->name('view.pembahasan')->middleware(['auth', 'ordered', 'verified']);
