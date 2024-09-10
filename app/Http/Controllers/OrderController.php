@@ -75,7 +75,6 @@ class OrderController extends Controller
                 $transactiontime = $resp->json('transaction_time');
                 $expiry_time = new DateTime($transactiontime);
                 $expiry_time = $expiry_time->modify('+15 minutes')->format('Y-m-d H:i:s');
-                dd($expiry_time);
                 if (empty($actions)) {
                     return response()->json(['message' => $resp['status_message'], 500]);
                 }
@@ -83,8 +82,7 @@ class OrderController extends Controller
                 foreach ($actions as $action) {
                     $actionmap[$action['name']] = $action['url'];
                 }
-                $order->update(['qr_code_link' => $actionmap['generate-qr-code']]);
-
+                $order->update(['qr_code_link' => $actionmap['generate-qr-code'], 'expiry_time' => $expiry_time]);
 
                 return redirect(url('/pembayaran/' . $order->id));
             }

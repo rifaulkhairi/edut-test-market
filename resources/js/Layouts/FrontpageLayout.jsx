@@ -182,7 +182,10 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                 className="w-12 h-12 mt-2 flex-none"
                             />
                             <span className="font-bold text-white text-xl mt-2">
-                                EduTestMarket
+                                EduTest
+                                <span className="text-[#daa21c] font-extrabold">
+                                    Market
+                                </span>
                             </span>
                         </a>
                         <div className="w-full flex justify-end items-center gap-2">

@@ -30,8 +30,8 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                                     router.visit("/user/paketsoal");
                                 }}
                             >
-                                <ClipboardDocumentIcon className="h-10 w-10 text-secondary"></ClipboardDocumentIcon>
-                                <p className="capitalize font-semibold text-xs text-secondary">
+                                <ClipboardDocumentIcon className="h-10 w-10 text-[#daa21c]"></ClipboardDocumentIcon>
+                                <p className="capitalize font-semibold text-xs text-[#daa21c]">
                                     Soal ku
                                 </p>
                             </button>
@@ -40,8 +40,8 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                                 className="flex  h-20 w-20 justify-center border-[1px]  flex-col gap-y-2 items-center rounded-3xl hover:-translate-y-1 transition-all"
                                 variant="text"
                             >
-                                <HeartIcon className="h-8 w-8 text-secondary"></HeartIcon>
-                                <p className="capitalize font-semibold text-xs text-center text-secondary">
+                                <HeartIcon className="h-8 w-8 text-[#7464a7]"></HeartIcon>
+                                <p className="capitalize font-semibold text-xs text-center text-[#7464a7]">
                                     Favorit
                                 </p>
                             </button>
@@ -53,8 +53,8 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                                     router.visit("/riwayattransaksi");
                                 }}
                             >
-                                <WalletIcon className="h-8 w-8 text-secondary"></WalletIcon>
-                                <p className="capitalize font-normal text-xs text-center text-secondary">
+                                <WalletIcon className="h-8 w-8 text-[#00c29d]"></WalletIcon>
+                                <p className="capitalize font-normal text-xs text-center text-[#00c29d]">
                                     Riwayat
                                 </p>
                             </button>
@@ -65,12 +65,12 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
 
                 {/* Produk */}
                 <section className="flex w-full h-full items-center justify-center flex-col gap-2">
-                    <div className="flex w-full h-12 bg-white max-w-5xl items-center border-b-4 border-secondary">
-                        <div className="m-auto font-bold text-secondary">
-                            DIREKOMENDASIKAN
+                    <div className="flex w-full h-12 bg-white max-w-5xl items-center border-b-2 border-[#daa21c]">
+                        <div className="m-auto font-bold text-[#daa21c]">
+                            Rekomendasi
                         </div>
                     </div>
-                    
+
                     <div className="w-full max-w-5xl flex flex-wrap min-w-5xl gap-2">
                         {produks.map((product) => (
                             <ProductCard

@@ -46,18 +46,18 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test Karakteristik Pribadi '],
         ];
 
-        PaketSoal::factory(10)->create();
+        PaketSoal::factory(2)->create();
         foreach ($typeTests as $typeTest) {
             TipeTest::factory()->create($typeTest);
         }
 
-        $penilaian = [
-            ['created_by' => "user1@gmail.com"],
-            ['created_by' => "user2@gmail.com"]
-        ];
-        foreach ($penilaian as $item) {
-            Penilaian::factory()->create($item);
-        }
+        // $penilaian = [
+        //     ['created_by' => "user1@gmail.com"],
+        //     ['created_by' => "user2@gmail.com"]
+        // ];
+        // foreach ($penilaian as $item) {
+        //     Penilaian::factory()->create($item);
+        // }
 
         $datasoal = [
             [

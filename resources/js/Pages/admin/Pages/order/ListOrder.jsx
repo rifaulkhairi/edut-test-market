@@ -1,35 +1,13 @@
 import Sidebar from "@/Components/admin/Sidebar";
 import Header from "@/Components/admin/Header";
 import React, { useState } from "react";
-import {
-    Button,
-    InputLabel,
-    TextField,
-    IconButton,
-    Collapse,
-    Box,
-    Typography,
-    Chip,
-} from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-import { Link, router } from "@inertiajs/react";
-import { MdOutlineOpenInNew } from "react-icons/md";
-import { MdDeleteForever } from "react-icons/md";
-import { TbEdit } from "react-icons/tb";
 import { Toaster, toast } from "sonner";
 import { useEffect } from "react";
 import Harga from "@/Components/Harga";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const ListOrder = ({ orders, flash }) => {
-    const [expandedRows, setExpandedRows] = useState({});
-    const handleRowClick = (rowIndex) => {
-        setExpandedRows((prevState) => ({
-            ...prevState,
-            [rowIndex]: !prevState[rowIndex],
-        }));
-    };
-
     const columns = [
         {
             name: "No",
@@ -100,8 +78,10 @@ const ListOrder = ({ orders, flash }) => {
                 return "success";
             case "pending":
                 return "warning";
-            case "expire":
+            case "expired":
                 return "error";
+            default:
+                return "default"; // Optional: Return a default color if status is unknown
         }
     };
 
@@ -130,16 +110,15 @@ const ListOrder = ({ orders, flash }) => {
                 <div className="space"></div>
                 <div className="flex w-full gap-y-3 flex-col">
                     <div className="flex w-full justify-end">
-                        <Button
+                        {/* <Button
                             variant="contained"
                             sx={{ textTransform: "capitalize" }}
                             onClick={(e) => {
                                 e.preventDefault();
-                                // router.visit("/admin/addsoalpg");
                             }}
                         >
                             Tambah
-                        </Button>
+                        </Button> */}
                     </div>
                     <MUIDataTable
                         title={"Daftar Order"}

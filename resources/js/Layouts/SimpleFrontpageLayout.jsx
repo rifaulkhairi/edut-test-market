@@ -82,7 +82,13 @@ const SimpleFrontpageLayout = ({ children, user, base_url }) => {
                                     onClose={handleCloseAccountMenu}
                                     onClick={handleCloseAccountMenu}
                                 >
-                                    <MenuItem>
+                                    <MenuItem
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "flex-start",
+                                        }}
+                                    >
                                         <MenuItem
                                             className="font-semibold"
                                             onClick={(e) => {

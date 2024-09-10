@@ -2,7 +2,8 @@ import { Carousel, Button } from "@material-tailwind/react";
 import Banner1 from "../../../public/images/Untitled-1.png";
 import Banner2 from "../../../public/images/baner 2.png";
 import Banner3 from "../../../public/images/banner 3.jpg";
-import Banner4 from "../../../public/images/banner 2.jpg";
+import Banner4 from "../../../public/images/banner 4.jpg";
+import Banner5 from "../../../public/images/banner 5.jpg";
 
 import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/24/outline/ChevronRightIcon";
@@ -53,12 +54,12 @@ export default function Hero() {
                 )}
             >
                 <img
-                    src={Banner1}
+                    src={Banner4}
                     alt="image 1"
                     className="h-full w-full object-cover"
                 />
                 <img
-                    src={Banner2}
+                    src={Banner5}
                     alt="image 2"
                     className="h-full w-full object-cover"
                 />
@@ -71,7 +72,7 @@ export default function Hero() {
             <div className="w-[400px] flex flex-col gap-y-1">
                 <div className="bg-black h-full w-full">
                     <img
-                        src={Banner1}
+                        src={Banner4}
                         alt="image 1"
                         className="h-full w-full object-cover"
                     />
@@ -79,7 +80,7 @@ export default function Hero() {
                 <div className="bg-black h-full w-full">
                     <div className="bg-black h-full w-full">
                         <img
-                            src={Banner2}
+                            src={Banner5}
                             alt="image 1"
                             className="h-full w-full object-cover"
                         />
