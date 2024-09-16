@@ -13,8 +13,9 @@ import { useForm } from "@inertiajs/inertia-react";
 import { textTransform } from "@mui/system";
 import { router } from "@inertiajs/react";
 import Editor from "@/Components/Editor/Editor";
+import Image from "@/Components/Image";
 
-const EditPaketSoal = ({ paketsoal }) => {
+const EditPaketSoal = ({ paketsoal, base_url }) => {
     const { data, setData, post, progress, errors } = useForm({
         name: null,
         description: null,
@@ -33,6 +34,7 @@ const EditPaketSoal = ({ paketsoal }) => {
     const [menit, setMenit] = useState(paketsoal.menit ? paketsoal.menit : 0);
     const [detik, setDetik] = useState(paketsoal.detik ? paketsoal.detik : 0);
     const [status, setStatus] = useState(paketsoal.status);
+    const [cover, setCover] = useState(null);
 
     const onsubmit = (e) => {
         e.preventDefault();
@@ -46,6 +48,7 @@ const EditPaketSoal = ({ paketsoal }) => {
             menit: menit,
             detik: detik,
             status: status,
+            cover: cover,
         });
     };
 
@@ -66,12 +69,18 @@ const EditPaketSoal = ({ paketsoal }) => {
                     onSubmit={onsubmit}
                     className="flex w-full gap-y-3 flex-col"
                 >
+                    {paketsoal.link_cover && (
+                        <Image
+                            className="w-32 h-32"
+                            src={`${base_url}/storage/${paketsoal.link_cover}`}
+                        />
+                    )}
                     <InputLabel labelId="cover">Cover</InputLabel>
                     <input
                         className="flex w-full"
                         labelId="cover"
                         type="file"
-                        onChange={(e) => setData("cover", e.target.files[0])}
+                        onChange={(e) => setCover(e.target.files[0])}
                     />
                     {progress && (
                         <progress value={progress.percentage} max="100">

@@ -1,1 +1,0 @@
-import{j as r}from"./app-Y8fBfMZs.js";const n=({title:t,onClick:o})=>r.jsx("button",{className:"bg-secondary hover:bg-secondary/65 text-white px-3 py-2 rounded-md w-40 transition-all",onClick:o,children:t});export{n as B};

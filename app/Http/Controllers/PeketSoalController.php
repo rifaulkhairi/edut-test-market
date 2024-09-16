@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\PaketSoal;
 use App\Models\Penilaian;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -81,26 +83,53 @@ class PeketSoalController extends Controller
 
 
         $paketsoal = PaketSoal::find($id);
-        $data = [
-            "name" => $request->name,
-            "description" => $request->description,
-            "price" => $request->price,
-            "discount" => $request->discount,
-            "jam" => $request->jam,
-            "menit" => $request->menit,
-            "detik" => $request->detik,
-            'status' => $request->status,
-        ];
 
-        $paketsoal->update($data);
-        return to_route('daftarpaketsoal');
+        DB::beginTransaction();
+
+        try {
+            $cover = $paketsoal->link_cover;
+            $basename = basename($cover);
+
+            if ($request->hasFile('cover')) {
+                $file = $request->file('cover');
+                $path = $file->store('cover', 'public');
+                $basename = basename($path);
+            }
+
+            $data = [
+                "name" => $request->name,
+                "description" => $request->description,
+                "price" => $request->price,
+                "discount" => $request->discount,
+                "jam" => $request->jam,
+                "menit" => $request->menit,
+                "detik" => $request->detik,
+                'status' => $request->status,
+                'link_cover' => isset($basename) ? 'cover/' . $basename : $cover,
+            ];
+
+            $paketsoal->update($data);
+
+            if ($request->hasFile('cover') && $cover && Storage::disk('public')->exists($cover)) {
+                Storage::disk('public')->delete($cover);
+            }
+
+            DB::commit();
+
+            return to_route('daftarpaketsoal');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('message', ['error' => $e->getMessage()]);
+        }
     }
+
 
     public function edit(Request $request, $id)
     {
         $paketsoal = PaketSoal::find($id);
 
-        return Inertia::render('admin/Pages/paketsoal/EditPaketSoal', ['paketsoal' => $paketsoal]);
+        return Inertia::render('admin/Pages/paketsoal/EditPaketSoal', ['paketsoal' => $paketsoal, 'base_url' => url('/')]);
     }
 
     public function delete(Request $request, $id)

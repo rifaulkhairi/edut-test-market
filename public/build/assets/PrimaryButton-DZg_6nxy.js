@@ -1,1 +1,0 @@
-import{j as n}from"./app-Y8fBfMZs.js";function a({className:e="",disabled:r,children:t,...o}){return n.jsx("button",{...o,className:`inline-flex items-center bg-secondary border border-secondary  text-white px-4 py-2 rounded-md hover:bg-secondary/70 ${r&&"opacity-25"} `+e,disabled:r,children:t})}export{a as P};

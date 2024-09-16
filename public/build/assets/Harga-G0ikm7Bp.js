@@ -1,1 +1,0 @@
-import{j as e}from"./app-Y8fBfMZs.js";const u=({nilai:r,...t})=>{function a(n){return new Intl.NumberFormat("id",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n)}return e.jsx("p",{$:!0,...t,children:a(r)})};export{u as H};

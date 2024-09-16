@@ -56,6 +56,7 @@ const AddPaketSoal = () => {
                         className="flex w-full"
                         labelId="cover"
                         type="file"
+                        
                         onChange={(e) => {
                             setCover(e.target.files[0]);
                             setData("cover", e.target.files[0]);

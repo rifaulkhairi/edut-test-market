@@ -1,1 +1,0 @@
-import{j as s}from"./app-Y8fBfMZs.js";import{a as t}from"./index-7X9jRBCf.js";const e=()=>s.jsx("div",{className:"flex w-fit fixed bottom-5 right-5 justify-end flex-col items-end",children:s.jsx("button",{className:"bg-white p-3 rounded-full shadow-lg shadow-secondary/15",children:s.jsx(t,{className:"text-secondary text-4xl"})})}),r=e;export{r as C};

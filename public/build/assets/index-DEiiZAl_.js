@@ -1,1 +1,0 @@
-import{r as s}from"./app-Y8fBfMZs.js";import{u as t}from"./iconBase-DK_xsFNO.js";const c=e=>{const r=s.useRef({});return s.useEffect(()=>{r.current=e}),r.current};function n(e){return t}export{n as c,c as u};
