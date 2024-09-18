@@ -14,7 +14,9 @@ class ProdukController extends Controller
 {
     public function index()
     {
-        $produks = PaketSoal::where('paket_soal_tbl.status', 'publish')->get();
+        $produks = PaketSoal::where('paket_soal_tbl.status', 'publish')
+            ->orderBy('created_at', 'desc')
+            ->get();
         $baseurl = url("/");
 
         $cart = null;

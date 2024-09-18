@@ -280,7 +280,7 @@ const FrontpageLayout = ({ children, user, cart, base_url }) => {
                                         vertical: "bottom",
                                     }}
                                 >
-                                    <div className="w-80 h-full p-3">
+                                    <div className="w-80 h-full p-3 max-h-[300px] overflow-y-scroll">
                                         <p className="text-xs text-gray-500 mb-2">
                                             Baru ditambahkan
                                         </p>

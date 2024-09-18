@@ -14,17 +14,23 @@ import Harga from "@/Components/Harga";
 import Image from "@/Components/Image";
 import RadioCategoryCustom, { RadioGroupCustom } from "@/Components/Radio";
 import qrislogo from "../../../../public/images/QRIS_logo.svg";
+import brilogo from "../../../../public/images/BANK_BRI_logo.svg";
+import bnilogo from "../../../../public/images/BNI_logo.svg";
+import CS from "@/Components/CS";
+import { Toaster, toast } from "sonner";
 
-const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
+const Checkout = ({ auth, cartitem, base_url, selecteditem, flash }) => {
     const [pymentMethod, setPymentMethod] = useState("gopay");
     const [totalPemabayaran, setTotalPembayaran] = useState(0);
     const { data, setData } = useForm();
+    const [bank, setBank] = useState(null);
 
     const buatpesanan = () => {
         router.post("/buatpesanan", {
             pymentMethod: pymentMethod,
             totalPemabayaran: totalPemabayaran,
             orderitem: selecteditem,
+            bank: bank,
         });
     };
 
@@ -43,12 +49,26 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
         }
     }, [selecteditem]);
 
+    const handleBankSelect = (e) => {
+        setBank(e.target.value);
+    };
+    useEffect(() => {
+        if (flash.message != null) {
+            if (flash.message.success) {
+                toast.success(flash.message.success);
+            } else if (flash.message.error) {
+                toast.error(flash.message.error);
+            }
+        }
+    }, [flash]);
+
     return (
         <FrontpageLayout user={auth} cart={cartitem} base_url={base_url}>
+            <Toaster position="top-right" richColors />
             <div className="container max-w-5xl mt-9">
                 <Breadcrumbs separator={<MdOutlineNavigateNext />}>
                     <Link href="/">Home</Link>
-                    <Link>Keranjang Belanja</Link>
+                    <Link href="/cart">Keranjang Belanja</Link>
                     <Link>Checkout</Link>
                 </Breadcrumbs>
                 <h1 className="mt-4 font-bold text-secondary text-xl">
@@ -111,9 +131,10 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                         <div className="ml-5 flex flex-row gap-4 mt-3 mb-3">
                             <RadioGroupCustom
                                 value={pymentMethod}
-                                onChange={(e) =>
-                                    setPymentMethod(e.target.value)
-                                }
+                                onChange={(e) => {
+                                    console.log("test");
+                                    setPymentMethod(e.target.value);
+                                }}
                             >
                                 <RadioCategoryCustom value="gopay">
                                     <img
@@ -122,23 +143,29 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                                     />
                                 </RadioCategoryCustom>
                                 <RadioCategoryCustom
-                                    value="transferbank"
-                                    disabled
+                                    value="bank_transfer"
+
+                                    // disabled
                                 >
-                                    Transfer Bank
+                                    <span className="font-bold">
+                                        Transfer Bank
+                                    </span>
                                 </RadioCategoryCustom>
                             </RadioGroupCustom>
                         </div>
-                        {pymentMethod === "transferbank" && (
+                        {pymentMethod === "bank_transfer" && (
                             <div className="mb-3">
                                 <FormControl>
                                     <RadioGroup
                                         aria-labelledby="demo-radio-buttons-group-label"
-                                        defaultValue="BCA"
                                         name="radio-buttons-group"
+                                        value={bank}
+                                        onChange={(e) => {
+                                            handleBankSelect(e);
+                                        }}
                                     >
                                         <FormControlLabel
-                                            value="BCA"
+                                            value="bni"
                                             control={<Radio />}
                                             label={
                                                 <Box
@@ -146,27 +173,7 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                                                     alignItems="center"
                                                 >
                                                     <img
-                                                        src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg"
-                                                        alt="BCA"
-                                                        style={{
-                                                            marginRight: 8,
-                                                            height: 20,
-                                                        }}
-                                                    />
-                                                    BCA
-                                                </Box>
-                                            }
-                                        />
-                                        <FormControlLabel
-                                            value="BNI"
-                                            control={<Radio />}
-                                            label={
-                                                <Box
-                                                    display="flex"
-                                                    alignItems="center"
-                                                >
-                                                    <img
-                                                        src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg"
+                                                        src={bnilogo}
                                                         alt="BNI"
                                                         style={{
                                                             marginRight: 8,
@@ -179,7 +186,7 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                                             }
                                         />
                                         <FormControlLabel
-                                            value="BRI"
+                                            value="bri"
                                             control={<Radio />}
                                             label={
                                                 <Box
@@ -187,7 +194,7 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                                                     alignItems="center"
                                                 >
                                                     <img
-                                                        src="https://upload.wikimedia.org/wikipedia/commons/6/68/BANK_BRI_logo.svg"
+                                                        src={brilogo}
                                                         alt="BRI"
                                                         style={{
                                                             marginRight: 8,
@@ -227,6 +234,7 @@ const Checkout = ({ auth, cartitem, base_url, selecteditem }) => {
                     </div>
                 </div>
             </div>
+            <CS />
         </FrontpageLayout>
     );
 };

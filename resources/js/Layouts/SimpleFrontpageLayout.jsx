@@ -1,6 +1,6 @@
 import React from "react";
 import { Head, router } from "@inertiajs/react";
-import logo from "../../../public/images/logo-edu-test-market.svg";
+import logo from "../../../public/images/logo edu test.svg";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@mui/material";
 import { Menu } from "@mui/material";
@@ -53,7 +53,7 @@ const SimpleFrontpageLayout = ({ children, user, base_url }) => {
                             </div> */}
                         </div>
                         <div className="flex-1 flex justify-end gap-2 mr-3">
-                            <div className="flex h-full justify-center">
+                            {/* <div className="flex h-full justify-center">
                                 <Button className="text-white text-xs">
                                     <div className="gap-2 w-full flex">
                                         <Badge color="warning" variant="dot">
@@ -64,7 +64,7 @@ const SimpleFrontpageLayout = ({ children, user, base_url }) => {
                                         </span>
                                     </div>
                                 </Button>
-                            </div>
+                            </div> */}
                             <Button
                                 className="flex h-full items-center text-sm text-white p-2 gap-x-1"
                                 onClick={handleClickAccountMenu}
@@ -135,7 +135,7 @@ const SimpleFrontpageLayout = ({ children, user, base_url }) => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white h-16 shadow-md opacity-95 flex justify-center">
+                <div className="bg-white h-16 shadow-md flex justify-center">
                     <div className="flex ml-10 mr-10 gap-2 items-center h-full w-full max-w-6xl">
                         {/* logo */}
                         <a

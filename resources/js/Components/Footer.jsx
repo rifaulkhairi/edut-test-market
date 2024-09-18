@@ -1,4 +1,4 @@
-import logo from "../../../public/images/logo-edu-test-market.svg";
+import logo from "../../../public/images/logo edu test.svg";
 
 const SITEMAP = [
     {

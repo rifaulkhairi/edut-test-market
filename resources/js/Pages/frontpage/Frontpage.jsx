@@ -9,6 +9,7 @@ import ProductCard from "@/Components/ProductCard";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
 import CS from "@/Components/CS";
+import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/outline";
 
 export default function Frontpage({ auth, produks, base_url, cart }) {
     const [sortBy, setSortBy] = useState("terpopuler");
@@ -22,6 +23,19 @@ export default function Frontpage({ auth, produks, base_url, cart }) {
                     </div>
                     <div className="flex w-full max-w-5xl mt-2 pb-2">
                         <div className="flex w-full h-24 items-center justify-center flex-row gap-5">
+                            <button
+                                className="flex w-20 h-20 bg-[#00c29d] justify-center border-[1px] flex-col gap-y-2 items-center rounded-3xl hover:-translate-y-1 transition-all"
+                                variant="text"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    router.visit("/cart");
+                                }}
+                            >
+                                <ShoppingCartIcon className="h-8 w-8 text-white font-bold"></ShoppingCartIcon>
+                                <p className="capitalize font-normal text-xs text-center text-white">
+                                    Keranjang
+                                </p>
+                            </button>
                             <button
                                 className="flex w-20 items-center justify-center  h-20 bg-[#008a60]  flex-col rounded-3xl hover:-translate-y-1 transition-all"
                                 variant="text"

@@ -7,6 +7,7 @@ import Harga from "@/Components/Harga";
 import { TbTrash } from "react-icons/tb";
 import Image from "@/Components/Image";
 import PrimaryButton from "@/Components/PrimaryButton";
+import CS from "@/Components/CS";
 
 const Cart = ({ auth, cartitem, base_url }) => {
     let paketsal = cartitem;
@@ -182,6 +183,7 @@ const Cart = ({ auth, cartitem, base_url }) => {
                     </div>
                 </div>
             </div>
+            <CS />
         </FrontpageLayout>
     );
 };

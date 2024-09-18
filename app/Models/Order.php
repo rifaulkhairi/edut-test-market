@@ -16,4 +16,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function bankTransfer()
+    {
+        return $this->hasOne(TransferBank::class);
+    }
+
+    public function qrisPayment()
+    {
+        return $this->hasOne(QrisPayment::class);
+    }
 }
